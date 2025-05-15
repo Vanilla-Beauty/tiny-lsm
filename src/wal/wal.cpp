@@ -67,15 +67,20 @@ WAL::recover(const std::string &log_dir, uint64_t max_flushed_tranc_id) {
               return std::stoi(a_seq_str) < std::stoi(b_seq_str);
             });
 
-  // 读取所有的记录
+  // 按顺序读取所有的记录
+  bool matched = false;
   for (const auto &wal_path : wal_paths) {
     auto wal_file = FileObj::open(wal_path, false);
     auto wal_records_slice = wal_file.read_to_slice(0, wal_file.size());
     auto records = Record::decode(wal_records_slice);
     for (const auto &record : records) {
-      if (record.getTrancId() > max_flushed_tranc_id) {
-        // 如果记录的 tranc_id 大于 max_finished_tranc_id, 才需要尝试恢复
-        tranc_records[record.getTrancId()].push_back(record);
+      if (record.getTrancId() == max_flushed_tranc_id) {
+        // checkpoint之后的才需要恢复
+        matched = true;
+        continue;
+      }
+      if (matched) {
+         tranc_records[record.getTrancId()].push_back(record);
       }
     }
   }
@@ -183,7 +188,7 @@ void WAL::cleanWALFile() {
     while (offset + sizeof(uint16_t) < cur_file.size()) {
       uint16_t record_size = cur_file.read_uint16(offset);
       uint64_t tranc_id = cur_file.read_uint64(offset + sizeof(uint16_t));
-      if (tranc_id > max_finished_tranc_id_) {
+      if (tranc_id == max_finished_tranc_id_) {
         has_unfinished = true;
         break;
       }

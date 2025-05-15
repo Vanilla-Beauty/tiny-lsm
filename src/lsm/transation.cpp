@@ -209,12 +209,6 @@ bool TranContext::commit(bool test_fail) {
 
         return false;
       } else {
-        // 步骤2: 判断sst中是否是否存在冲突
-        if (tranManager_->get_max_flushed_tranc_id() <= tranc_id_) {
-          // sst 中最大的 tranc_id 小于当前 tranc_id, 没有冲突
-          continue;
-        }
-
         // 否则要查询具体的key是否冲突
         // ! 注意第二个参数设置为0, 表示忽略事务可见性的查询
         auto res = engine_->sst_get_(k, 0);
@@ -259,6 +253,7 @@ bool TranContext::commit(bool test_fail) {
     for (auto &[k, v] : temp_map_) {
       memtable.put_(k, v, tranc_id_);
     }
+    memtable.put_("", "", tranc_id_);
   }
 
   isCommited = true;
@@ -392,14 +387,7 @@ void TranManager::update_max_finished_tranc_id(uint64_t tranc_id) {
 void TranManager::update_max_flushed_tranc_id(uint64_t tranc_id) {
   // ! max_finished_tranc_id_ 对于崩溃恢复有决定性的作用
   // ! 需要立即刷盘
-  uint64_t expected = max_flushed_tranc_id_.load(std::memory_order_relaxed);
-  while (tranc_id > expected) {
-    if (max_flushed_tranc_id_.compare_exchange_weak(
-            expected, tranc_id, std::memory_order_acq_rel,
-            std::memory_order_relaxed)) {
-      break;
-    }
-  }
+  max_flushed_tranc_id_.store(tranc_id);
   write_tranc_id_file();
 }
 

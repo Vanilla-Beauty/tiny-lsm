@@ -55,7 +55,7 @@ public:
 
   void clear();
   std::shared_ptr<SST> flush_last(SSTBuilder &builder, std::string &sst_path,
-                                  size_t sst_id,
+                                  size_t sst_id, uint64_t &flushed_tranc_id,
                                   std::shared_ptr<BlockCache> block_cache);
   void frozen_cur_table();
   size_t get_cur_size();

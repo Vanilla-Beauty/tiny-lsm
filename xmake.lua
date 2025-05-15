@@ -206,10 +206,11 @@ target("test_wal")
     set_kind("binary")
     set_group("tests")
     add_files("test/test_wal.cpp")
-    add_deps("logger", "wal")  -- Added memtable and iterator dependencies
+    add_deps("logger", "wal", "lsm")  -- Added memtable and iterator dependencies
     add_includedirs("include")
     add_packages("gtest")
     add_packages("toml11", "spdlog")
+    add_links("gmock")
 
 -- 定义 示例
 target("example")

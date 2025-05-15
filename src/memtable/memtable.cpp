@@ -245,7 +245,7 @@ void MemTable::clear() {
 
 // 将最老的 memtable 写入 SST, 并返回控制类
 std::shared_ptr<SST>
-MemTable::flush_last(SSTBuilder &builder, std::string &sst_path, size_t sst_id,
+MemTable::flush_last(SSTBuilder &builder, std::string &sst_path, size_t sst_id, uint64_t &flushed_tranc_id,
                      std::shared_ptr<BlockCache> block_cache) {
   spdlog::debug("MemTable--flush_last(): Starting to flush memtable to SST{}",
                 sst_id);
@@ -279,6 +279,9 @@ MemTable::flush_last(SSTBuilder &builder, std::string &sst_path, size_t sst_id,
   std::vector<std::tuple<std::string, std::string, uint64_t>> flush_data =
       table->flush();
   for (auto &[k, v, t] : flush_data) {
+    if (k == "" && v == "") {
+      flushed_tranc_id = t;
+    }
     max_tranc_id = std::max(t, max_tranc_id);
     min_tranc_id = std::min(t, min_tranc_id);
     builder.add(k, v, t);

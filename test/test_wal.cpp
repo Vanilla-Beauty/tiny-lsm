@@ -1,6 +1,7 @@
 #include "../include/logger/logger.h"
 #include "../include/wal/record.h"
 #include "../include/wal/wal.h"
+#include "../include/lsm/engine.h"
 #include <filesystem>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -154,6 +155,81 @@ TEST_F(WALTest, RecoverTest) {
     EXPECT_EQ(records, expected[tranc_id]);
   }
 }
+
+TEST_F(WALTest, PartialFlushRecoveryTest) {
+  {
+    LSM lsm(test_dir);
+    auto tran_ctx1 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto tran_ctx2 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto tran_ctx3 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto tran_ctx4 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+
+    tran_ctx4->put("key0", "value0");
+
+    tran_ctx2->put("key1", "value1");
+    tran_ctx2->put("key2", "value2");
+    // 提交并刷新wal
+    tran_ctx2->commit();
+    tran_ctx4->commit();
+    tran_ctx1->put("key3", "value3");
+
+    tran_ctx3->put("key4", "value4");
+    // 模拟写入到WAL后系统崩溃
+    tran_ctx1->commit(true);
+  }
+  LSM lsm(test_dir);
+  EXPECT_EQ(lsm.get("key0").value(), "value0");
+  EXPECT_EQ(lsm.get("key1").value(), "value1");
+  EXPECT_EQ(lsm.get("key2").value(), "value2");
+  EXPECT_EQ(lsm.get("key3").value(), "value3");
+  EXPECT_FALSE(lsm.get("key4").has_value());
+}
+
+TEST_F(WALTest, ConcurrentTransactionsTest) {
+  {
+    LSM lsm(test_dir);
+    std::vector<std::thread> threads;
+    auto global_ctx = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    for (int j = 0; j < 10; ++j) {
+      global_ctx->put("key" + std::to_string(-1) + "-" + std::to_string(j),
+                "value" + std::to_string(j));
+    }
+    for (int i = 0; i < 40; ++i) {
+      threads.emplace_back([&, i]() {
+        auto ctx = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+        for (int j = 0; j < 10000; ++j) {
+          ctx->put("key" + std::to_string(i) + "-" + std::to_string(j),
+                   "value" + std::to_string(j));
+        }
+        ctx->commit();
+      });
+    }
+    for (auto& t : threads) t.join();
+    lsm.flush_all();
+    for (int j = 10; j < 20; ++j) {
+      global_ctx->put("key" + std::to_string(-1) + "-" + std::to_string(j),
+                "value" + std::to_string(j));
+    }
+    global_ctx->commit(true);
+    lsm.~LSM();
+  }
+
+  // 崩溃恢复后验证
+  LSM lsm(test_dir);
+  for (int i = 0; i < 40; ++i) {
+    for (int j = 0; j < 100; ++j) {
+      auto val = lsm.get("key" + std::to_string(i) + "-" + std::to_string(j));
+      EXPECT_TRUE(val.has_value());
+      EXPECT_EQ(val.value(), "value" + std::to_string(j));
+    }
+  }
+  for (int j = 0; j < 20; ++j) {
+    auto val = lsm.get("key" + std::to_string(-1) + "-" + std::to_string(j));
+    EXPECT_TRUE(val.has_value());
+    EXPECT_EQ(val.value(), "value" + std::to_string(j));
+  }
+}
+
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

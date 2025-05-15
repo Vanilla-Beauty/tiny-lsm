@@ -467,10 +467,11 @@ uint64_t LSMEngine::flush() {
   SSTBuilder builder(TomlConfig::getInstance().getLsmBlockSize(),
                      true); // 4KB block size
 
+  uint64_t flushed_tranc_id = 0;
   // 4. 将 memtable 中最旧的表写入 SST
   auto sst_path = get_sst_path(new_sst_id, 0);
   auto new_sst =
-      memtable.flush_last(builder, sst_path, new_sst_id, block_cache);
+      memtable.flush_last(builder, sst_path, new_sst_id, flushed_tranc_id, block_cache);
 
   // 5. 更新内存索引
   ssts[new_sst_id] = new_sst;
@@ -483,7 +484,7 @@ uint64_t LSMEngine::flush() {
                "Flush: Memtable flushed to SST with new sst_id={}, level=0",
                new_sst_id);
 
-  return new_sst->get_tranc_id_range().second;
+  return flushed_tranc_id;
 }
 
 std::string LSMEngine::get_sst_path(size_t sst_id, size_t target_level) {
