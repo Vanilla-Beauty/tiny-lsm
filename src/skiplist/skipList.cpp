@@ -1,4 +1,5 @@
 #include "../../include/skiplist/skiplist.h"
+#include "../../include/utils/fast_rand.h"
 #include <cstdint>
 #include <iostream>
 #include <spdlog/spdlog.h>
@@ -48,11 +49,8 @@ uint64_t SkipListIterator::get_tranc_id() const { return current->tranc_id_; }
 
 // ************************ SkipList ************************
 // 构造函数
-SkipList::SkipList(int max_lvl) : max_level(max_lvl), current_level(1) {
+SkipList::SkipList(int max_lvl) : max_level(max_lvl), current_level(1), rand_gen(Random( std::mt19937(std::random_device()()))) {
   head = std::make_shared<SkipListNode>("", "", max_level, 0);
-  dis_01 = std::uniform_int_distribution<>(0, 1);
-  dis_level = std::uniform_int_distribution<>(0, (1 << max_lvl) - 1);
-  gen = std::mt19937(std::random_device()());
 }
 
 int SkipList::random_level() {
@@ -61,7 +59,7 @@ int SkipList::random_level() {
   // - 每次有50%的概率增加一层
   // - 确保层数分布为：第1层100%，第2层50%，第3层25%，以此类推
   // - 层数范围限制在[1, max_level]之间，避免浪费内存
-  while (dis_01(gen) && level < max_level) {
+  while (rand_gen.Next(gen) % 2 && level < max_level) {
     level++;
   }
   return level;
@@ -121,7 +119,7 @@ void SkipList::put(const std::string &key, const std::string &value,
   }
 
   // 生成一个随机数，用于决定是否在每一层更新节点
-  int random_bits = dis_level(gen);
+  int random_bits = rand_gen.Next() % (1 << max_level);
 
   size_bytes += key.size() + value.size() + sizeof(uint64_t);
 

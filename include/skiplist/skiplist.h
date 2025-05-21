@@ -1,5 +1,6 @@
 #pragma once
 #include "../iterator/iterator.h"
+#include "../utils/fast_rand.h"
 #include <cstddef>
 #include <cstdint>
 #include <functional>
@@ -101,9 +102,7 @@ private:
   // std::shared_mutex rw_mutex; // ! 目前看起来这个锁是冗余的, 在上层控制即可,
   // 后续考虑是否需要细粒度的锁
 
-  std::uniform_int_distribution<> dis_01;
-  std::uniform_int_distribution<> dis_level;
-  std::mt19937 gen;
+  Random rand_gen; // 随机数生成器，用于确定新节点的层级数
 
 private:
   int random_level(); // 生成新节点的随机层级数
