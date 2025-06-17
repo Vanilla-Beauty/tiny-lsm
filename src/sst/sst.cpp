@@ -255,19 +255,9 @@ void SSTBuilder::finish_block() {
   auto encoded_block = old_block.encode();
 
   meta_entries.emplace_back(data.size(), first_key, last_key);
-
-  // 计算block的哈希值
-  auto block_hash = static_cast<uint32_t>(std::hash<std::string_view>{}(
-      std::string_view(reinterpret_cast<const char *>(encoded_block.data()),
-                       encoded_block.size())));
-
   // 预分配空间并添加数据
-  data.reserve(data.size() + encoded_block.size() +
-               sizeof(uint32_t)); // 加上的是哈希值
+  data.reserve(data.size() + encoded_block.size());
   data.insert(data.end(), encoded_block.begin(), encoded_block.end());
-  data.resize(data.size() + sizeof(uint32_t));
-  memcpy(data.data() + data.size() - sizeof(uint32_t), &block_hash,
-         sizeof(uint32_t));
 }
 
 std::shared_ptr<SST>
