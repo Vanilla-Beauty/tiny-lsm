@@ -203,7 +203,7 @@ SstIterator::merge_sst_iterator(std::vector<SstIterator> iter_vec,
     return std::make_pair(HeapIterator(), HeapIterator());
   }
 
-  HeapIterator it_begin;
+  HeapIterator it_begin(false); // 不跳过删除元素
   for (auto &iter : iter_vec) {
     while (iter.is_valid() && !iter.is_end()) {
       it_begin.items.emplace(

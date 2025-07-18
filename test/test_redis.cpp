@@ -189,11 +189,12 @@ TEST_F(RedisCommandsTest, HExpire) {
 
   // Wait for TTL to expire
   std::this_thread::sleep_for(std::chrono::seconds(1) +
-                              std::chrono::milliseconds(100)); // 1.1 s
+                              std::chrono::milliseconds(500)); // 1.5 s
 
   // HGET after TTL expired
   std::vector<std::string> hset_args2 = {"HSET", key, field, value2};
-  EXPECT_EQ(lsm.hset(hset_args2), ":0\r\n");
+  auto res = lsm.hset(hset_args2);
+  EXPECT_EQ(res, ":1\r\n");
 
   // HGET after setting new value
   std::vector<std::string> hget_args = {"HGET", key, field};

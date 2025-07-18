@@ -169,7 +169,7 @@ MemTable::get_batch(const std::vector<std::string> &keys, uint64_t tranc_id) {
     return results;
   }
 
-  slock1.unlock();                                        // 释放活跃表的锁
+  slock1.unlock(); // 释放活跃表的锁
   std::shared_lock<std::shared_mutex> slock2(frozen_mtx); // 获取冻结表的锁
   for (size_t idx = 0; idx < keys.size(); idx++) {
     if (results[idx].second.has_value()) {
@@ -245,7 +245,8 @@ void MemTable::clear() {
 
 // 将最老的 memtable 写入 SST, 并返回控制类
 std::shared_ptr<SST>
-MemTable::flush_last(SSTBuilder &builder, std::string &sst_path, size_t sst_id, std::vector<uint64_t> &flushed_tranc_ids,
+MemTable::flush_last(SSTBuilder &builder, std::string &sst_path, size_t sst_id,
+                     std::vector<uint64_t> &flushed_tranc_ids,
                      std::shared_ptr<BlockCache> block_cache) {
   spdlog::debug("MemTable--flush_last(): Starting to flush memtable to SST{}",
                 sst_id);
@@ -327,6 +328,7 @@ size_t MemTable::get_total_size() {
   return get_frozen_size() + get_cur_size();
 }
 
+// TODO: 需要进一步判断这里的 HeapIterator 能否跳过删除元素
 HeapIterator MemTable::begin(uint64_t tranc_id) {
   std::shared_lock<std::shared_mutex> slock1(cur_mtx);
   std::shared_lock<std::shared_mutex> slock2(frozen_mtx);
