@@ -4399,7 +4399,7 @@ COMMIT TX100
 <ol>
 <li>将<code>COMMIT</code>标记写入<code>WAL</code>日志中。(此时的<code>WAL</code>日志可能存在于缓冲区, 没有刷入文件)</li>
 <li>将<code>WAL</code>日志刷入磁盘。(此时<code>WAL</code>日志已经刷入磁盘)</li>
-<li>如果隔离级别不是<code>Read Committed</code>, 则将暂存的<code>PUT/DELETE</code>操作应用到数据库</li>
+<li>如果隔离级别不是<code>Read Uncommitted</code>, 则将暂存的<code>PUT/DELETE</code>操作应用到数据库</li>
 <li>返回给<code>client</code>成功或失败</li>
 </ol>
 </li>
@@ -4418,11 +4418,11 @@ COMMIT TX100
 <ol>
 <li>将<code>COMMIT</code>标记写入<code>WAL</code>日志中。(此时的<code>WAL</code>日志可能存在于缓冲区, 没有刷入文件)</li>
 <li>将<code>WAL</code>日志刷入磁盘。(此时<code>WAL</code>日志已经刷入磁盘)</li>
-<li>如果隔离级别不是<code>Read Committed</code>, 则将暂存的<code>PUT/DELETE</code>操作应用到数据库</li>
+<li>如果隔离级别不是<code>Read Uncommitted</code>, 则将暂存的<code>PUT/DELETE</code>操作应用到数据库</li>
 <li>返回给<code>client</code>成功或失败</li>
 </ol>
 </li>
-<li>之前事务的<code>PUT/DELETE</code>操作的变化应用到数据库仍然是位于<code>MemTable</code>中的, 其稍后输入<code>SST</code>奔溃</li>
+<li>之前事务的<code>PUT/DELETE</code>操作的变化应用到数据库仍然是位于<code>MemTable</code>中的, 其稍后刷入<code>SST</code>奔溃</li>
 <li>数据库重启后执行崩溃回复
 <ol>
 <li>检查<code>WAL</code>文件的记录</li>
@@ -4450,7 +4450,7 @@ COMMIT TX100
 <li>将<code>Rollback</code>标记写入<code>WAL</code>日志中。(此时的<code>WAL</code>日志可能存在于缓冲区, 没有刷入文件)</li>
 <li>将<code>WAL</code>日志刷入磁盘。(此时<code>WAL</code>日志已经刷入磁盘)</li>
 <li>如果隔离级别不是<code>Read Uncommitted</code>, 则将暂存的<code>PUT/DELETE</code>操作简单丢弃即可</li>
-<li>如果隔离级别是<code>Read Committed</code>, 则将操作前的数据库状态进行还原(作者的设计是利用<code>TranContext</code>中的<code>rollback_map_</code>进行还原, 当然这取决于你之前的<code>Lab</code>实现)</li>
+<li>如果隔离级别是<code>Read Uncommitted</code>, 则将操作前的数据库状态进行还原(作者的设计是利用<code>TranContext</code>中的<code>rollback_map_</code>进行还原, 当然这取决于你之前的<code>Lab</code>实现)</li>
 <li>返回给<code>client</code>成功或失败</li>
 </ol>
 </li>
