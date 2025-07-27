@@ -17,8 +17,8 @@ std::vector<uint8_t> Block::encode(bool with_hash) {
   size_t total_bytes = data.size() * sizeof(uint8_t) +
                        offsets.size() * sizeof(uint16_t) + sizeof(uint16_t);
   if (with_hash) {
-      total_bytes += sizeof(uint32_t); // 如果需要哈希值, 增加4字节
-                }
+    total_bytes += sizeof(uint32_t); // 如果需要哈希值, 增加4字节
+  }
   std::vector<uint8_t> encoded(total_bytes, 0);
 
   // 1. 复制数据段
@@ -53,7 +53,7 @@ std::shared_ptr<Block> Block::decode(const std::vector<uint8_t> &encoded,
   auto block = std::make_shared<Block>();
 
   // 1. 安全性检查
-  if (with_hash&&encoded.size() <=sizeof(uint16_t)+sizeof(uint32_t)) {
+  if (with_hash && encoded.size() <= sizeof(uint16_t) + sizeof(uint32_t)) {
     throw std::runtime_error("Encoded data too small");
   }
 
@@ -186,7 +186,7 @@ std::string Block::get_value_at(size_t offset) const {
                      value_len);
 }
 
-uint16_t Block::get_tranc_id_at(size_t offset) const {
+uint64_t Block::get_tranc_id_at(size_t offset) const {
   // 先获取key长度
   uint16_t key_len;
   memcpy(&key_len, data.data() + offset, sizeof(uint16_t));
@@ -343,7 +343,6 @@ Block::get_monotony_predicate_iters(
   if (left >= offsets.size() || predicate(get_key_at(offsets[left])) != 0) {
     return std::nullopt; // 根本没有任何 key 满足谓词
   }
-
 
   first = left; // 保留下找到的第一个的位置
 

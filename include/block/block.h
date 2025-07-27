@@ -45,7 +45,7 @@ private:
   Entry get_entry_at(size_t offset) const;
   std::string get_key_at(size_t offset) const;
   std::string get_value_at(size_t offset) const;
-  uint16_t get_tranc_id_at(size_t offset) const;
+  uint64_t get_tranc_id_at(size_t offset) const;
   int compare_key_at(size_t offset, const std::string &target) const;
 
   // 根据id的可见性调整位置
