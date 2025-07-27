@@ -66,7 +66,7 @@ std::string Block::get_value_at(size_t offset) const {
   return "";
 }
 
-uint16_t Block::get_tranc_id_at(size_t offset) const {
+uint64_t Block::get_tranc_id_at(size_t offset) const {
   // TODO Lab 3.1 从指定偏移量获取entry的tranc_id
   // ? 你不需要理解tranc_id的具体含义, 直接返回即可
   return 0;
