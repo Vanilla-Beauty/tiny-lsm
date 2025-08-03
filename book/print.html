@@ -5307,17 +5307,6 @@ std::string RedisWrapper::redis_lrange(const std::string &amp;key, int start,
     return "";
   }
 </code></pre>
-<blockquote>
-<p>如果你做得是初版的<code>Lab</code>, 这里实现的接口有所差异:</p>
-<pre><code class="language-cpp">// server/src/server.cpp
-std::string handleRequest(const std::string &amp;request) {
-  // TODO: Lab 6.6 处理网络传输的RESP字节流
-  // TODO: Lab 6.6 形成参数并调用 redis_wrapper 的api
-  // TODO: Lab 6.6 返回结果
-return "";
-}
-</code></pre>
-</blockquote>
 <p><code>handleRequest</code>前后的网络包收发逻辑已经为你写好, 你只需要在这个函数中解析<code>RESP</code>协议, 调用<code>redis_wrapper</code>的接口即可。当然, 你也可以直接新增各种辅助函数。</p>
 <blockquote>
 <p>除了我们之前实现的各种命令外, 你还需要实现<code>PING</code>命令, 这个命令不需要任何参数, 只需要返回<code>"+PONG\r\n"</code>即可。其内在含义表示服务器正在运行。</p>
