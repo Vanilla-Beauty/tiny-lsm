@@ -185,6 +185,9 @@
 <h1 id="1-概述"><a class="header" href="#1-概述">1 概述</a></h1>
 <p>之前我们完成了利用<code>KV</code>接口实现常见<code>Redis</code>命令的常见命令, 我们的<code>Lab</code>即将迎来最后一个部分, 即实现<code>Redis</code>服务器的部分。</p>
 <p>这一部分内容其实也很简单，网络框架作者已经为你搭建好了，你只需要实现<code>Resp</code>请求的解析, 利用解析出的参数调用我们之前实现的各个命令的接口即可。</p>
+<blockquote>
+<p>在初版的<code>Lab</code>中, 我们使用了<code>muduo</code>作为网络框架, 但由于<code>muduo</code>仅支持<code>Linux</code>, 因此在后续版本中我们将其替换为<code>asio</code>, 这是一个跨平台的网络库, 支持<code>Windows</code>, <code>MacOS</code>和<code>Linux</code>。使用<code>asio</code>后，本实验可以在所有主流操作系统上运行: <code>Linux</code>+<code>MacOS</code>+<code>Windows</code>(<code>Wsl</code>)</p>
+</blockquote>
 <h1 id="2-代码实现"><a class="header" href="#2-代码实现">2 代码实现</a></h1>
 <p>这节课你可以修改<code>server</code>文件夹下的任何文件</p>
 <pre><code class="language-bash">├── server # 调用 Redis 兼容层的 Webserver
@@ -195,14 +198,24 @@
 │       └── server.cpp # Webserver 的实现
 </code></pre>
 <p>你需要实现的接口为:</p>
-<pre><code class="language-cpp">// server/src/server.cpp
-std::string handleRequest(const std::string &amp;request) {
+<pre><code class="language-cpp">  std::string handleRequest(const std::string &amp;request) {
     // TODO: Lab 6.6 处理网络传输的RESP字节流
     // TODO: Lab 6.6 形成参数并调用 redis_wrapper 的api
     // TODO: Lab 6.6 返回结果
+    return "";
+  }
+</code></pre>
+<blockquote>
+<p>如果你做得是初版的<code>Lab</code>, 这里实现的接口有所差异:</p>
+<pre><code class="language-cpp">// server/src/server.cpp
+std::string handleRequest(const std::string &amp;request) {
+  // TODO: Lab 6.6 处理网络传输的RESP字节流
+  // TODO: Lab 6.6 形成参数并调用 redis_wrapper 的api
+  // TODO: Lab 6.6 返回结果
 return "";
 }
 </code></pre>
+</blockquote>
 <p><code>handleRequest</code>前后的网络包收发逻辑已经为你写好, 你只需要在这个函数中解析<code>RESP</code>协议, 调用<code>redis_wrapper</code>的接口即可。当然, 你也可以直接新增各种辅助函数。</p>
 <blockquote>
 <p>除了我们之前实现的各种命令外, 你还需要实现<code>PING</code>命令, 这个命令不需要任何参数, 只需要返回<code>"+PONG\r\n"</code>即可。其内在含义表示服务器正在运行。</p>
