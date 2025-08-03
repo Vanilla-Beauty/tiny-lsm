@@ -14,7 +14,7 @@ end
 add_repositories("local-repo build")
 
 add_requires("gtest")
-add_requires("muduo")
+add_requires("asio")
 add_requires("pybind11")
 add_requires("spdlog", { system = false })
 add_requires("toml11", { system = false })
@@ -239,7 +239,7 @@ target("server")
     add_files("server/src/*.cpp")
     add_deps("redis")
     add_includedirs("include", {public = true})
-    add_packages("muduo")
+    add_packages("asio")
     set_targetdir("$(buildir)/bin")
 
 target("lsm_pybind")

@@ -269,9 +269,7 @@ TEST(BloomFilterTest, ComprehensiveTest) {
       << false_positive_rate;
 
 // 输出假阳性率
-#ifdef LSM_DEBUG
-  std::cout << "False positive rate: " << false_positive_rate << std::endl;
-#endif
+
 }
 
 int main(int argc, char **argv) {

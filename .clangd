@@ -6,4 +6,5 @@ CompileFlags:            # 编译标志部分
     - "-isystem/home/toni/.xmake/packages/p/pybind11/v2.13.6/8d7565588f4b45f7a0635954fd1f2205/include" # 包含头文件, 绝对路径
     - "-isystem/home/toni/.xmake/packages/t/toml11/v4.3.0/e95772846bcf44baa424824e40ca40d8/include"
     - "-isystem/home/toni/.xmake/packages/s/spdlog/v1.15.1/1115c65deb5c445d9624ca0e359e3540/include"
+    - "-isystem/home/toni/.xmake/packages/a/asio/1.34.2/08f9e97208304bfe9403bd2884513fa1/include"
     - "-isystem/home/toni/miniconda3/include/python3.12" # 包含头文件, 绝对路径
