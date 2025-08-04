@@ -28,7 +28,8 @@ struct SkipListNode {
   SkipListNode(const std::string &k, const std::string &v, int level,
                uint64_t tranc_id)
       : key_(k), value_(v), forward_(level, nullptr),
-        backward_(level, std::weak_ptr<SkipListNode>()), tranc_id_(tranc_id) {}
+        backward_(level,  std::weak_ptr<SkipListNode>()), tranc_id_(tranc_id) {}
+
   void set_backward(int level, std::shared_ptr<SkipListNode> node) {
     backward_[level] = std::weak_ptr<SkipListNode>(node);
   }
@@ -114,7 +115,19 @@ public:
   // 析构函数需要确保没有其他线程访问
   ~SkipList() {
     // std::unique_lock<std::shared_mutex> lock(rw_mutex);
-    // ... 清理资源
+    // Disconnect all nodes before cleanup to avoid circular references
+    auto current = head;
+    while (current && current->forward_[0]) {
+      auto next = current->forward_[0];
+      // Clear all forward_ pointers of the current node
+      for (size_t i = 0; i < current->forward_.size(); ++i) {
+        current->forward_[i].reset();
+      }
+      current = next;
+    }
+
+    // Finally clear the head
+    head.reset();
   }
 
   // 插入或更新键值对

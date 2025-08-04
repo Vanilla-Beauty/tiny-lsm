@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 设置构建类型
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Debug)
 endif()
 
 # 添加编译选项
@@ -103,14 +103,14 @@ include_directories(${TOML11_INCLUDE_DIR})
 add_library(logger STATIC
     src/logger/logger.cpp
 )
-target_link_libraries(logger spdlog::spdlog)
+target_link_libraries(logger PRIVATE spdlog::spdlog)
 target_include_directories(logger PUBLIC include)
 
 # config 静态库
 add_library(config STATIC
     src/config/config.cpp
 )
-target_link_libraries(config spdlog::spdlog)
+target_link_libraries(config PRIVATE spdlog::spdlog)
 target_include_directories(config PUBLIC include)
 
 # utils 静态库
@@ -121,21 +121,21 @@ add_library(utils STATIC
     src/utils/mmap_file.cpp
     src/utils/cursor.cpp
 )
-target_link_libraries(utils spdlog::spdlog)
+target_link_libraries(utils PRIVATE spdlog::spdlog)
 target_include_directories(utils PUBLIC include)
 
 # iterator 静态库
 add_library(iterator STATIC
     src/iterator/iterator.cpp
 )
-target_link_libraries(iterator spdlog::spdlog)
+target_link_libraries(iterator PRIVATE spdlog::spdlog)
 target_include_directories(iterator PUBLIC include)
 
 # skiplist 静态库
 add_library(skiplist STATIC
     src/skiplist/skipList.cpp
 )
-target_link_libraries(skiplist spdlog::spdlog)
+target_link_libraries(skiplist PRIVATE spdlog::spdlog)
 target_include_directories(skiplist PUBLIC include)
 
 # block 静态库
@@ -145,7 +145,7 @@ add_library(block STATIC
     src/block/block_iterator.cpp
     src/block/blockmeta.cpp
 )
-target_link_libraries(block config spdlog::spdlog)
+target_link_libraries(block PRIVATE config spdlog::spdlog)
 target_include_directories(block PUBLIC include)
 
 # sst 静态库
@@ -154,14 +154,14 @@ add_library(sst STATIC
     src/sst/sst_iterator.cpp
     src/sst/concact_iterator.cpp
 )
-target_link_libraries(sst block utils iterator spdlog::spdlog)
+target_link_libraries(sst PRIVATE block utils iterator spdlog::spdlog)
 target_include_directories(sst PUBLIC include)
 
 # memtable 静态库
 add_library(memtable STATIC
     src/memtable/memtable.cpp
 )
-target_link_libraries(memtable skiplist iterator config sst spdlog::spdlog)
+target_link_libraries(memtable PRIVATE skiplist iterator config sst spdlog::spdlog)
 target_include_directories(memtable PUBLIC include)
 
 # wal 静态库
@@ -169,7 +169,7 @@ add_library(wal STATIC
     src/wal/wal.cpp
     src/wal/record.cpp
 )
-target_link_libraries(wal sst memtable spdlog::spdlog)
+target_link_libraries(wal PRIVATE sst memtable spdlog::spdlog)
 target_include_directories(wal PUBLIC include)
 
 # lsm 静态库
@@ -179,14 +179,14 @@ add_library(lsm STATIC
     src/lsm/transation.cpp
     src/lsm/two_merge_iterator.cpp
 )
-target_link_libraries(lsm sst memtable wal logger spdlog::spdlog)
+target_link_libraries(lsm PRIVATE sst memtable wal logger spdlog::spdlog)
 target_include_directories(lsm PUBLIC include)
 
 # redis 静态库
 add_library(redis STATIC
     src/redis_wrapper/redis_wrapper.cpp
 )
-target_link_libraries(redis lsm spdlog::spdlog)
+target_link_libraries(redis PRIVATE lsm spdlog::spdlog)
 target_include_directories(redis PUBLIC include)
 
 # 共享库目标
@@ -228,27 +228,28 @@ enable_testing()
 # 测试宏
 macro(add_test_target target_name source_file)
     add_executable(${target_name} ${source_file})
-    target_link_libraries(${target_name} ${ARGN} GTest::gtest GTest::gtest_main spdlog::spdlog)
+    # 使用 PRIVATE 链接方式，避免传递依赖
+    target_link_libraries(${target_name} PRIVATE ${ARGN} logger GTest::gtest GTest::gtest_main)
     target_include_directories(${target_name} PRIVATE include)
     add_test(NAME ${target_name} COMMAND ${target_name})
 endmacro()
 
 # 各种测试
-add_test_target(test_config test/test_config.cpp logger config)
-add_test_target(test_skiplist test/test_skiplist.cpp logger skiplist)
-add_test_target(test_memtable test/test_memtable.cpp logger memtable)
-add_test_target(test_block test/test_block.cpp logger block)
-add_test_target(test_blockmeta test/test_blockmeta.cpp logger block)
-add_test_target(test_utils test/test_utils.cpp logger utils)
-add_test_target(test_sst test/test_sst.cpp logger sst)
-add_test_target(test_lsm test/test_lsm.cpp logger lsm memtable iterator)
-add_test_target(test_block_cache test/test_block_cache.cpp logger block)
-add_test_target(test_compact test/test_compact.cpp logger lsm memtable iterator)
-add_test_target(test_redis test/test_redis.cpp logger redis memtable iterator)
+add_test_target(test_config test/test_config.cpp config)
+add_test_target(test_skiplist test/test_skiplist.cpp skiplist)
+add_test_target(test_memtable test/test_memtable.cpp memtable)
+add_test_target(test_block test/test_block.cpp block)
+add_test_target(test_blockmeta test/test_blockmeta.cpp block)
+add_test_target(test_utils test/test_utils.cpp utils)
+add_test_target(test_sst test/test_sst.cpp sst)
+add_test_target(test_lsm test/test_lsm.cpp lsm)
+add_test_target(test_block_cache test/test_block_cache.cpp block)
+add_test_target(test_compact test/test_compact.cpp lsm)
+add_test_target(test_redis test/test_redis.cpp redis)
 # test_wal 需要 GMock
 if(GMOCK_LIBRARIES)
     add_executable(test_wal test/test_wal.cpp)
-    target_link_libraries(test_wal logger wal lsm GTest::gtest GTest::gtest_main ${GMOCK_LIBRARIES} spdlog::spdlog)
+    target_link_libraries(test_wal PRIVATE wal logger lsm GTest::gtest GTest::gtest_main ${GMOCK_LIBRARIES})
     target_include_directories(test_wal PRIVATE include)
     add_test(NAME test_wal COMMAND test_wal)
 else()
