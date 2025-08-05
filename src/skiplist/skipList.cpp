@@ -75,7 +75,7 @@ void SkipList::put(const std::string &key, const std::string &value,
   std::vector<std::shared_ptr<SkipListNode>> update(max_level, nullptr);
 
   // 先创建一个新节点
-  int new_level = std::max(random_level(), current_level);
+  int new_level = random_level();
   auto new_node =
       std::make_shared<SkipListNode>(key, value, new_level, tranc_id);
 
@@ -118,38 +118,39 @@ void SkipList::put(const std::string &key, const std::string &value,
       spdlog::trace("SkipList--put({}, {}, {}), update level{} to head", key,
                     value, tranc_id, i);
     }
+    current_level = new_level;
   }
 
   // 生成一个随机数，用于决定是否在每一层更新节点
-  int random_bits = dis_level(gen);
+  // int random_bits = dis_level(gen);
 
   size_bytes += key.size() + value.size() + sizeof(uint64_t);
 
   // 更新各层的指针
   for (int i = 0; i < new_level; ++i) {
-    bool need_update = false;
-    if (i == 0 || (new_level > current_level) || (random_bits & (1 << i))) {
-      // 按照如下顺序判断是否进行更新
-      // 1. 第0层总是更新
-      // 2. 如果需要创建新的层级, 这个节点需要再之前所有的层级上都更新
-      // 3. 否则, 根据随机数的位数按照50%的概率更新
-      need_update = true;
-    }
+    // bool need_update = false;
+    // if (i == 0 || (new_level > current_level) || (random_bits & (1 << i))) {
+    // 按照如下顺序判断是否进行更新
+    // 1. 第0层总是更新
+    // 2. 如果需要创建新的层级, 这个节点需要再之前所有的层级上都更新
+    // 3. 否则, 根据随机数的位数按照50%的概率更新
+    // need_update = true;
+    // }
 
-    if (need_update) {
-      new_node->forward_[i] = update[i]->forward_[i]; // 可能为nullptr
-      if (new_node->forward_[i]) {
-        new_node->forward_[i]->set_backward(i, new_node);
-      }
-      update[i]->forward_[i] = new_node;
-      new_node->set_backward(i, update[i]);
-    } else {
-      // 如果不更新当前层，之后更高的层级都不更新
-      break;
+    // if (need_update) {
+    new_node->forward_[i] = update[i]->forward_[i]; // 可能为nullptr
+    if (new_node->forward_[i]) {
+      new_node->forward_[i]->set_backward(i, new_node);
     }
+    update[i]->forward_[i] = new_node;
+    new_node->set_backward(i, update[i]);
+    // } else {
+    // 如果不更新当前层，之后更高的层级都不更新
+    // break;
+    // }
   }
 
-  current_level = new_level;
+  //  current_level = new_level;
 }
 
 // 查找键值对
