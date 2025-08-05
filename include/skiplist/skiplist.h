@@ -112,10 +112,10 @@ private:
 public:
   SkipList(int max_lvl = 16); // 构造函数，初始化跳表
 
-  // 析构函数需要确保没有其他线程访问
   ~SkipList() {
     // std::unique_lock<std::shared_mutex> lock(rw_mutex);
-    // Disconnect all nodes before cleanup to avoid circular references
+    // Disconnect all nodes before cleanup to avoid stack overflow in case of
+    // deep recursion during shared_ptr destruction
     auto current = head;
     while (current && current->forward_[0]) {
       auto next = current->forward_[0];
