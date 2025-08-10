@@ -504,7 +504,8 @@ target("example")
 <h2 id="33-代码高亮"><a class="header" href="#33-代码高亮">3.3 代码高亮</a></h2>
 <p>如果你经常用<code>C++</code>开发, 那么你可能经常会遇到第三方包导致代码高亮跳转失效的问题:</p>
 <img src="images/lab0/clangd-error.png" width="500">
-<p>这是因为语言服务器找不到第三方包的头文件, 由于我们使用的语言服务器是<code>clangd</code>, 我们可以在项目根目录中添加<code>.clangd</code>配置文件, 让<code>clangd</code>知道我们的第三方包头文件的位置:</p>
+<p>这是因为语言服务器找不到第三方包的头文件, 由于我们使用的语言服务器是<code>clangd</code>, 我们可以在项目根目录中添加<code>.clangd</code>配置文件, 可以用下面两种方式解决:</p>
+<h3 id="331-配置clangd文件"><a class="header" href="#331-配置clangd文件">3.3.1 配置<code>.clangd</code>文件</a></h3>
 <pre><code class="language-yaml">CompileFlags:            # 编译标志部分
   Add:
     - "-std=c++20"      # 添加 C++17 支持
@@ -512,6 +513,22 @@ target("example")
     - "-isystem/home/vanilla-beauty/.xmake/packages/m/muduo/2022.11.01/e9382a25649e4e43bf04f01f925d9c2f/include" # 包含头文件, 绝对路径
 </code></pre>
 <p>这样一来之前的告警就不复存在了</p>
+<p>关于<code>.clangd</code>文件的更多用法, 可以参考:</p>
+<ul>
+<li><a href="https://clangd.llvm.org/config">官方文档</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/871508940">我的博客文章</a></li>
+</ul>
+<h3 id="332-生成compile_commandsjson文件"><a class="header" href="#332-生成compile_commandsjson文件">3.3.2 生成<code>compile_commands.json</code>文件</a></h3>
+<p>这里首先简单介绍下<code>compile_commands.json</code>文件是什么, <code>compile_commands.json</code> 文件是一个标准的 JSON 文件，它包含了项目中每个源文件编译时所使用的命令。这个文件通常被 IDE 和 代码分析工具 用来获取项目的编译信息，从而实现以下功能：</p>
+<ul>
+<li>代码补全和智能提示：通过解析编译命令中的头文件路径和宏定义，工具可以提供更准确的代码补全。</li>
+<li>代码导航：工具能够快速跳转到头文件和函数定义。</li>
+<li>静态分析：分析工具可以利用完整的编译命令来更精确地检查代码中的潜在问题。</li>
+</ul>
+<p>在本项目中, 你可以通过下面的命令生成<code>compile_commands.json</code>文件:</p>
+<pre><code class="language-bash">xmake project -k compile_commands
+</code></pre>
+<p>生成的<code>compile_commands.json</code>文件会放在项目根目录下, 此后重新用<code>VSCode</code>或者<code>Vim</code>打开项目, 你就可以看到高亮和跳转了(前提是C++的语言服务器是<code>clangd</code>)</p>
 <h2 id="34-其他实用插件"><a class="header" href="#34-其他实用插件">3.4 其他实用插件</a></h2>
 <h3 id="341-better-comments--todotree"><a class="header" href="#341-better-comments--todotree">3.4.1 Better Comments &amp;&amp; TodoTree</a></h3>
 <p><code>Better Comments</code>是一个<code>VSCode</code>插件, 它可以提供代码注释高亮和语法高亮功能, 使得代码更加易读。比如像<code>TODO</code>, <code>!</code>这样的符号:</p>
