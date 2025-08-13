@@ -134,7 +134,7 @@ CompileFlags:            # 编译标志部分
 - [官方文档](https://clangd.llvm.org/config)
 - [我的博客文章](https://zhuanlan.zhihu.com/p/871508940)
 
-### 3.3.2 生成`compile_commands.json`文件
+### 3.3.2 生成`compile_commands.json`文件(推荐⭐⭐⭐)
 这里首先简单介绍下`compile_commands.json`文件是什么, `compile_commands.json` 文件是一个标准的 JSON 文件，它包含了项目中每个源文件编译时所使用的命令。这个文件通常被 IDE 和 代码分析工具 用来获取项目的编译信息，从而实现以下功能：
 
 - 代码补全和智能提示：通过解析编译命令中的头文件路径和宏定义，工具可以提供更准确的代码补全。
