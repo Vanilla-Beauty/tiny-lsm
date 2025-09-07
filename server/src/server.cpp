@@ -5,10 +5,18 @@
 #include <memory>
 #include <string>
 #include <vector>
-
+#include <csignal>
 // 假设这些头文件和实现已经存在，并且与您的 Muduo 版本兼容
 #include "../../include/redis_wrapper/redis_wrapper.h"
 #include "../include/handler.h"
+
+asio::io_context* g_io_context = nullptr;
+
+void signalHandler(int sig) {
+  if (g_io_context) {
+    g_io_context->stop();
+  }
+}
 
 // 简单的日志宏，替代 Muduo 的 LOG_INFO
 #define ASYNC_REDIS_SERVER_LOG_INFO(msg)                                       \
@@ -286,6 +294,10 @@ private:
 int main() {
   try {
     asio::io_context io_context;
+    g_io_context = &io_context;
+    // 注册信号
+    std::signal(SIGINT, signalHandler);
+    std::signal(SIGTERM, signalHandler);
     RedisServer server(io_context, 6379); // Redis 默认端口
     io_context.run();                     // 运行事件循环
   } catch (std::exception &e) {
