@@ -10,3 +10,4 @@ book
 coverage*
 .clangd
 *.log*
+sst_html
