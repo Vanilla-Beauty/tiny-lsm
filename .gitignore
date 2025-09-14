@@ -13,3 +13,6 @@ sdk/tonilsm/tonilsm.egg-info
 .idea/.gitignore
 book
 sdk/tinylsm
+.cache
+.gitignore
+compile_commands.json
