@@ -1,7 +1,6 @@
 #include "../include/logger/logger.h"
 #include "../include/redis_wrapper/redis_wrapper.h"
 #include <gtest/gtest.h>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -188,8 +187,7 @@ TEST_F(RedisCommandsTest, HExpire) {
   EXPECT_EQ(lsm.expire(args), ":1\r\n");
 
   // Wait for TTL to expire
-  std::this_thread::sleep_for(std::chrono::seconds(1) +
-                              std::chrono::milliseconds(500)); // 1.5 s
+  std::this_thread::sleep_for(std::chrono::seconds(2));
 
   // HGET after TTL expired
   std::vector<std::string> hset_args2 = {"HSET", key, field, value2};

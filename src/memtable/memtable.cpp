@@ -146,8 +146,6 @@ MemTable::get_batch(const std::vector<std::string> &keys, uint64_t tranc_id) {
     auto cur_res = cur_get_(key, tranc_id);
     if (cur_res.is_valid()) {
       // 值存在且不为空
-      // ! 此时value可能为空, 需要返回时置为 nullopt
-      // ! 这里允许value为空主要是为了与"没有找到"区分开来
       results.emplace_back(
           key, std::make_pair(cur_res.get_value(), cur_res.get_tranc_id()));
     } else {
@@ -161,15 +159,10 @@ MemTable::get_batch(const std::vector<std::string> &keys, uint64_t tranc_id) {
         return !result.second.has_value();
       })) {
     // ! 最后, 需要把 value 为空的键值对标记为 nullopt
-    for (auto &[key, value] : results) {
-      if (!value.has_value()) {
-        value = std::nullopt;
-      }
-    }
     return results;
   }
 
-  slock1.unlock(); // 释放活跃表的锁
+  slock1.unlock();                                        // 释放活跃表的锁
   std::shared_lock<std::shared_mutex> slock2(frozen_mtx); // 获取冻结表的锁
   for (size_t idx = 0; idx < keys.size(); idx++) {
     if (results[idx].second.has_value()) {
@@ -184,13 +177,6 @@ MemTable::get_batch(const std::vector<std::string> &keys, uint64_t tranc_id) {
                                              frozen_result.get_tranc_id()));
     } else {
       results[idx] = std::make_pair(key, std::nullopt);
-    }
-  }
-
-  // 最后, 需要把 value 为空的键值对标记为 nullopt
-  for (auto &[key, value] : results) {
-    if (!value.has_value()) {
-      value = std::nullopt;
     }
   }
 

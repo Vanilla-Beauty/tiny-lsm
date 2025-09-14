@@ -11,3 +11,5 @@ coverage*
 .clangd
 *.log*
 sst_html
+.cache
+compile_commands.json
