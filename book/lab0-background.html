@@ -227,7 +227,7 @@
 </li>
 <li>如果在<code>Memtable</code>中未找到, 则在<code>SST</code>中查找。
 <ol>
-<li>先在<code>Level 0</code>层查找, 如果找到则直接返回。注意的是, <code>Level 0</code>层不懂的<code>SST</code>没有进行排序, 因此需要按照<code>SST</code>的<code>id</code>倒序逐个查找(因为<code>id</code>越小, 表示<code>SST</code>越旧, 优先级越低)</li>
+<li>先在<code>Level 0</code>层查找, 如果找到则直接返回。注意的是, <code>Level 0</code>层不同的<code>SST</code>没有进行排序, 因此需要按照<code>SST</code>的<code>id</code>倒序逐个查找(因为<code>id</code>越小, 表示<code>SST</code>越旧, 优先级越低)</li>
 <li>随后逐个在后面的<code>Level</code>层查找, 此时所有的<code>SST</code>都已经进行过排序, 因此可在<code>Level</code>层面进行二分查询。</li>
 </ol>
 </li>
