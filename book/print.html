@@ -4876,19 +4876,19 @@ std::string RedisWrapper::redis_decr(const std::string &amp;key) {
 你可以采用自己编码或者引入第三方库的形式, 将整个哈希数据结构序列化成字符串, 然后存储到<code>value</code>中, 这样查询的时候直接反序列化即可。</p>
 <ul>
 <li><strong>优点</strong>: 查询方便, 不需要关心序列化功能的具体实现</li>
-<li><strong>缺点</strong>: 序列化/反序列化耗时, 占用内存, 不利于扩展。比如，你对哈希结构中的一个<code>filed</code>进行修改, 需要重新序列化整个哈希数据结构</li>
+<li><strong>缺点</strong>: 序列化/反序列化耗时, 占用内存, 不利于扩展。比如，你对哈希结构中的一个<code>field</code>进行修改, 需要重新序列化整个哈希数据结构</li>
 </ul>
-<p><strong>方案2-filed分离存储</strong>
-这里的方案类似我们之前设置超时时间的一种解决方案, 你可以将每个<code>filed</code>作为额外的键值对进行存储, 然后代表整个哈希结构的<code>key</code>的<code>value</code>中可以存储这些<code>filed</code>的元信息, 下面给出一种具体的实现思路供你参考:</p>
+<p><strong>方案2-field分离存储</strong>
+这里的方案类似我们之前设置超时时间的一种解决方案, 你可以将每个<code>field</code>作为额外的键值对进行存储, 然后代表整个哈希结构的<code>key</code>的<code>value</code>中可以存储这些<code>field</code>的元信息, 下面给出一种具体的实现思路供你参考:</p>
 <ol>
-<li>整个<code>hash</code>数据结构的<code>key</code>存储的<code>value</code>是其所有<code>filed</code>的集合拼接的字符串</li>
-<li>每个<code>filed</code>的<code>value</code>单独用另一个键值对存储, 但<code>filed</code>不能直接作为一个<code>key</code>, 而是需要加上指定的前缀以标识这是一个哈希结构的<code>filed</code></li>
+<li>整个<code>hash</code>数据结构的<code>key</code>存储的<code>value</code>是其所有<code>field</code>的集合拼接的字符串</li>
+<li>每个<code>field</code>的<code>value</code>单独用另一个键值对存储, 但<code>field</code>不能直接作为一个<code>key</code>, 而是需要加上指定的前缀以标识这是一个哈希结构的<code>field</code></li>
 </ol>
-<p>那么查询的逻辑就是, 将<code>key</code>和<code>filed</code>拼接起来形成实际存储的<code>key</code>, 然后查询对应的<code>value</code>即可</p>
+<p>那么查询的逻辑就是, 将<code>key</code>和<code>field</code>拼接起来形成实际存储的<code>key</code>, 然后查询对应的<code>value</code>即可</p>
 <h1 id="2-ttl-设计"><a class="header" href="#2-ttl-设计">2 TTL 设计</a></h1>
-<p>同样, 你的哈希结构也需要支持<code>TTL</code>和<code>Expire</code>命令, 不过这2个命令针对的对象是整个哈希结构, 你不需要考虑对哈希中的一个<code>filed</code>设计超时时间。</p>
+<p>同样, 你的哈希结构也需要支持<code>TTL</code>和<code>Expire</code>命令, 不过这2个命令针对的对象是整个哈希结构, 你不需要考虑对哈希中的一个<code>field</code>设计超时时间。</p>
 <p>需要注意的是，你的实现方案同样需要考虑到旧数据的清理流程。</p>
-<p>最后， 如果你的哈希结构采用的是分离存储<code>filed</code>的方式（这个方式其实更推荐），你需要对内部函数的并发控制进行处理，因为这里你操作的对象可能涉及底层<code>LSM Tree</code>中的多个<code>Key</code>, 因此你需要灵活地利用批量化的操作接口, 以及自身组件的上锁与解锁逻辑控制。</p>
+<p>最后， 如果你的哈希结构采用的是分离存储<code>field</code>的方式（这个方式其实更推荐），你需要对内部函数的并发控制进行处理，因为这里你操作的对象可能涉及底层<code>LSM Tree</code>中的多个<code>Key</code>, 因此你需要灵活地利用批量化的操作接口, 以及自身组件的上锁与解锁逻辑控制。</p>
 <blockquote>
 <p>你在不同操作时, 建议利用好读写锁相比独占锁的优势, 以及在必要时进行锁升级</p>
 </blockquote>
@@ -4921,7 +4921,7 @@ std::string RedisWrapper::redis_hset(const std::string &amp;key,
   return "+OK\r\n";
 }
 </code></pre>
-<p><code>hset</code>允许单次的<code>filed</code>设置, 也可以批量设置多个<code>filed</code>。</p>
+<p><code>hset</code>允许单次的<code>field</code>设置, 也可以批量设置多个<code>field</code>。</p>
 <h2 id="32-hget"><a class="header" href="#32-hget">3.2 hget</a></h2>
 <pre><code class="language-cpp">std::string RedisWrapper::redis_hget(const std::string &amp;key,
                                      const std::string &amp;field) {
@@ -4930,7 +4930,7 @@ std::string RedisWrapper::redis_hset(const std::string &amp;key,
   return "$-1\r\n"; // 表示键不存在
 }
 </code></pre>
-<p>类似之前的简单字符串的<code>get</code>操作, 你可能需要再此时判断一下<code>key</code>是否已经过期, 如果已经过期则删除该<code>key</code>及其<code>filed</code>(如果是分离存储的实现方案)。</p>
+<p>类似之前的简单字符串的<code>get</code>操作, 你可能需要再此时判断一下<code>key</code>是否已经过期, 如果已经过期则删除该<code>key</code>及其<code>field</code>(如果是分离存储的实现方案)。</p>
 <h2 id="33-hdel"><a class="header" href="#33-hdel">3.3 hdel</a></h2>
 <pre><code class="language-cpp">std::string RedisWrapper::redis_hdel(const std::string &amp;key,
                                      const std::string &amp;field) {
@@ -4939,7 +4939,7 @@ std::string RedisWrapper::redis_hset(const std::string &amp;key,
   return ":1\r\n";
 }
 </code></pre>
-<p>你需要删除单个哈希结构的<code>filed</code>。</p>
+<p>你需要删除单个哈希结构的<code>field</code>。</p>
 <h2 id="34-hkeys"><a class="header" href="#34-hkeys">3.4 hkeys</a></h2>
 <pre><code class="language-cpp">std::string RedisWrapper::redis_hkeys(const std::string &amp;key) {
   // TODO: Lab 6.2 获取一个哈希类型的`key`的所有字段
@@ -4947,8 +4947,8 @@ std::string RedisWrapper::redis_hset(const std::string &amp;key,
   return "*0\r\n";
 }
 </code></pre>
-<p><code>_hkeys</code>就是返回哈希结构中所有的<code>filed</code>。</p>
-<p>同时,这也是为什么在之前的理论介绍中 (在分离存储<code>filed</code>的实现方案中), 为什么建议你在代表整个哈希结构的大<code>key</code>的<code>value</code>中存储所有<code>filed</code>的元信息。长这样你在实现 <code>hkeys</code>的时候就会方便很多, 只需要查询单个<code>key</code>就可以了。否则你需要调用前缀查询来获取所有的<code>filed</code>的键值对。</p>
+<p><code>_hkeys</code>就是返回哈希结构中所有的<code>field</code>。</p>
+<p>同时,这也是为什么在之前的理论介绍中 (在分离存储<code>field</code>的实现方案中), 为什么建议你在代表整个哈希结构的大<code>key</code>的<code>value</code>中存储所有<code>field</code>的元信息。长这样你在实现 <code>hkeys</code>的时候就会方便很多, 只需要查询单个<code>key</code>就可以了。否则你需要调用前缀查询来获取所有的<code>field</code>的键值对。</p>
 <blockquote>
 <p><code>Redis</code>中涉及哈希的命令还有很多, 这里并没有完全实现, 毕竟本<code>Lab</code>的主题是介绍实现<code>Redis</code>命令的设计方法, 有了上述基础命令, 其他的命令实现应该非常简单了, 都是简单重复的操作了, 有兴趣你可以自己补充其余命令</p>
 </blockquote>
