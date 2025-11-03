@@ -101,7 +101,7 @@ TEST_F(SSTTest, KeySearch) {
   auto sst = create_test_sst(256, 100); // 创建包含100个entry的SST
 
   // 测试find_block_idx
-  size_t idx = sst->find_block_idx("key50");
+  int64_t idx = sst->find_block_idx("key50");
   auto block = sst->read_block(idx);
   auto value = block->get_value_binary("key50", 0);
   EXPECT_TRUE(value.has_value());
@@ -184,7 +184,7 @@ TEST_F(SSTTest, LargeSST) {
   for (int i : test_indices) {
     std::string key = "key" + std::string(3 - std::to_string(i).length(), '0') +
                       std::to_string(i);
-    size_t idx = sst->find_block_idx(key);
+    int64_t idx = sst->find_block_idx(key);
     auto block = sst->read_block(idx);
     auto value = block->get_value_binary(key, 0);
     EXPECT_TRUE(value.has_value());

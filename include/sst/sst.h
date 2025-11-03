@@ -66,10 +66,10 @@ public:
   void del_sst();
 
   // 根据索引读取block
-  std::shared_ptr<Block> read_block(size_t block_idx);
+  std::shared_ptr<Block> read_block(int64_t block_idx);
 
   // 找到key所在的block的idx
-  size_t find_block_idx(const std::string &key);
+  int64_t find_block_idx(const std::string &key);
 
   // 根据key返回迭代器
   SstIterator get(const std::string &key, uint64_t tranc_id);

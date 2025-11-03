@@ -79,7 +79,7 @@ std::shared_ptr<SST> SST::open(size_t sst_id, FileObj file,
 
 void SST::del_sst() { file.del_file(); }
 
-std::shared_ptr<Block> SST::read_block(size_t block_idx) {
+std::shared_ptr<Block> SST::read_block(int64_t block_idx) {
   if (block_idx >= meta_entries.size()) {
     throw std::out_of_range("Block index out of range");
   }
@@ -117,18 +117,18 @@ std::shared_ptr<Block> SST::read_block(size_t block_idx) {
   return block_res;
 }
 
-size_t SST::find_block_idx(const std::string &key) {
+int64_t SST::find_block_idx(const std::string &key) {
   // 先在布隆过滤器判断key是否存在
   if (bloom_filter != nullptr && !bloom_filter->possibly_contains(key)) {
     return -1;
   }
 
   // 二分查找
-  size_t left = 0;
-  size_t right = meta_entries.size();
+  int64_t left = 0;
+  int64_t right = meta_entries.size();
 
   while (left < right) {
-    size_t mid = (left + right) / 2;
+    int64_t mid = (left + right) / 2;
     const auto &meta = meta_entries[mid];
 
     if (key < meta.first_key) {

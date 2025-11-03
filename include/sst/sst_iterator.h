@@ -26,7 +26,7 @@ class SstIterator : public BaseIterator {
 
 private:
   std::shared_ptr<SST> m_sst;
-  size_t m_block_idx;
+  int64_t m_block_idx;
   uint64_t max_tranc_id_;
   std::shared_ptr<BlockIterator> m_block_it;
   mutable std::optional<value_type> cached_value; // 缓存当前值
