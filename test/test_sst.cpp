@@ -221,7 +221,7 @@ TEST_F(SSTTest, LargeSSTPredicate) {
 
   auto result =
       sst_iters_monotony_predicate(sst, 0, [](const std::string &key) {
-        if (key < "key100") {
+        if (key < "key300") {
           return 1;
           ;
         }
@@ -230,15 +230,15 @@ TEST_F(SSTTest, LargeSSTPredicate) {
           ;
         }
         return 0;
-        // return key >= "key100" && key <= "key500";
+        // return key >= "key300" && key <= "key500";
       });
   EXPECT_TRUE(result.has_value());
   auto [iter_begin, iter_end] = result.value();
-  EXPECT_EQ(iter_begin.key(), "key100");
+  EXPECT_EQ(iter_begin.key(), "key300");
   for (int i = 0; i < 100; i++) {
     ++iter_begin;
   }
-  EXPECT_EQ(iter_begin.key(), "key200");
+  EXPECT_EQ(iter_begin.key(), "key400");
   EXPECT_EQ(iter_end.key(), "key501");
 }
 
