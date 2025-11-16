@@ -52,7 +52,7 @@ HeapIterator::HeapIterator(std::vector<SearchItem> item_vec,
     skip_by_tranc_id();
 
     // 2. 跳过标记为删除的元素
-    while (!items.empty() && items.top().value_.empty()) {
+    while (skip_delete_ && !items.empty() && items.top().value_.empty()) {
       // 如果当前元素的value为空，则说明该元素已经被删除，需要从优先队列中删除
       auto del_key = items.top().key_;
       while (!items.empty() && items.top().key_ == del_key) {
@@ -90,7 +90,7 @@ BaseIterator &HeapIterator::operator++() {
     skip_by_tranc_id();
 
     // 2. 跳过标记为删除的元素
-    while (!items.empty() && items.top().value_.empty()) {
+    while (skip_delete_ && !items.empty() && items.top().value_.empty()) {
       // 如果当前元素的value为空，则说明该元素已经被删除，需要从优先队列中删除
       auto del_key = items.top().key_;
       while (!items.empty() && items.top().key_ == del_key) {
@@ -134,7 +134,14 @@ bool HeapIterator::top_value_legal() const {
 
   if (items.top().tranc_id_ <= max_tranc_id_) {
     // 事务id可见, 则判断其value是否为空
-    return items.top().value_.size() > 0;
+
+    if (skip_delete_) {
+      //如果这个迭代器需要跳过删除记录
+      return items.top().value_.size() > 0;
+    }
+
+    //否则，就关于top_value是否合法，只需要在意事务id就好了，那么就会是true
+    return true;
   } else {
     // 事务id不可见, 即不合法
     return false;
