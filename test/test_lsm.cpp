@@ -335,6 +335,39 @@ TEST_F(LSMTest, Recover) {
     }
   }
 }
+
+TEST_F(LSMTest, BigPersistence) {
+  std::unordered_map<std::string, std::string> kvs;
+  int num = 2000000;
+  {
+    LSM lsm(test_dir);
+    for (int i = 0; i < num; ++i) {
+      std::string key = "key" + std::to_string(i);
+      std::string value = "value" + std::to_string(i);
+      lsm.put(key, value);
+      kvs[key] = value;
+
+      // 删除之前被10整除的key
+      if (i % 10 == 0 && i != 0) {
+        std::string del_key = "key" + std::to_string(i - 10);
+        lsm.remove(del_key);
+        kvs.erase(del_key);
+      }
+    }
+  } // LSM destructor called here
+
+  // Create new LSM instance
+  LSM lsm(test_dir);
+  for (int i = 0; i < num; ++i) {
+    std::string key = "key" + std::to_string(i);
+    if (kvs.find(key) != kvs.end()) {
+      EXPECT_EQ(lsm.get(key).value(), kvs[key]);
+    } else {
+      EXPECT_EQ(lsm.get(key).has_value(), false);
+    }
+  }
+}
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   init_spdlog_file();
