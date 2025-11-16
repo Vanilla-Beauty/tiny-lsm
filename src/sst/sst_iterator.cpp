@@ -19,8 +19,11 @@ std::optional<std::pair<SstIterator, SstIterator>> sst_iters_monotony_predicate(
     auto block = sst->read_block(block_idx);
 
     BlockMeta &meta_i = sst->meta_entries[block_idx];
-    if (predicate(meta_i.first_key) < 0 || predicate(meta_i.last_key) > 0) {
+    if (predicate(meta_i.first_key) < 0) {
       break;
+    }
+    if (predicate(meta_i.last_key) > 0) {
+      continue;
     }
 
     auto result_i = block->get_monotony_predicate_iters(tranc_id, predicate);
