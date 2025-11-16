@@ -341,12 +341,14 @@ TEST_F(LSMTest, BigPersistence) {
   int num = 2000000;
   {
     LSM lsm(test_dir);
-    for (int i = 0; i < num; ++i) {
+    for (int i = 0; i <= num; ++i) {
       std::string key = "key" + std::to_string(i);
       std::string value = "value" + std::to_string(i);
       lsm.put(key, value);
       kvs[key] = value;
-
+      if (i % 400000 == 0 && i != 0) {
+        std::cout << "lsm put key at i = " << i << "......" << std::endl;
+      }
       // 删除之前被10整除的key
       if (i % 10 == 0 && i != 0) {
         std::string del_key = "key" + std::to_string(i - 10);
@@ -358,8 +360,11 @@ TEST_F(LSMTest, BigPersistence) {
 
   // Create new LSM instance
   LSM lsm(test_dir);
-  for (int i = 0; i < num; ++i) {
+  for (int i = 0; i <= num; ++i) {
     std::string key = "key" + std::to_string(i);
+    if (i % 400000 == 0 && i != 0) {
+      std::cout << "lsm get key at i = " << i << "......" << std::endl;
+    }
     if (kvs.find(key) != kvs.end()) {
       EXPECT_EQ(lsm.get(key).value(), kvs[key]);
     } else {
