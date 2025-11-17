@@ -74,7 +74,7 @@ LSMEngine::LSMEngine(std::string path) : data_dir(path) {
       // 加载SST文件, 初始化时需要加写锁
       std::unique_lock<std::shared_mutex> lock(ssts_mtx); // 写锁
 
-      next_sst_id = std::max(sst_id, next_sst_id);    // 记录目前最大的 sst_id
+      next_sst_id = std::max(sst_id, next_sst_id); // 记录目前最大的 sst_id
       cur_max_level = std::max(level, cur_max_level); // 记录目前最大的 level
       std::string sst_path = get_sst_path(sst_id, level);
       auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache);
@@ -470,8 +470,8 @@ uint64_t LSMEngine::flush() {
   // 4. 将 memtable 中最旧的表写入 SST
   std::vector<uint64_t> flushed_tranc_ids;
   auto sst_path = get_sst_path(new_sst_id, 0);
-  auto new_sst =
-      memtable.flush_last(builder, sst_path, new_sst_id, flushed_tranc_ids, block_cache);
+  auto new_sst = memtable.flush_last(builder, sst_path, new_sst_id,
+                                     flushed_tranc_ids, block_cache);
 
   // 5. 更新内存索引
   ssts[new_sst_id] = new_sst;
@@ -480,7 +480,7 @@ uint64_t LSMEngine::flush() {
   level_sst_ids[0].push_front(new_sst_id);
 
   // 7. 添加到 flushed 集合
-  for (auto& id : flushed_tranc_ids) {
+  for (auto &id : flushed_tranc_ids) {
     tran_manager.lock()->add_flushed_tranc_id(id);
   }
 
