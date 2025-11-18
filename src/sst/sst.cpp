@@ -234,10 +234,9 @@ void SSTBuilder::add(const std::string &key, const std::string &value,
   last_key = key; // 更新最后一个key
 }
 
-size_t SSTBuilder::estimated_size() const {
-  return data.size();
-  // return data.size() + block.cur_size();
-}
+size_t SSTBuilder::real_size() const { return data.size() + block.cur_size(); }
+
+size_t SSTBuilder::estimated_size() const { return data.size(); }
 
 void SSTBuilder::finish_block() {
   auto old_block = std::move(this->block);

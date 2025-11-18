@@ -375,14 +375,6 @@ uint64_t LSMEngine::put(const std::string &key, const std::string &value,
     return flush();
   }
 
-  // static int count = 0;
-  // count++;
-  // if (count % 1000 == 0) {
-  //   std::cout << "count: " << count << "\n";
-  // std::cout << memtable.get_total_size() << " "
-  //           << TomlConfig::getInstance().getLsmTolMemSizeLimit() <<
-  //           std::endl;
-  // }
   return 0;
 }
 
@@ -723,7 +715,9 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
                                    true); // 重置builder
     }
   }
-  if (new_sst_builder.estimated_size() > 0) {
+
+  //只要builder里面存在没有落盘的数据，就要把它放到sst里面去。
+  if (new_sst_builder.real_size() > 0) {
     size_t sst_id = next_sst_id++; // TODO: 后续优化并发性
     std::string sst_path = get_sst_path(sst_id, target_level);
     auto new_sst = new_sst_builder.build(sst_id, sst_path, this->block_cache);
@@ -733,22 +727,6 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
                   "Compaction: Generated new SST file with sst_id={} "
                   "at level{}",
                   sst_id, target_level);
-    new_sst_builder = SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(),
-                                 true); // 重置builder
-  }
-  if (new_sst_builder.get_first_key().empty() == false) {
-    assert(new_sst_builder.get_first_key().empty());
-    std::cout << "WAWAJIOAWJIOAWJIOAWJDIOWAIJAW" << std::endl;
-    throw std::runtime_error("WAWAWWA");
-  }
-  static int count = 0;
-  count++;
-  if (count % 300 == 0) {
-    std::cout << "have gen number: " << count << std::endl;
-  }
-  {
-    Block &block = new_sst_builder.get_block();
-    assert(block.cur_size() == 0);
   }
 
   return new_ssts;

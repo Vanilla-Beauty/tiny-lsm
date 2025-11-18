@@ -76,9 +76,6 @@ public:
 
   static const TomlConfig &
   getInstance(const std::string &config_path = "config.toml");
-  // getInstance(
-  //     const std::string &config_path =
-  //     "/tmp/tinilsmpr/tiny-lsm/config.toml");
 
   // for debug
   void modify_lsm_tol_mem_size_limit(long long one);
