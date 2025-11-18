@@ -116,6 +116,8 @@ public:
   void add(const std::string &key, const std::string &value, uint64_t tranc_id);
   // 估计sst的大小
   size_t estimated_size() const;
+  // 实际的大小（也就是 已经放进的大小和未放进去的data大小）
+  size_t real_size() const;
   // 完成当前block的构建, 即将block写入data, 并创建新的block
   void finish_block();
   // 构建sst, 将sst写入文件并返回SST描述类

@@ -32,6 +32,19 @@ void TomlConfig::setDefaultValues() {
   bloom_filter_expected_error_rate_ = 0.1;
 }
 
+//////////////////////////////////////////////////////////////////
+// for debug/test
+void TomlConfig::modify_lsm_tol_mem_size_limit(long long one) {
+  lsm_tol_mem_size_limit_ = one;
+}
+
+void TomlConfig::modify_lsm_block_size(int one) { lsm_block_size_ = one; }
+
+void TomlConfig::modify_lsm_per_mem_size_limit(long long one) {
+  lsm_per_mem_size_limit_ = one;
+}
+//////////////////////////////////////////////////////////////////
+
 // Constructor implementation
 TomlConfig::TomlConfig(const std::string &filePath)
     : config_file_path_(filePath) {
