@@ -234,7 +234,10 @@ void SSTBuilder::add(const std::string &key, const std::string &value,
   last_key = key; // 更新最后一个key
 }
 
-size_t SSTBuilder::estimated_size() const { return data.size(); }
+size_t SSTBuilder::estimated_size() const {
+  return data.size();
+  // return data.size() + block.cur_size();
+}
 
 void SSTBuilder::finish_block() {
   auto old_block = std::move(this->block);
@@ -242,9 +245,8 @@ void SSTBuilder::finish_block() {
 
   meta_entries.emplace_back(data.size(), first_key, last_key);
 
-
   // 预分配空间并添加数据
-  data.reserve(data.size() + encoded_block.size() ); 
+  data.reserve(data.size() + encoded_block.size());
   data.insert(data.end(), encoded_block.begin(), encoded_block.end());
 }
 

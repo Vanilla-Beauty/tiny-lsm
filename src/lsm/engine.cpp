@@ -8,11 +8,13 @@
 #include "../../include/sst/sst_iterator.h"
 #include "spdlog/spdlog.h"
 #include <algorithm>
+#include <cassert>
 #include <cstddef>
 #include <filesystem>
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -372,6 +374,15 @@ uint64_t LSMEngine::put(const std::string &key, const std::string &value,
       TomlConfig::getInstance().getLsmTolMemSizeLimit()) {
     return flush();
   }
+
+  // static int count = 0;
+  // count++;
+  // if (count % 1000 == 0) {
+  //   std::cout << "count: " << count << "\n";
+  // std::cout << memtable.get_total_size() << " "
+  //           << TomlConfig::getInstance().getLsmTolMemSizeLimit() <<
+  //           std::endl;
+  // }
   return 0;
 }
 
@@ -688,7 +699,7 @@ std::vector<std::shared_ptr<SST>>
 LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
                              size_t target_level) {
   // TODO: 这里需要补全的是对已经完成事务的删除
-
+  // std::cout << "process into gen\n";
   std::vector<std::shared_ptr<SST>> new_ssts;
   auto new_sst_builder =
       SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
@@ -722,6 +733,22 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
                   "Compaction: Generated new SST file with sst_id={} "
                   "at level{}",
                   sst_id, target_level);
+    new_sst_builder = SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(),
+                                 true); // 重置builder
+  }
+  if (new_sst_builder.get_first_key().empty() == false) {
+    assert(new_sst_builder.get_first_key().empty());
+    std::cout << "WAWAJIOAWJIOAWJIOAWJDIOWAIJAW" << std::endl;
+    throw std::runtime_error("WAWAWWA");
+  }
+  static int count = 0;
+  count++;
+  if (count % 300 == 0) {
+    std::cout << "have gen number: " << count << std::endl;
+  }
+  {
+    Block &block = new_sst_builder.get_block();
+    assert(block.cur_size() == 0);
   }
 
   return new_ssts;

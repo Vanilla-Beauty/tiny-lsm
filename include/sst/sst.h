@@ -121,5 +121,7 @@ public:
   // 构建sst, 将sst写入文件并返回SST描述类
   std::shared_ptr<SST> build(size_t sst_id, const std::string &path,
                              std::shared_ptr<BlockCache> block_cache);
+  Block &get_block() { return block; }
+  std::string get_first_key() { return first_key; }
 };
 } // namespace tiny_lsm
