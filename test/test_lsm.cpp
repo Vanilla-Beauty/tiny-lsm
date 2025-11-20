@@ -1,3 +1,4 @@
+#include "../include/config/config.h"
 #include "../include/logger/logger.h"
 #include "../include/lsm/engine.h"
 #include "../include/lsm/level_iterator.h"
@@ -335,6 +336,161 @@ TEST_F(LSMTest, Recover) {
     }
   }
 }
+
+TEST_F(LSMTest, BigPersistence) {
+  std::unordered_map<std::string, std::string> kvs;
+  int num = 2000000;
+  {
+    LSM lsm(test_dir);
+    for (int i = 0; i <= num; ++i) {
+      std::string key = "key" + std::to_string(i);
+      std::string value = "value" + std::to_string(i);
+      lsm.put(key, value);
+      kvs[key] = value;
+      if (i % 400000 == 0 && i != 0) {
+        std::cout << "lsm put key at i = " << i << "......" << std::endl;
+      }
+      // 删除之前被10整除的key
+      if (i % 10 == 0 && i != 0) {
+        std::string del_key = "key" + std::to_string(i - 10);
+        lsm.remove(del_key);
+        kvs.erase(del_key);
+      }
+    }
+  } // LSM destructor called here
+
+  // Create new LSM instance
+  LSM lsm(test_dir);
+  for (int i = 0; i <= num; ++i) {
+    std::string key = "key" + std::to_string(i);
+    if (i % 400000 == 0 && i != 0) {
+      std::cout << "lsm get key at i = " << i << "......" << std::endl;
+    }
+    if (kvs.find(key) != kvs.end()) {
+      EXPECT_EQ(lsm.get(key).value(), kvs[key]);
+    } else {
+      EXPECT_EQ(lsm.get(key).has_value(), false);
+    }
+  }
+}
+
+//伪随机，打乱vector
+void random_change_vector(std::vector<int> &a) {
+  std::vector<int> pri{3, 5, 7, 11, 13};
+  int pri_pos = 0;
+  int swap_cnt = std::min((int)a.size(), 50000);
+  for (int i = 0; i < swap_cnt; i++) {
+    int x1 = ((i * pri[pri_pos] + i * i + 19) % (a.size()));
+    int x2 = ((i * i * pri[(pri_pos + 1) % 5] * pri[(pri_pos + 1) % 5] + i * i +
+               31) %
+              (a.size()));
+    std::swap(a[x1], a[x2]);
+  }
+}
+
+TEST_F(LSMTest, BigPersistence2) {
+  //固定num的后一半会被删除
+  int num = 1000000;
+  std::vector<int> idx1, idx2;
+  idx1.reserve(num / 2 + 1), idx2.reserve(num / 2 + 1);
+
+  for (int i = 0; i <= num; ++i) {
+    if (i <= num / 2)
+      idx1.push_back(i);
+    else
+      idx2.push_back(i);
+  }
+
+  random_change_vector(idx1);
+  {
+    LSM lsm(test_dir);
+    for (int i : idx1) {
+      std::string key = "key" + std::to_string(i);
+      std::string value = "value" + std::to_string(i);
+      lsm.put(key, value);
+    }
+    for (int i : idx2) {
+      std::string key = "key" + std::to_string(i);
+      std::string value = "value" + std::to_string(i);
+      lsm.put(key, value);
+    }
+    random_change_vector(idx2);
+    for (int i : idx2) {
+      std::string key = "key" + std::to_string(i);
+      lsm.remove(key);
+    }
+  } // LSM destructor called here
+
+  // Create new LSM instance
+  LSM lsm(test_dir);
+  for (int i = 0; i <= num; ++i) {
+    std::string key = "key" + std::to_string(i);
+    if (i <= num / 2) {
+      ASSERT_EQ(lsm.get(key).has_value(), true);
+      ASSERT_EQ(lsm.get(key).value(),
+                (std::string) "value" + std::to_string(i));
+    } else {
+      ASSERT_EQ(lsm.get(key).has_value(), false);
+    }
+  }
+}
+
+TEST_F(LSMTest, SmallConfigLargeDataPersistent) {
+
+  auto &&config = const_cast<TomlConfig &>(TomlConfig::getInstance());
+  //手动设置，把size都调小一些
+  config.modify_lsm_tol_mem_size_limit(98304);
+
+  config.modify_lsm_per_mem_size_limit(4096);
+  config.modify_lsm_block_size(1024);
+
+  //固定num的后一半会被删除
+  int num = 500000;
+  std::vector<int> idx1, idx2;
+  idx1.reserve(num / 2 + 1), idx2.reserve(num / 2 + 1);
+
+  for (int i = 0; i <= num; ++i) {
+    if (i <= num / 2)
+      idx1.push_back(i);
+    else
+      idx2.push_back(i);
+  }
+
+  random_change_vector(idx1);
+  {
+    LSM lsm(test_dir);
+
+    for (int i : idx1) {
+      std::string key = "key" + std::to_string(i);
+      std::string value = "value" + std::to_string(i);
+      lsm.put(key, value);
+    }
+    for (int i : idx2) {
+      std::string key = "key" + std::to_string(i);
+      std::string value = "value" + std::to_string(i);
+      lsm.put(key, value);
+    }
+    random_change_vector(idx2);
+    for (int i : idx2) {
+      std::string key = "key" + std::to_string(i);
+      lsm.remove(key);
+    }
+  } // LSM destructor called here
+
+  // Create new LSM instance
+  LSM lsm(test_dir);
+  for (int i = 0; i <= num; ++i) {
+    std::string key = "key" + std::to_string(i);
+    if (i <= num / 2) {
+      ASSERT_EQ(lsm.get(key).has_value(), true);
+      ASSERT_EQ(lsm.get(key).value(),
+                (std::string) "value" + std::to_string(i));
+    } else {
+      ASSERT_EQ(lsm.get(key).has_value(), false);
+    }
+  }
+}
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   init_spdlog_file();

@@ -162,7 +162,7 @@ MemTable::get_batch(const std::vector<std::string> &keys, uint64_t tranc_id) {
     return results;
   }
 
-  slock1.unlock();                                        // 释放活跃表的锁
+  slock1.unlock(); // 释放活跃表的锁
   std::shared_lock<std::shared_mutex> slock2(frozen_mtx); // 获取冻结表的锁
   for (size_t idx = 0; idx < keys.size(); idx++) {
     if (results[idx].second.has_value()) {
@@ -468,6 +468,6 @@ MemTable::iters_monotony_predicate(
 
     return std::nullopt;
   }
-  return std::make_pair(HeapIterator(item_vec, tranc_id), HeapIterator{});
+  return std::make_pair(HeapIterator(item_vec, tranc_id, true), HeapIterator{});
 }
 } // namespace tiny_lsm

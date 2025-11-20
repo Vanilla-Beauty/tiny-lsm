@@ -8,11 +8,13 @@
 #include "../../include/sst/sst_iterator.h"
 #include "spdlog/spdlog.h"
 #include <algorithm>
+#include <cassert>
 #include <cstddef>
 #include <filesystem>
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -74,7 +76,7 @@ LSMEngine::LSMEngine(std::string path) : data_dir(path) {
       // 加载SST文件, 初始化时需要加写锁
       std::unique_lock<std::shared_mutex> lock(ssts_mtx); // 写锁
 
-      next_sst_id = std::max(sst_id, next_sst_id);    // 记录目前最大的 sst_id
+      next_sst_id = std::max(sst_id, next_sst_id); // 记录目前最大的 sst_id
       cur_max_level = std::max(level, cur_max_level); // 记录目前最大的 level
       std::string sst_path = get_sst_path(sst_id, level);
       auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache);
@@ -372,6 +374,7 @@ uint64_t LSMEngine::put(const std::string &key, const std::string &value,
       TomlConfig::getInstance().getLsmTolMemSizeLimit()) {
     return flush();
   }
+
   return 0;
 }
 
@@ -470,8 +473,8 @@ uint64_t LSMEngine::flush() {
   // 4. 将 memtable 中最旧的表写入 SST
   std::vector<uint64_t> flushed_tranc_ids;
   auto sst_path = get_sst_path(new_sst_id, 0);
-  auto new_sst =
-      memtable.flush_last(builder, sst_path, new_sst_id, flushed_tranc_ids, block_cache);
+  auto new_sst = memtable.flush_last(builder, sst_path, new_sst_id,
+                                     flushed_tranc_ids, block_cache);
 
   // 5. 更新内存索引
   ssts[new_sst_id] = new_sst;
@@ -480,7 +483,7 @@ uint64_t LSMEngine::flush() {
   level_sst_ids[0].push_front(new_sst_id);
 
   // 7. 添加到 flushed 集合
-  for (auto& id : flushed_tranc_ids) {
+  for (auto &id : flushed_tranc_ids) {
     tran_manager.lock()->add_flushed_tranc_id(id);
   }
 
@@ -688,7 +691,7 @@ std::vector<std::shared_ptr<SST>>
 LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
                              size_t target_level) {
   // TODO: 这里需要补全的是对已经完成事务的删除
-
+  // std::cout << "process into gen\n";
   std::vector<std::shared_ptr<SST>> new_ssts;
   auto new_sst_builder =
       SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
@@ -712,7 +715,9 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
                                    true); // 重置builder
     }
   }
-  if (new_sst_builder.estimated_size() > 0) {
+
+  //只要builder里面存在没有落盘的数据，就要把它放到sst里面去。
+  if (new_sst_builder.real_size() > 0) {
     size_t sst_id = next_sst_id++; // TODO: 后续优化并发性
     std::string sst_path = get_sst_path(sst_id, target_level);
     auto new_sst = new_sst_builder.build(sst_id, sst_path, this->block_cache);
