@@ -187,6 +187,7 @@ void WAL::cleanWALFile() {
         has_unfinished = true;
         break;
       }
+      offset += record_size;
     }
     if (!has_unfinished) {
       del_paths.push_back(std::move(cur_file));
