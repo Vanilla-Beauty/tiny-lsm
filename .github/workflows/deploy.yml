@@ -17,10 +17,10 @@ jobs:
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
 
-      # 新增：安装 mdbook-katex 预处理器
-      - name: Install mdbook-katex
-        run: |
-          cargo install mdbook-katex
+      # # 新增：安装 mdbook-katex 预处理器
+      # - name: Install mdbook-katex
+      #   run: |
+      #     cargo install mdbook-katex
 
       - name: Build documentation
         run: mdbook build

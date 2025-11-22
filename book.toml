@@ -15,7 +15,8 @@ default-theme = "navy"
 # enable = true
 # level = 0
 
-[preprocessor.katex]
+# [preprocessor.katex]
+# after = ["links"]
 
 [output.html.search]
 enable = true
