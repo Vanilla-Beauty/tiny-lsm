@@ -13,21 +13,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -37,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex.js";
+            window.path_to_searchindex_js = "searchindex-98cfd9c4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-ee995ad7.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -54,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div id="body-container">
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -83,12 +82,12 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -103,39 +102,39 @@
             }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -143,49 +142,49 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/Vanilla-Beauty/tiny-lsm" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
                         <div class="search-wrapper">
-                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
                             <div class="spinner-wrapper">
-                                <i class="fa fa-spinner fa-spin"></i>
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
                             </div>
                         </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="tiny-lsm-lab"><a class="header" href="#tiny-lsm-lab">Tiny-LSM Lab</a></h1>
-<p><img src="./logo/logo1-compact.jpg" alt="logo" /></p>
-<hr />
+<p><img src="logo/logo1-compact.jpg" alt="logo"></p>
+<hr>
 <h1 id="0-tiny-lsm是什么"><a class="header" href="#0-tiny-lsm是什么">0 Tiny-LSM是什么?</a></h1>
 <p><a href="https://github.com/Vanilla-Beauty/tiny-lsm">Tiny-LSM</a>是一个基于<code>LSM Tree</code>的开源教学<code>KV</code>存储引擎, 除<code>LSM Tree</code>的基础功能外, 还支持<code>MVCC</code>、<code>WAL</code>、崩溃恢复、<code>Redis</code>兼容等功能。本实验是基于作者原本实验的代码进行改造后的<code>Lab</code>课程。</p>
-<p><code>LSM Tree</code>（<code>Log-Structured Merge-Tree</code>）是一种适用于磁盘存储的数据结构，特别适合于需要高吞吐量的写操作的场景。它由Patrick O'Neil等人于1996年提出，广泛应用于NoSQL数据库和文件系统中，如<code>LevelDB</code>、<code>RocksDB</code>和<code>Cassandra</code>等。<code>LSM Tree</code>的主要思想是将数据写入操作日志（Log），然后定期将日志中的数据合并到磁盘上的有序不可变文件（SSTable）中。这些SSTable文件按层次结构组织，数据在多个层次之间逐步合并和压缩，以减少读取时的查找次数和磁盘I/O操作。</p>
-<p>有关<code>LSM Tree</code>的进一步背景和介绍请参见<a href="lab0-background.html">LSM Tree 概览</a></p>
+<p><code>LSM Tree</code>（<code>Log-Structured Merge-Tree</code>）是一种适用于磁盘存储的数据结构，特别适合于需要高吞吐量的写操作的场景。它由Patrick O’Neil等人于1996年提出，广泛应用于NoSQL数据库和文件系统中，如<code>LevelDB</code>、<code>RocksDB</code>和<code>Cassandra</code>等。<code>LSM Tree</code>的主要思想是将数据写入操作日志（Log），然后定期将日志中的数据合并到磁盘上的有序不可变文件（SSTable）中。这些SSTable文件按层次结构组织，数据在多个层次之间逐步合并和压缩，以减少读取时的查找次数和磁盘I/O操作。</p>
+<p>有关<code>LSM Tree</code>的进一步背景和介绍请参见<a href="#1-lsm-tree-简介">LSM Tree 概览</a></p>
 <p>本实现项目<code>Tiny-LSM</code>完成了包括<code>内存表（MemTable）</code>、<code>不可变表（SSTable）</code>、<code>布隆过滤器（Bloom Filter）</code>、<code>合并和压缩（Compaction）</code>等<code>LSM Tree</code>的核心组件，并在此基础上添加了额外的功能博客, 包括:</p>
 <ul>
 <li>实现了<code>ACID</code>事务</li>
@@ -227,7 +226,7 @@
 <blockquote>
 <p>在目前的<code>Lab</code>中, 你确实可以从原仓库<a href="https://github.com/Vanilla-Beauty/tiny-lsm">Tiny-LSM</a>的<code>complete</code>分支直接查看<code>Lab</code>实验的答案, 但作者不希望你如此做, 这样你将无法深刻理解实验设计的思路和相关知识。并且, 作者自己实现的代码中的崩溃恢复部分存在<code>bug</code>, 且其余部分并非最佳方案。（猜猜作者是不是故意的😏）</p>
 </blockquote>
-<p>在了解完这些以后, 你可以开启下一章<a href="./lab0-env.html">Lab 0 环境准备</a>的学习。</p>
+<p>在了解完这些以后, 你可以开启下一章<a href="#lab-0-环境准备">Lab 0 环境准备</a>的学习。</p>
 <h1 id="5-项目交流与讨论"><a class="header" href="#5-项目交流与讨论">5 项目交流与讨论</a></h1>
 <p>如果你对本<code>Lab</code>有疑问, 欢迎在<a href="https://github.com/Vanilla-Beauty/tiny-lsm/issues">GitHub Issues</a>中提出问题。也欢迎加入次实验的<a href="https://qm.qq.com/q/wDZQfaNNw6">QQ讨论群</a> 。如果你想参与<code>Lab</code>的开发, 欢迎通过QQ群或者作者邮件: <a href="mailto:807077266@qq.com">📧邮件</a>  联系。</p>
 <h1 id="6-推荐课程"><a class="header" href="#6-推荐课程">6 推荐课程</a></h1>
@@ -244,11 +243,12 @@
 <a href="https://github.com/Vanilla-Beauty/tiny-lsm/contributors">
   <img src="https://contrib.rocks/image?repo=Vanilla-Beauty/tiny-lsm" />
 </a>
-<p>如果你在阅读本教程文档中发现错误, 可以直接点击文档右上角的<img src="./images/intro/edit.png" alt="edit" />, 其会引导你进入对应分支对当前的<code>md</code>文件进行编辑和修改, 然后提交<code>PR</code>即可。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="1-lsm-tree-简介"><a class="header" href="#1-lsm-tree-简介">1. LSM Tree 简介</a></h1>
+<p>如果你在阅读本教程文档中发现错误, 可以直接点击文档右上角的<img src="images/intro/edit.png" alt="edit">, 其会引导你进入对应分支对当前的<code>md</code>文件进行编辑和修改, 然后提交<code>PR</code>即可。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="1-lsm-tree-简介"><a class="header" href="#1-lsm-tree-简介">1. LSM Tree 简介</a></h1>
 <p>在具体进入本实验之前，我们先来简单介绍<code>LSM Tree</code>。</p>
 <p><code>LSM Tree</code>是一种<code>KV</code>存储架构。其核心思想是，将<code>KV</code>存储的数据以<code>SSTable</code>的形式进行持久化，并通过<code>MemTable</code>进行内存缓存，当<code>MemTable</code>的数据量达到一定阈值时，将其持久化到磁盘中，并重新创建一个<code>MemTable</code>。<code>LSM Tree</code>的核心思想是，将<code>KV</code>存储的数据以<code>SSTable</code>的形式进行持久化，并通过<code>MemTable</code>进行内存缓存。并且， 数据以追加写入的方式进行，删除数据也是通过更新的数据进行覆盖的方式实现。</p>
-<p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1" /></p>
+<p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1"></p>
 <p>如图所示为<code>LSM Tree</code>的核心架构。我们通过<code>Put</code>, <code>Remove</code>和<code>Get</code>操作的流程对其进行介绍。</p>
 <h2 id="11-put-操作流程"><a class="header" href="#11-put-操作流程">1.1 Put 操作流程</a></h2>
 <p><code>Put</code>操作流程如下：</p>
@@ -331,11 +331,17 @@
 <li>若删除导致节点 key 数小于最小值（通常是 M/2），需借 key 或合并兄弟节点，保持平衡。</li>
 </ol>
 <h3 id="213-性能特点"><a class="header" href="#213-性能特点">2.1.3 性能特点</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>操作类型</th><th>时间复杂度</th><th>备注</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>操作类型</th><th>时间复杂度</th><th>备注</th></tr>
+</thead>
+<tbody>
 <tr><td>查找</td><td>O(logₘN)</td><td>树高取决于扇出 M，M 越大树越矮</td></tr>
 <tr><td>插入</td><td>O(logₘN)</td><td>最多向上分裂至根节点</td></tr>
 <tr><td>删除</td><td>O(logₘN)</td><td>包含调整和合并操作</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <ul>
 <li><strong>优势</strong>：查找路径短，适用于 OLTP 事务型数据库；</li>
@@ -377,24 +383,35 @@
 <li><strong>Index Block / Block Cache</strong>：缓存热点数据页，加速读请求。</li>
 <li><strong>Tiered / Leveled Compaction</strong>：通过分层或分阶段合并，平衡写放大与读放大。</li>
 </ul>
-<hr />
+<hr>
 <h2 id="23-b-tree-vs-lsm-tree-对比"><a class="header" href="#23-b-tree-vs-lsm-tree-对比">2.3. B-Tree vs. LSM-Tree 对比</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>特性</th><th>B-Tree</th><th>LSM-Tree</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>特性</th><th>B-Tree</th><th>LSM-Tree</th></tr>
+</thead>
+<tbody>
 <tr><td>写入模式</td><td>随机写，页内更新，可能分裂节点</td><td>顺序写（追加），后台合并</td></tr>
 <tr><td>写放大</td><td>较低</td><td>较高（受合并策略影响）</td></tr>
 <tr><td>读取路径</td><td>单次树搜索</td><td>多级查找（MemTable + 多个 SSTable + 合并）</td></tr>
 <tr><td>读写性能场景</td><td>读密集型</td><td>写密集型</td></tr>
 <tr><td>磁盘友好性</td><td>随机 I/O</td><td>顺序 I/O，更适合 SSD</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <blockquote>
 <p><strong>小结</strong>：LSM-Tree 在写入吞吐上优于 B-Tree，但读取延迟与 I/O 成本相对更高。
 更深入的对比分析可以阅读：
 <a href="https://tikv.org/deep-dive/key-value-engine/b-tree-vs-lsm/">https://tikv.org/deep-dive/key-value-engine/b-tree-vs-lsm/</a></p>
 </blockquote>
-<hr />
+<hr>
 <h2 id="24-常见系统及应用场景"><a class="header" href="#24-常见系统及应用场景">2.4 常见系统及应用场景</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>存储引擎 / 数据库</th><th>类型</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>存储引擎 / 数据库</th><th>类型</th></tr>
+</thead>
+<tbody>
 <tr><td>LevelDB</td><td>嵌入式 KV 存储引擎</td></tr>
 <tr><td>RocksDB</td><td>KV 存储引擎</td></tr>
 <tr><td>HyperLevelDB</td><td>分布式 KV 存储</td></tr>
@@ -402,16 +419,18 @@
 <tr><td>Cassandra</td><td>分布式列存储数据库</td></tr>
 <tr><td>ClickHouse</td><td>分析型数据库</td></tr>
 <tr><td>InfluxDB</td><td>时间序列数据库</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
-<hr />
+<hr>
 <h2 id="25-lsm-tree-优化研究"><a class="header" href="#25-lsm-tree-优化研究">2.5 LSM-Tree 优化研究</a></h2>
 <p>LSM Tree自1997年提出后，有很多研究人员在LSM Tree的基础上进行了改进，部分代表性工作比如：</p>
-<p><a href="">RocksDB</a>, <a href="">LevelDB</a>：经典的LSM Based KV存储引擎.</p>
+<p><a href="#1-lsm-tree-简介">RocksDB</a>, <a href="#1-lsm-tree-简介">LevelDB</a>：经典的LSM Based KV存储引擎.</p>
 <p><a href="https://www.usenix.org/system/files/conference/fast16/fast16-papers-lu.pdf">WiscKey: Separating Keys from Values in SSD-Conscious Storage</a>：分离 Key 和 Value，降低写放大</p>
 <p><a href="https://www.usenix.org/system/files/conference/fast16/fast16-papers-lu.pdf">Monkey: Optimal Bloom Filters and Tuning for LSM-Trees</a>：优化布隆过滤器分配策略，减少读放大</p>
 <p>这里不再进行详细介绍，感兴趣的可以阅读相关论文。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-0-环境准备"><a class="header" href="#lab-0-环境准备">Lab 0 环境准备</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-0-环境准备"><a class="header" href="#lab-0-环境准备">Lab 0 环境准备</a></h1>
 <h1 id="1-os和编译器环境"><a class="header" href="#1-os和编译器环境">1 OS和编译器环境</a></h1>
 <p>本实验目前最高使用的<code>C++</code>标准是<code>C++20</code>, 所以需要使用<code>g++</code>或者<code>clang++</code>进行编译, 因此只要是支持<code>C++20</code>的编译器都可以. 我这里使用的操作系统是<code>kali linux</code>, 其和<code>Ubuntu</code>一样, 都是基于<code>Debian</code>, 且都使用<code>apt</code>作为系统包管理工具, 所以你使用<code>Ubuntu</code>或者<code>Debian</code>执行我之后的安装指令肯定也没有什么问题。</p>
 <blockquote>
@@ -491,10 +510,10 @@ target("example")
 <h1 id="3-vscode配置"><a class="header" href="#3-vscode配置">3 VSCode配置</a></h1>
 <h2 id="31-代码智能提示和跳转"><a class="header" href="#31-代码智能提示和跳转">3.1 代码智能提示和跳转</a></h2>
 <p>这里使用<code>clangd</code>作为语言服务器, 我们之前已经安装了<code>clangd</code>, 现在只需要在<code>VSCode</code>中安装<code>clangd</code>插件即可:</p>
-<p><img src="images/lab0/clangd-isntall.png" alt="clangd-isntall" /></p>
+<p><img src="images/lab0/clangd-isntall.png" alt="clangd-isntall"></p>
 <h2 id="32-集成xmake"><a class="header" href="#32-集成xmake">3.2 集成Xmake</a></h2>
 <p><code>VScode</code>中支持<code>Xmake</code>项目管理工具, 我们可以安装<code>Xmake</code>插件, 使得在<code>VSCode</code>中可以更方便的使用<code>Xmake</code>项目管理工具:</p>
-<p><img src="images/lab0/Xmake-VSC.png" alt="Xmake-VSC" /></p>
+<p><img src="images/lab0/Xmake-VSC.png" alt="Xmake-VSC"></p>
 <p>这里有一点需要说明, 如果你安装了<code>Xmake</code>插件, 但是在调试时卡死不懂, 建议禁用<code>Code Runner</code>和<code>C/C++ Runner</code>两个插件, 如果还行不将<code>CMake</code>插件也一起禁用了:</p>
 <img src="images/lab0/ban-extensions.png" width="400">
 <p>如果你的<code>Xmake</code>在调试时进入的是<code>gdb</code>的页面, 请在设置中将<code>Debug Config Type</code>设置为<code>lldb</code>:</p>
@@ -578,7 +597,8 @@ xmake
 ├── wal/             # Write Ahead Log管理
 ```
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-1-跳表实现"><a class="header" href="#lab-1-跳表实现">Lab 1 跳表实现</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-1-跳表实现"><a class="header" href="#lab-1-跳表实现">Lab 1 跳表实现</a></h1>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
 <pre><code class="language-bash">git pull origin lab
@@ -590,11 +610,11 @@ git merge lab
 <h2 id="1-跳表在-lsm-tree-中的作用"><a class="header" href="#1-跳表在-lsm-tree-中的作用">1 跳表在 LSM Tree 中的作用</a></h2>
 <p>本<code>Lab</code>中, 你将实现内存的基础数据结构作为<code>MemTable</code>的容器, 这里使用基于红黑树的<code>std::map</code>也是可行的, 但<code>LSM Tree</code>的原始论文中使用的是跳表, 因此我们选择使用跳表作为<code>MemTable</code>的容器，并且正好实现以下这个数据结构 (造轮子是<code>C++</code>的快乐)。</p>
 <p>我们再次回顾下面的这张架构图:</p>
-<p><img src="lab1/../images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1" /></p>
+<p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1"></p>
 <p>这里的<code>MemTable</code>用于存储内存中的键值对数据, 其存储的基础容器即为<code>Skiplist</code>。<code>SkipList</code>被划分为2组: <code>current_table</code>和<code>frozen_table</code>。<code>current_table</code>可读可写, 并是唯一写入的<code>SkipList</code>, <code>frozen_table</code>是只读状态, 用于存储已经写入的键值对数据。<code>current_table</code>容量超出阈值即转化为<code>frozen_table</code>中的一个。</p>
 <h2 id="2-跳表的原理"><a class="header" href="#2-跳表的原理">2 跳表的原理</a></h2>
 <p>这里简单介绍一下跳表是什么, 跳表就是过个链表, 每个链表的步长不同, 且链表节点是排序的, 查找或插入时, 先使用最大步长层级的链表, 然后定位大区间后, 转入下层低步长层级的链表继续查询, 是不是非常简单? :smile:</p>
-<p><img src="lab1/../images/lab1/skipList.png" alt="SkipList-Arc" /></p>
+<p><img src="images/lab1/skipList.png" alt="SkipList-Arc"></p>
 <p>上图所示为跳表的简单示意图, 可以看出跳表由多层链表组成，每一层都是一个有序链表。最底层的链表包含所有元素，而上层的链表只包含部分元素，这些元素作为“索引”加速查找过程。</p>
 <h3 id="21-查找过程"><a class="header" href="#21-查找过程">2.1 查找过程</a></h3>
 <p>假设我们要查找值为6的节点：</p>
@@ -635,7 +655,8 @@ git merge lab
 <li>上面演示的<code>SkipList</code>仅仅是单向链表, 如果是双向链表, 有什么区别呢?</li>
 </ol>
 <p>带着疑问, 你可以开启下一章<a href="lab1/lab2-skiplist-put.html">跳表 put/remove 的实现</a>的<code>Lab</code>实验了</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-11-跳表的-crud"><a class="header" href="#lab-11-跳表的-crud">Lab 1.1 跳表的 CRUD</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-11-跳表的-crud"><a class="header" href="#lab-11-跳表的-crud">Lab 1.1 跳表的 CRUD</a></h1>
 <h1 id="1-准备工作"><a class="header" href="#1-准备工作">1 准备工作</a></h1>
 <p>本<code>Lab</code>中, 你需要修改的代码文件为</p>
 <ul>
@@ -707,7 +728,7 @@ void SkipList::put(const std::string &amp;key, const std::string &amp;value,
 <li><code>Level 0</code>底层链表: 一定连接新节点</li>
 <li><code>Level 1</code>链表: 判断<code>random_level()</code>生成整型数的第1位是否为1, 有<code>50%</code>的概率连接新节点, 为0则跳出该判断链</li>
 <li><code>Level 2</code>链表: 判断<code>random_level()</code>生成整型数的第2位是否为1, 有<code>50% * 50% =25%</code>的概率连接新节点, 为0则跳出该判断链</li>
-<li>...</li>
+<li>…</li>
 </ol>
 <blockquote>
 <p>当然, 上述只是一个建议的方案, 你可以选择别的实现方案, 并删除<code>random_level</code>函数
@@ -766,8 +787,9 @@ SkipListIterator SkipList::get(const std::string &amp;key, uint64_t tranc_id) {
 ^C
 </code></pre>
 <p>到<code>SkipListTest.Iterator</code>前的单元测试你应该都能够通过, 卡在<code>SkipListTest.Iterator</code>是因为我们很没有实现迭代器相关功能。</p>
-<p>恭喜你, 你已经完成了<code>SkipList</code>的基础<code>CRUD</code>实现。接下来你可以进行<a href="lab1/./lab1.2-Iterator-query.html">Lab1.2</a>了。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-12-迭代器"><a class="header" href="#lab-12-迭代器">Lab 1.2 迭代器</a></h1>
+<p>恭喜你, 你已经完成了<code>SkipList</code>的基础<code>CRUD</code>实现。接下来你可以进行<a href="#lab-12-迭代器">Lab1.2</a>了。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-12-迭代器"><a class="header" href="#lab-12-迭代器">Lab 1.2 迭代器</a></h1>
 <h1 id="1-概述"><a class="header" href="#1-概述">1 概述</a></h1>
 <p>这一部分的内容很简单, 只需要补全跳表迭代器即可。跳表的迭代器基本上就是对<code>SkiplistNode</code>的最简化封装, 这一小节的代码量非常少, 也很简单, 不过重点是迭代器的设计和基类的继承关系。</p>
 <p>我们先来看它继承了什么基类：</p>
@@ -805,8 +827,9 @@ IteratorType SkipListIterator::get_type() const {
 </code></pre>
 <h1 id="3-测试"><a class="header" href="#3-测试">3 测试</a></h1>
 <p>现在你应该能通过<code>test/test_skiplist.cpp</code>中的<code>SkipListTest.Iterator</code>单元测试了</p>
-<p>没问题我们开始<code>Lab 1</code>的最后一部分: <a href="lab1/./lab1.3-range-query.html">Lab 1.3 范围查询</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-13-范围查询"><a class="header" href="#lab-13-范围查询">Lab 1.3 范围查询</a></h1>
+<p>没问题我们开始<code>Lab 1</code>的最后一部分: <a href="#lab-13-范围查询">Lab 1.3 范围查询</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-13-范围查询"><a class="header" href="#lab-13-范围查询">Lab 1.3 范围查询</a></h1>
 <h1 id="1-范围查询的特性"><a class="header" href="#1-范围查询的特性">1 范围查询的特性</a></h1>
 <p>根据之前的介绍我们了解到, 我们实现的跳表是一个有序数据结构, 而我们构建的数据库是<code>K00V00</code>数据库, 因此除了最基础的<code>CRUD</code>操作外, 我们还需要实现一个范围查询的功能。这些范围查询包括:</p>
 <ol>
@@ -916,7 +939,8 @@ SkipList::iters_monotony_predicate(
 </blockquote>
 <p>此外, 单元测试目前并没有规定你的实现的效率, 但你的实现在<code>release</code>模式下, 不应该超过<code>100ms</code>, (<code>30ms</code>以内最佳)</p>
 <p>到此为止, <code>Lab1</code>的实验结束, 恭喜你完成本实验!</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-2-memtabele"><a class="header" href="#lab-2-memtabele">Lab 2 MemTabele</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-2-memtabele"><a class="header" href="#lab-2-memtabele">Lab 2 MemTabele</a></h1>
 <p>本<code>Lab</code>中, 你将基于之前实现的<code>Skiplist</code>, 将其组织成内存中负责存储键值对的组件<code>MemTable</code>。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
@@ -928,10 +952,10 @@ git merge lab
 </blockquote>
 <h2 id="1-memtable的构造原理"><a class="header" href="#1-memtable的构造原理">1 MemTable的构造原理</a></h2>
 <p>再次回顾我们的整体架构图：</p>
-<p><img src="lab2/../images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1" /></p>
+<p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1"></p>
 <p><code>MemTable</code>负责存储内存中的键值对数据，其存储的基础容器即为<code>Skiplist</code>。<code>SkipList</code>被划分为2组：<code>current_table</code>和<code>frozen_table</code>。<code>current_table</code>可读可写，并是唯一写入的<code>SkipList</code>，<code>frozen_table</code>是只读状态，用于存储已经写入的键值对数据。<code>current_table</code>容量超出阈值即转化为<code>frozen_table</code>中的一个。</p>
 <p>为什么要如此设计呢? 答案是为了提升并发性, 我们的查询与写入的逻辑如下图所示:</p>
-<p><img src="lab2/../images/Lab2/MemTable.drawio.png" alt="Fig 2" /></p>
+<p><img src="images/Lab2/MemTable.drawio.png" alt="Fig 2"></p>
 <p>我们在写入时始终只对活跃的<code>current_table</code>进行写入，而查询时则同时对<code>current_table</code>和<code>frozen_table</code>进行查询。这样, 如果我们不将内存表进行划分的话, 查询和写入将同时对一张大的<code>SkipList</code>进行操作, 这将导致并发度降低。反之, 我们将<code>MemTable</code>划分为<code>current_table</code>和<code>frozen_tables</code>后, 我们可以在写入<code>current_table</code>的同时对<code>frozen table</code>进行查询, 大幅度提升了并发量。</p>
 <h2 id="2-skiplist查询的优先级"><a class="header" href="#2-skiplist查询的优先级">2 <code>SkipList</code>查询的优先级</a></h2>
 <p>由之前的理论描述所知, 我们的<code>frozen_tables</code>包含多份<code>Skiplist</code>, 而<code>LSM Tree</code>的写入是追加写入, 后写入的数据会覆盖前面的数据。因此，查询时，我们应该按照从新到旧的顺序查询<code>frozen_tables</code>。如同架构图中<code>Get</code>的查询路径中<code>Path 1.1, Path 1.2, Path 1.3, Path 1.4</code>分别按照从新到旧的顺序查询<code>Skiplist</code>, 一旦查询成功即返回。</p>
@@ -955,7 +979,8 @@ git merge lab
 </li>
 </ol>
 <p>通过本节对<code>MemTable</code>的基本介绍, 以及进阶问题的思考, 你可以开始[Lab ]</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-21-简单-crud"><a class="header" href="#lab-21-简单-crud">Lab 2.1 简单 CRUD</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-21-简单-crud"><a class="header" href="#lab-21-简单-crud">Lab 2.1 简单 CRUD</a></h1>
 <h1 id="1-准备工作-1"><a class="header" href="#1-准备工作-1">1 准备工作</a></h1>
 <p>本小节需要你修改的代码：
 -<code>src/memtable/memtable.cpp</code></p>
@@ -1089,8 +1114,9 @@ void MemTable::frozen_cur_table() {
 ^C
 </code></pre>
 <p><code>ConcurrentOperations</code>需要你实现后续的迭代器功能。</p>
-<p>接下来你可以开启下一小节的<a href="lab2/./lab2.2-iterator.html">Lab</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-22-迭代器"><a class="header" href="#lab-22-迭代器">Lab 2.2 迭代器</a></h1>
+<p>接下来你可以开启下一小节的<a href="#lab-22-迭代器">Lab</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-22-迭代器"><a class="header" href="#lab-22-迭代器">Lab 2.2 迭代器</a></h1>
 <h1 id="1-迭代器的作用"><a class="header" href="#1-迭代器的作用">1 迭代器的作用</a></h1>
 <p>我们需要实现整个<code>MemTable</code>的迭代器, 这算是本<code>Lab</code>的一个难点, 因为新的<code>SkipList</code>中的元素会导致旧的<code>SkipList</code>的部分元素失效, 因此不能简单地将不同<code>SkipList</code>的遍历结果拼接起来就完事儿。</p>
 <p>试想下面这个场景：</p>
@@ -1117,8 +1143,9 @@ SkipList1 (id=1): ("k2", "v2") -&gt; ("k3", "v3") -&gt; ("k4", "v4")
 </blockquote>
 <p>遍历迭代器, 并逐一构建堆元素插入堆中, 最终的堆的示意图为:</p>
 <div align="center">
-  <img src="lab2/../images/Lab2/Heap.png" width="400">
+  <img src="images/Lab2/Heap.png" width="400">
 </div>
+
 <p>这里可以看到, <code>k4</code>的键值对中, 更新的跳表中的键值对更靠近堆顶, 当我们遍历这个堆并不断弹出元素时, 相同<code>key</code>的元素只能被迭代器(这个堆肯定是迭代器封装的一个成员变量)对外暴露一次, 其余相同<code>key</code>的键值对进行丢弃即可, 这样我们就能利用类似堆排序的功能, 同时完成了排序和去重。</p>
 <h1 id="3-基于堆的迭代器实现"><a class="header" href="#3-基于堆的迭代器实现">3 基于堆的迭代器实现</a></h1>
 <h2 id="31-代码框架介绍"><a class="header" href="#31-代码框架介绍">3.1 代码框架介绍</a></h2>
@@ -1189,14 +1216,19 @@ bool operator==(const SearchItem &amp;a, const SearchItem &amp;b) {
 <p>这里你需要按照之前介绍的比较规则进行代码补全。</p>
 <h2 id="33-实现构造函数"><a class="header" href="#33-实现构造函数">3.3 实现构造函数</a></h2>
 <p>接下来你需要实现<code>HeapIterator</code>的构造函数, 其参数就是已经遍历了所有<code>Skiplist</code>的迭代器构造的<code>vector</code>, <code>max_tranc_id</code>你可以暂时忽略:</p>
-<pre><code class="language-cpp">HeapIterator::HeapIterator(std::vector&lt;SearchItem&gt; item_vec,
-                           uint64_t max_tranc_id)
-    : max_tranc_id_(max_tranc_id) {
+<pre><code class="language-cpp">HeapIterator::HeapIterator(bool skip_delete)
+    : max_tranc_id_(0), skip_delete_(skip_delete) {
+  // TODO: Lab2.2 实现 HeapIterator 构造函数
+}
+HeapIterator::HeapIterator(std::vector&lt;SearchItem&gt; item_vec,
+                           uint64_t max_tranc_id, bool skip_delete)
+    : max_tranc_id_(max_tranc_id), skip_delete_(skip_delete) {
   // TODO: Lab2.2 实现 HeapIterator 构造函数
 }
 </code></pre>
 <blockquote>
-<p>Hint: 构造完堆后, 是否需要额外的一些初始化的滤除?</p>
+<p>Hint 1: 构造完堆后, 是否需要额外的一些初始化的滤除?
+Hint 2: （重要！！！）这里说明下<code>skip_delete</code>参数，这个参数用于控制迭代器是否删除<code>value</code>为空的键值对。<code>value</code>为空在逻辑上表示删除标记，这样的键值对是否保留取决于具体场景。当作为借口暴露给外部时，我们应该跳过删除的键值对；但用于数据刷盘时，删除标记是有效的存储记录，是不能被跳过的。</p>
 </blockquote>
 <h2 id="34-实现自增函数"><a class="header" href="#34-实现自增函数">3.4 实现自增函数</a></h2>
 <p>接下来自增函数是最重要的, 自增函数的逻辑是:</p>
@@ -1298,8 +1330,9 @@ HeapIterator MemTable::end() {
 [==========] 9 tests from 1 test suite ran. (602 ms total)
 [  PASSED  ] 9 tests.
 </code></pre>
-<p>接下来你可以开启下一小节的<a href="lab2/./lab2.3-range-query.html">Lab</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-23-范围查询"><a class="header" href="#lab-23-范围查询">Lab 2.3 范围查询</a></h1>
+<p>接下来你可以开启下一小节的<a href="#lab-23-范围查询">Lab</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-23-范围查询"><a class="header" href="#lab-23-范围查询">Lab 2.3 范围查询</a></h1>
 <h1 id="1-概述-1"><a class="header" href="#1-概述-1">1 概述</a></h1>
 <p>还记得我们对<code>Skiplist</code>实现了前缀查询和谓词查询吗, 他们本质上都是范围查询, 这一小节, 你将基于已有的<code>Skiplist</code>的前缀查询和谓词查询接口, 实现<code>MemTable</code>的谓词查询。</p>
 <p>本小节需要你修改的代码：
@@ -1369,16 +1402,17 @@ MemTable::iters_monotony_predicate(
 [  PASSED  ] 12 tests.
 </code></pre>
 <p>到此为止, <code>Lab2</code>的实验结束, 恭喜你完成本实验!</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-3-sst"><a class="header" href="#lab-3-sst">Lab 3 SST</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-3-sst"><a class="header" href="#lab-3-sst">Lab 3 SST</a></h1>
 <h1 id="1-概述-2"><a class="header" href="#1-概述-2">1 概述</a></h1>
 <p>这一章的开头我们再次搬出我们的经典架构图:</p>
-<p><img src="lab3/../images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1" /></p>
-<p>通过<a href="lab3/../lab1/lab1-skiplist.html">Lab1</a>和<a href="lab3/../lab2/lab2-memtable.html">Lab2</a>的学习，我们已经初步完成了<code>LSM Tree</code>中内存的基础读写组件, 这一章我们将眼光从内存迁移到磁盘, 实现<code>SST</code>相关的内容。</p>
+<p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1"></p>
+<p>通过<a href="#lab-1-跳表实现">Lab1</a>和<a href="#lab-2-memtabele">Lab2</a>的学习，我们已经初步完成了<code>LSM Tree</code>中内存的基础读写组件, 这一章我们将眼光从内存迁移到磁盘, 实现<code>SST</code>相关的内容。</p>
 <p>从架构图中我们知道，<code>SST</code>文件是<code>LSM Tree</code>中持久化的存储文件，其中<code>Level 0</code>的<code>SST</code>存储了<code>MemTable</code>中单个<code>Skiplist</code>的数据，并且提供了<code>LSM Tree</code>中数据的有序性。因此对于一个磁盘中的文件, 我们肯定需要实现文件的编解码设计。其中编码设计用于将内存的<code>Skiplist</code>类的实例转化为<code>SST</code>文件, 而读取<code>SST</code>中的某些键值对时我们需要将文件进行解码并读取数据到内存。因此这一章中编解码是一大主题内容。而且相对之前常驻内存的<code>MemTable</code>而言, 这里的编解码代码的实现更为复杂, 尤其是<code>Debug</code>难度比之前要大上不少。</p>
 <p>此外，我们从架构图中还了解到，不同<code>Level</code>的<code>SST</code>是需要再容量超出阈值时进行合并(<code>Compact</code>)的, 但<code>Compact</code>在本实验中是由更上层的控制结构实现的, 因此本节实验你不需要担心<code>Compact</code>, 这是后续<code>Lab</code>的内容, 这里提一嘴只是为了有助于从理论上理解其运行机制。</p>
 <h1 id="2-sst-的结构"><a class="header" href="#2-sst-的结构">2 SST 的结构</a></h1>
 <p>从架构图中我们了解到，不同<code>Level</code>之间的容量呈指数增长, 其中最小的<code>Level 0</code>的<code>SST</code>也是<code>SkipList</code>的大小, 而<code>SkipList</code>实例在内存中是由多个链表组成的, 查询速度基本上和红黑树差不多。但假若我们想从<code>SST</code>中查一个键值对，总不可能把整个<code>SST</code>都解码放到内存中吧? 要知道高层<code>Level</code>的<code>SST</code>是可以轻易增长到<code>GB</code>的大小的。因此，<code>SST</code>必须进行内部的切分, 这里切分形成的一块数据我们称之为<code>Block</code>。因此对<code>Block</code>的组织管理就是<code>SST</code>设计的核心内容。<code>Tiny-LSM</code>的<code>SST</code>文件结构如下:</p>
-<p><img src="lab3/../images/lab3/SST.drawio.png" alt="SST-Arch" /></p>
+<p><img src="images/lab3/SST.drawio.png" alt="SST-Arch"></p>
 <p><code>SST</code>文件由多个<code>Block</code>组成，每个<code>Block_x</code>内部暂且看成一个黑箱, 只需要知道其是我们查询的基本IO单元即可。 每个<code>Block_x</code>后会追加32位的哈希值，用于校验。每个<code>Block</code>对应一个<code>Meta</code>, 每个<code>Meta</code>记录这个<code>Block</code>在<code>SST</code>文件中的偏移量、第一个和最后一个<code>key</code>的元数据(长度和大小)。</p>
 <p>这里，<code>Block</code>是基本的IO单元，这就意味着在查询一个<code>key</code>时, 其所在的整个<code>Block</code>的数据都会被解码并加载到内存中的。你可以类比操作系统中的<code>Page</code>, 其是内存和磁盘之间的基本IO单元。</p>
 <p>另一方面，在查询一个<code>key</code>时，如何确定查哪一个<code>Block</code>呢? 这里就需要将<code>SST</code>中的<code>Extra Information</code>中的元数据提前加载到内存中, 这些元数据能够定位到<code>Meta Section</code>, 而<code>Meta Section</code>是一个数组, 其中每个<code>Meta_x</code>记录了对应<code>Block</code>在整个<code>SST</code>中的位置， 可以以此来快速对指定为位置的二进制数据进行解码。</p>
@@ -1388,7 +1422,7 @@ MemTable::iters_monotony_predicate(
 <p>心细的你肯定也注意到, 这里有一个<code>Bloom Section</code>, 这其实就是布隆过滤器中的<code>bit</code>位数组, 其用处是拦截无效的访问, 这会在后续的<code>Lab</code>中进行详细讲解。</p>
 <h1 id="3-block的结构"><a class="header" href="#3-block的结构">3 Block的结构</a></h1>
 <p>现在我们来看<code>Block</code>的结构, <code>Block</code>是<code>SST</code>中的基本IO单元，即<code>SST</code>的每个查询最终是在<code>Blcok</code>中定位到具体的键值对的, 其结构为:</p>
-<p><img src="lab3/../images/lab3/Block.png" alt="Block" /></p>
+<p><img src="images/lab3/Block.png" alt="Block"></p>
 <blockquote>
 <p>上图的<code>B</code>表示一个字节</p>
 </blockquote>
@@ -1417,8 +1451,9 @@ MemTable::iters_monotony_predicate(
 <li><code>Block</code>的缓存池如何设计?</li>
 <li>布隆过滤器和缓存池的设计各自有什么作用? 他们的功能是否重复?</li>
 </ol>
-<p>当你对上述问题有过简单思考后, 你可以开启本次<code>Lab</code>了, 你需要有一定心理准备, 这一大章节的<code>Lab</code>原比之前的<code>MemTable</code>和<code>Skiplist</code>复杂, 现在开始第一部分 <a href="lab3/./lab3.1-Block.html">Block 实现</a>。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="阶段1-block"><a class="header" href="#阶段1-block">阶段1-Block</a></h1>
+<p>当你对上述问题有过简单思考后, 你可以开启本次<code>Lab</code>了, 你需要有一定心理准备, 这一大章节的<code>Lab</code>原比之前的<code>MemTable</code>和<code>Skiplist</code>复杂, 现在开始第一部分 <a href="#lab-31-block-实现">Block 实现</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="阶段1-block"><a class="header" href="#阶段1-block">阶段1-Block</a></h1>
 <p>本阶段主要实现<code>Block</code>类, 包括<code>Block</code>的编码格式, 编解码方法、以及<code>Block</code>的迭代器和相关的查询功能。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
@@ -1428,7 +1463,8 @@ git merge lab
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-31-block-实现"><a class="header" href="#lab-31-block-实现">Lab 3.1 Block 实现</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-31-block-实现"><a class="header" href="#lab-31-block-实现">Lab 3.1 Block 实现</a></h1>
 <h1 id="1-准备工作-2"><a class="header" href="#1-准备工作-2">1 准备工作</a></h1>
 <p>老套路, 我们先理一下<code>Block</code>的数据结构, 看看头文件定义:</p>
 <pre><code class="language-cpp">// include/block/block.h
@@ -1453,7 +1489,7 @@ private:
 </code></pre>
 <p><code>std::enable_shared_from_this</code> 是 C++11 引入的一个标准库特性，它允许一个对象安全地创建指向自身的<code>std::shared_ptr</code>。这里先简单说明一下, 后续实现迭代器的时候就知道其作用了。</p>
 <p>这里主要对<code>data</code>和<code>offsets</code>这两个数据结构进行说明, 他们在构建阶段和读取阶段存在一定区别, 首先还是给出架构图:</p>
-<p><img src="lab3/../images/lab3/Block.png" alt="Block" /></p>
+<p><img src="images/lab3/Block.png" alt="Block"></p>
 <p><strong>构建阶段</strong>
 当我们从<code>Skiplist</code>拿到数据构建一个<code>SST</code>时, <code>SST</code>需要逐个构建<code>Block</code>, 这个<code>Block</code>在构建时步骤如下:</p>
 <ol>
@@ -1582,7 +1618,8 @@ Expected equality of these values:
 <li>为什么我们需要让<code>Block</code>类继承<code>std::enable_shared_from_this&lt;Block&gt;</code>?</li>
 </ol>
 <p>带着这些疑问, 欢迎开启下一章</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-32-迭代器"><a class="header" href="#lab-32-迭代器">Lab 3.2 迭代器</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-32-迭代器"><a class="header" href="#lab-32-迭代器">Lab 3.2 迭代器</a></h1>
 <h1 id="1-blockiterator的设计"><a class="header" href="#1-blockiterator的设计">1 BlockIterator的设计</a></h1>
 <p>现在实现我们的<code>Block</code>的迭代器。通过<code>Block</code>的编码格式可知, 只需要知道当前的索引, 就可以在<code>Block</code>中查询该索引的<code>kv</code>对, 因此迭代器只需要记录当前索引和原始<code>Block</code>的引用就可以了。</p>
 <p>这也就是之前提到的<code>std::enable_shared_from_this</code>的作用，让我们的<code>BlockIterator</code>可以使用<code>Block</code>的智能指针, 为什么这样设计呢? 因为<code>BlockIterator</code>的生命周期是依赖于于<code>Block</code>的, 如果<code>Block</code>的生命周期结束, <code>BlockIterator</code>依然存在, 那么就会产生悬空指针, 因此我们需要使用智能指针来管理<code>Block</code>的生命周期。</p>
@@ -1711,8 +1748,9 @@ unknown file: Failure
 C++ exception with description "bad optional access" thrown in the test body.
 </code></pre>
 <p><code>PredicateTest</code>需要你在完成下一小节的任务后, 才能通过。</p>
-<p>现在你可以开启下一节的<a href="lab3/./lab3.3-iter-query.html">范围查询</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-33-范围查询"><a class="header" href="#lab-33-范围查询">Lab 3.3 范围查询</a></h1>
+<p>现在你可以开启下一节的<a href="lab3/lab3.3-iter-query.html">范围查询</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-33-范围查询"><a class="header" href="#lab-33-范围查询">Lab 3.3 范围查询</a></h1>
 <h1 id="1-范围查询函数"><a class="header" href="#1-范围查询函数">1 范围查询函数</a></h1>
 <p>鉴于你之前已经在<code>Skiplist</code>组件和<code>MemTable</code>组件中实现了<code>range_query</code>功能, 这里我们需要再<code>Blcok</code>组件中再次实现<code>range_query</code>功能。(同样, 查询是单调的), 只不过这里操作的基础数据从内存中的跳表变成了类似数组结构的<code>Block</code>。</p>
 <p>你需要修改的文件:</p>
@@ -1786,7 +1824,8 @@ Block::get_monotony_predicate_iters(
 [  PASSED  ] 10 tests.
 </code></pre>
 <p>其中最后两个测试<code>BlockTest.TrancIteratorTest</code>和<code>BlockTest.TrancPredicateTest</code>需要后续实现事务功能后才能正常通过。只要你通过了<code>BlockTest.PredicateTest</code>前的测试, 即视为完成了本<code>Lab</code>。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="阶段2-sst"><a class="header" href="#阶段2-sst">阶段2-SST</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="阶段2-sst"><a class="header" href="#阶段2-sst">阶段2-SST</a></h1>
 <p>在完成了<code>Block</code>组件和<code>BlockIterator</code>组件之后, 我们就可以开始实现<code>SST</code>组件了。</p>
 <p><code>SST</code>组件的核心工作就是管理器内部的多个<code>Block</code>组件, 利用<code>Block</code>组件和<code>BlockIterator</code>的各种<code>CRUD</code>和初始化、构建等基本接口，来对外提供各类功能。</p>
 <blockquote>
@@ -1797,10 +1836,11 @@ git merge lab
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-34-blockmeta"><a class="header" href="#lab-34-blockmeta">Lab 3.4 BlockMeta</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-34-blockmeta"><a class="header" href="#lab-34-blockmeta">Lab 3.4 BlockMeta</a></h1>
 <h1 id="1-概述-3"><a class="header" href="#1-概述-3">1 概述</a></h1>
 <p>让我们再次回顾<code>SST</code>的结构:</p>
-<p><img src="lab3/../images/lab3/SST.drawio.png" alt="SST-Arch" /></p>
+<p><img src="images/lab3/SST.drawio.png" alt="SST-Arch"></p>
 <p>可以看到, <code>SST</code>中有一个<code>Meta Section</code>, 它是一个数组, 数组中的每一个元素对应一个<code>Block</code>的元信息, 这些元信息包括:</p>
 <ul>
 <li>该<code>Block</code>在<code>SST</code>中的偏移量</li>
@@ -1876,7 +1916,8 @@ BlockMeta::decode_meta_from_slice(const std::vector&lt;uint8_t&gt; &amp;metadata
 </code></pre>
 <h1 id="4-思考-1"><a class="header" href="#4-思考-1">4 思考</a></h1>
 <p>我们实现了<code>Block</code>类的元信息<code>BlcokMeta</code>, 现在可以思考一下, <code>BlcokMeta</code>如何被上层使用? 其如何加速查询?</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-35-sstbuilder"><a class="header" href="#lab-35-sstbuilder">Lab 3.5 SSTBuilder</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-35-sstbuilder"><a class="header" href="#lab-35-sstbuilder">Lab 3.5 SSTBuilder</a></h1>
 <h1 id="1-概述-4"><a class="header" href="#1-概述-4">1 概述</a></h1>
 <p><code>SSTBuilder</code>是<code>SST</code>文件的构造器, 它将<code>MemTable</code>中的数据进行编码并写入磁盘形成<code>SST</code>。不过这里我们并没有设计到不同组件数据的控制，这是由更上层的结构控制的。</p>
 <p><strong>SST和SSTBuilder的关系是什么？</strong>
@@ -1981,7 +2022,8 @@ SSTBuilder::build(size_t sst_id, const std::string &amp;path,
 </blockquote>
 <h1 id="3-测试-4"><a class="header" href="#3-测试-4">3 测试</a></h1>
 <p>到目前位置, 我们只是实现了<code>SST</code>的构建工具类<code>SSTBuilder</code>, 但由于我们很没有实现<code>SST</code>的查询功能, 所以现在我们还无法通过查询接口验证我们<code>SST</code>构建的正确性, 因此单元测试需要完成后续<code>SST</code>相关<code>Lab</code>才能实现。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-36-sst-查询"><a class="header" href="#lab-36-sst-查询">Lab 3.6 SST 查询</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-36-sst-查询"><a class="header" href="#lab-36-sst-查询">Lab 3.6 SST 查询</a></h1>
 <h1 id="1-概述-5"><a class="header" href="#1-概述-5">1 概述</a></h1>
 <p>首先, 需要声明, 这一小节的实验容量稍大, 你将同时实现<code>SST</code>的基础查询功能和迭代器<code>SstIterator</code>。</p>
 <p>为什么需要这样设计呢？答案是因为，我们对组件的查询设计沿用了<code>STL</code>的迭代器风格，查询都是返回迭代器作为结果的。但我们的思路首先应该是实现<code>SST</code>本身, 后续再实现迭代器<code>SstIterator</code>。但<code>STL</code>风格的接口设计导致二者耦合了，因此，这里索性将二者同时实现了。</p>
@@ -2144,7 +2186,7 @@ SstIterator SST::end() {
 </code></pre>
 <p>这几个函数都很简单, 因为具体的定位操作是在<code>SstIterator</code>内部完成的(虽然其反过来有调用了<code>SST</code>的<code>find_block_idx</code>等函数), 因此只需要调用<code>SstIterator</code>的构造函数即可。这里作为<code>Lab</code>的内容主要是为了让你对不同组件之间的交互有一个认真, 意思到这样一个设计思路: <strong>迭代器是连接不同组件的桥梁</strong>.</p>
 <h1 id="5-测试-2"><a class="header" href="#5-测试-2">5 测试</a></h1>
-<p>此次测试包含之前<a href="lab3/./lab3.5-SSTBuilder.html">Lab 3.5</a>的实现, 预期的结果是:</p>
+<p>此次测试包含之前<a href="#lab-35-sstbuilder">Lab 3.5</a>的实现, 预期的结果是:</p>
 <pre><code class="language-bash">✗ xmake
 [100%]: build ok, spent 0.517s
 ✗ xmake run test_sst  
@@ -2187,7 +2229,8 @@ C++ exception with description "bad optional access" thrown in the test body.
 error: execv(/home/vanilla-beauty/proj/tiny-lsm/build/linux/x86_64/release/test_sst ) failed(1)
 </code></pre>
 <p>如果仅仅是得到一个可以跑的<code>SST</code>, 那么现在你已经完成的<code>SST</code>的大部分功能了。这里的<code>LargeSSTPredicate</code>需要你在实现下一小节的谓词查询后才能通过。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-37-范围查询"><a class="header" href="#lab-37-范围查询">Lab 3.7 范围查询</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-37-范围查询"><a class="header" href="#lab-37-范围查询">Lab 3.7 范围查询</a></h1>
 <h1 id="1-函数功能描述"><a class="header" href="#1-函数功能描述">1 函数功能描述</a></h1>
 <p>同样地，我们设计了<code>sst_iters_monotony_predicate</code>函数，用于范围一段连续的区间, 这个区间是单调的, 只会在整个<code>SST</code>中出现一次, 例如包含指定前缀的一段范围。</p>
 <p>不过这里我们将次函数定义为静态函数, 并放置于<code>src/sst/sst_iterator.cpp</code>中。因为我们之前进行了模块拆分， <code>SST</code>和<code>SstIterator</code>分别定义在了<code>src/sst/sst.cpp</code>和<code>src/sst/sst_iterator.cpp</code>中，而<code>sst_iters_monotony_predicate</code>函数需要同时访问<code>SST</code>和<code>SstIterator</code>，因此我们需要将<code>sst_iters_monotony_predicate</code>定义为静态函数, 并设定为以上两个类的友元函数.</p>
@@ -2252,8 +2295,9 @@ std::optional&lt;std::pair&lt;SstIterator, SstIterator&gt;&gt; sst_iters_monoton
 <li>缓存池和布隆过滤器的优化</li>
 <li>以<code>Level</code>层级为单位的迭代器(就是将一整个<code>Level</code>的多个<code>SST</code>组织成一个迭代器)</li>
 </ul>
-<p>以上这些内容, 你将在<a href="lab3/../lab4/lab4-LSM-Engine.html">Lab 4 LSM Engine</a>中实现。因为以上的组件需要上层组件的控制，例如我们的缓存池是全局共享而非单个<code>SST</code>独有的, 因此需要上层组件进行初始化和分配。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-4-lsm-engine"><a class="header" href="#lab-4-lsm-engine">Lab 4 LSM Engine</a></h1>
+<p>以上这些内容, 你将在<a href="#lab-4-lsm-engine">Lab 4 LSM Engine</a>中实现。因为以上的组件需要上层组件的控制，例如我们的缓存池是全局共享而非单个<code>SST</code>独有的, 因此需要上层组件进行初始化和分配。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-4-lsm-engine"><a class="header" href="#lab-4-lsm-engine">Lab 4 LSM Engine</a></h1>
 <p>本章<code>Lab</code>将串联之前实现的<code>MemTable</code>, <code>SST</code>, <code>Block</code>, 各类<code>Iterator</code>, 实现一个初版的完整的单机<code>KV</code>存储引擎。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
@@ -2264,9 +2308,9 @@ git merge lab
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
 <h1 id="1-概述-6"><a class="header" href="#1-概述-6">1 概述</a></h1>
-<p>实现了之前的<code>Skiplist</code>, <code>MemTable</code>, <code>SST</code>, <code>Block</code>, 各类<code>Iterator</code>之后, 我们对其进行"简单"地封装, 即可得到一份可以运行的<code>LSM Engine</code>。完成这一章<code>Lab</code>后, 你将得到一个可以被外部结构调用的共享链接库, 其暴露了各种基础的<code>KV</code>存储引擎接口。</p>
+<p>实现了之前的<code>Skiplist</code>, <code>MemTable</code>, <code>SST</code>, <code>Block</code>, 各类<code>Iterator</code>之后, 我们对其进行“简单“地封装, 即可得到一份可以运行的<code>LSM Engine</code>。完成这一章<code>Lab</code>后, 你将得到一个可以被外部结构调用的共享链接库, 其暴露了各种基础的<code>KV</code>存储引擎接口。</p>
 <p>同样地, 我们再一次回顾我们的架构:</p>
-<p><img src="lab4/../images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1" /></p>
+<p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1"></p>
 <p>可以看到, 不同组件之间存在各种交互, 这些交互内容包括:</p>
 <ol>
 <li><code>MemTable</code>和<code>SST</code>之间进行<code>Encoded</code>并刷盘形成<code>SST文件</code></li>
@@ -2292,7 +2336,8 @@ git merge lab
 <p>由于本实现的设计目的就是让更广大的开发者或CS专业的学生对<code>KV</code>存储有初步的认真, 因此难度是被刻意降低了的, 你不需要进行架构设计层面的思考以及对应代码的编写, 只需要补全作者挖空的关键函数。</p>
 <p>因此，如果你一味地完成<code>Lab</code>的代码, 却缺乏对作者给出思考题的理解, 那么你对本实验项目的理解可能是不到位的, 即你知道这么设计的代码能正常运行, 但却不知道他为什么这么设计。</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="阶段1-engine-基础功能"><a class="header" href="#阶段1-engine-基础功能">阶段1-Engine 基础功能</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="阶段1-engine-基础功能"><a class="header" href="#阶段1-engine-基础功能">阶段1-Engine 基础功能</a></h1>
 <p>在这一阶段中, 你将实现最基本的<code>LSM Tree</code>存储引擎的<code>CRUD</code>接口, 在之后的阶段二中你将实现性能优化部分的内容。</p>
 <p>阶段一的内容包括：</p>
 <ul>
@@ -2307,7 +2352,8 @@ git merge lab
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-41-engine-的写入"><a class="header" href="#lab-41-engine-的写入">Lab 4.1 Engine 的写入</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-41-engine-的写入"><a class="header" href="#lab-41-engine-的写入">Lab 4.1 Engine 的写入</a></h1>
 <h1 id="1-概述-7"><a class="header" href="#1-概述-7">1 概述</a></h1>
 <p>与之前的模块不同, <code>LSMEngine</code>部分我们不打算按照<code>CRUD</code>迭代器的顺序进行实验, 因为其<code>Put</code>操作包含了<code>SST</code>的构建流程, 而<code>Get</code>操作是对已经构建的<code>SST</code>进行查询, 因此, 本章的<code>Lab</code>以<code>SST</code>的生命周期为线索, 逐步实现<code>Lab</code>, 这样的设计也有助于你对上层组件运行调度机制的理解。</p>
 <p>话不多说，我们先来看看<code>Engine</code>的头文件定义, 然后结合理论知识, 介绍<code>put</code>流程和<code>sst</code>的构建流程</p>
@@ -2451,12 +2497,13 @@ uint64_t LSMEngine::remove_batch(const std::vector&lt;std::string&gt; &amp;keys,
 </blockquote>
 <p><strong>你必须严格遵守<code>SST</code>文件格式的命名规范, 如果你采用自己的文件命名方式, 那么请自行修改对应的单元测试函数(非常不推荐)。</strong></p>
 <h1 id="4-测试-2"><a class="header" href="#4-测试-2">4 测试</a></h1>
-<p>由于我们目前仅实现了写入模块, 测试函数无法从引擎读取数据, 因此本小节没有单元测试, 当你实现<a href="lab4/./lab4.2-Engine-read.html">Lab 4.2 Engine 的读取</a>后会进行统一的单元测试。</p>
+<p>由于我们目前仅实现了写入模块, 测试函数无法从引擎读取数据, 因此本小节没有单元测试, 当你实现<a href="#lab-42-engine-的读取">Lab 4.2 Engine 的读取</a>后会进行统一的单元测试。</p>
 <h1 id="5-思考"><a class="header" href="#5-思考">5 思考</a></h1>
-<p>现在请先思考一下几个问题，然后开启<a href="lab4/./lab4.2-Engine-read.html">Lab 4.2 Engine 的读取</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-42-engine-的读取"><a class="header" href="#lab-42-engine-的读取">Lab 4.2 Engine 的读取</a></h1>
+<p>现在请先思考一下几个问题，然后开启<a href="#lab-42-engine-的读取">Lab 4.2 Engine 的读取</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-42-engine-的读取"><a class="header" href="#lab-42-engine-的读取">Lab 4.2 Engine 的读取</a></h1>
 <h1 id="1-概述-8"><a class="header" href="#1-概述-8">1 概述</a></h1>
-<p>从之前 <a href="lab4/./lab4.1-Engine-write.html">Lab 4.1 Engine 的写入</a>中, 我们已经实现了<code>SST</code>的构建流程, 这一章我们将实现<code>Engine</code>的读取流程。(这里的读取还包括引擎的初始化流程中对<code>SST文件</code>的读取)</p>
+<p>从之前 <a href="#lab-41-engine-的写入">Lab 4.1 Engine 的写入</a>中, 我们已经实现了<code>SST</code>的构建流程, 这一章我们将实现<code>Engine</code>的读取流程。(这里的读取还包括引擎的初始化流程中对<code>SST文件</code>的读取)</p>
 <p>同样地, 我们想从逻辑上梳理引擎的读取和查询流程:</p>
 <p><strong>1 存储引擎启动时</strong></p>
 <p>遍历<code>data_dir</code>下的<code>SST</code>文件, 将<code>SST</code>文件的元信息加载到内存中</p>
@@ -2495,7 +2542,7 @@ Level 2: sst_08(key100-key120), sst_09(key121-key140)
 <li><code>include/lsm/engine.h</code></li>
 </ul>
 <h2 id="21-引擎的初始化"><a class="header" href="#21-引擎的初始化">2.1 引擎的初始化</a></h2>
-<p>上一章<a href="lab4/./lab4.1-Engine-write.html">Lab 4.1 Engine 的写入</a>中, 我们在<code>put</code>操作中惰性触发了<code>SST</code>的刷盘操作, 因此在<code>Engine</code>启动时, 我们需要遍历<code>data_dir</code>下的<code>SST</code>文件, 将<code>SST</code>文件的元信息加载到内存中, 以便后续的查询操作:</p>
+<p>上一章<a href="#lab-41-engine-的写入">Lab 4.1 Engine 的写入</a>中, 我们在<code>put</code>操作中惰性触发了<code>SST</code>的刷盘操作, 因此在<code>Engine</code>启动时, 我们需要遍历<code>data_dir</code>下的<code>SST</code>文件, 将<code>SST</code>文件的元信息加载到内存中, 以便后续的查询操作:</p>
 <pre><code class="language-cpp">LSMEngine::LSMEngine(std::string path) : data_dir(path) {
   // 初始化日志
   init_spdlog_file();
@@ -2549,7 +2596,7 @@ LSMEngine::sst_get_(const std::string &amp;key, uint64_t tranc_id) {
 <p>思考: 什么情况下会单独对<code>SST</code>部分进行查询?</p>
 </blockquote>
 <h1 id="3-测试-5"><a class="header" href="#3-测试-5">3 测试</a></h1>
-<p>完成<a href="lab4/./lab4.1-Engine-write.html">Lab 4.1 Engine 的写入</a>和本节<code>Lab</code>后, 你应该能通过<code>test/test_lsm.cpp</code>中<code>IteratorOperations</code>前的所有单元测试:</p>
+<p>完成<a href="#lab-41-engine-的写入">Lab 4.1 Engine 的写入</a>和本节<code>Lab</code>后, 你应该能通过<code>test/test_lsm.cpp</code>中<code>IteratorOperations</code>前的所有单元测试:</p>
 <pre><code class="language-bash">✗ xmake
 [100%]: build ok, spent 1.936s
 ✗ xmake run test_lsm
@@ -2570,9 +2617,10 @@ C++ exception with description "Not implemented" thrown in the test body.
 
 [  FAILED  ] LSMTest.IteratorOperations (0 ms)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="阶段2-迭代器--compact"><a class="header" href="#阶段2-迭代器--compact">阶段2-迭代器 &amp;&amp; Compact</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="阶段2-迭代器--compact"><a class="header" href="#阶段2-迭代器--compact">阶段2-迭代器 &amp;&amp; Compact</a></h1>
 <h2 id="子任务1-迭代器"><a class="header" href="#子任务1-迭代器">子任务1-迭代器</a></h2>
-<p>之前你已经完成了具备初步的简单<code>CURD</code>操作的<code>LSM Tree</code>存储引擎, 但你应该发现了, 诸如范围查询、全局迭代器等功能，我们并没有放在 <a href="lab4/./Engine-Base.html">第一阶段</a>, 这是因为以上接口都需要不同组件之间(不同<code>Level</code>的<code>SST</code>和<code>MemTable</code>)进行交互, 而这些组件之间的交互需要我们实现更高级的迭代器才可以完成, 因此这一小节你将实现各种迭代器。</p>
+<p>之前你已经完成了具备初步的简单<code>CURD</code>操作的<code>LSM Tree</code>存储引擎, 但你应该发现了, 诸如范围查询、全局迭代器等功能，我们并没有放在 <a href="#阶段1-engine-基础功能">第一阶段</a>, 这是因为以上接口都需要不同组件之间(不同<code>Level</code>的<code>SST</code>和<code>MemTable</code>)进行交互, 而这些组件之间的交互需要我们实现更高级的迭代器才可以完成, 因此这一小节你将实现各种迭代器。</p>
 <p>你需要实现的迭代器包括：</p>
 <ul>
 <li><code>TwoMergeIterator</code>
@@ -2605,9 +2653,10 @@ git merge lab
 <p><strong>思考</strong>
 为什么我们要在实现<code>Compact</code>之前先实现这些迭代器?</p>
 <h2 id="子任务2-compact"><a class="header" href="#子任务2-compact">子任务2-Compact</a></h2>
-<p>这里的<code>Compact</code>操作需要我们的迭代器作为信息交互的接口, 具体原因请参见<a href="lab4/./lab4.3-ConcactIterator.html">Lab 4.3 ConcactIterator
+<p>这里的<code>Compact</code>操作需要我们的迭代器作为信息交互的接口, 具体原因请参见<a href="#lab-43-concactiterator">Lab 4.3 ConcactIterator
 </a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-43-concactiterator"><a class="header" href="#lab-43-concactiterator">Lab 4.3 ConcactIterator</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-43-concactiterator"><a class="header" href="#lab-43-concactiterator">Lab 4.3 ConcactIterator</a></h1>
 <h1 id="1-概述-9"><a class="header" href="#1-概述-9">1 概述</a></h1>
 <p>其实这一章出现在这里是有一点突兀的, 照理说我们正常实现基础<code>LSMEngine</code>的下一个步骤是<code>Compact</code>。讲到这里我们接得知道<code>Compact</code>的逻辑了。</p>
 <p>这里用一个具体案例进行讲解。</p>
@@ -2619,7 +2668,7 @@ Level 2: sst_08(key100-key120), sst_09(key121-key140)
 <p>我们对每一层的<code>SST</code>需要进行限制, 当这一层的<code>SST</code>数量超过阈值时, 我们需要将这一层所有的<code>SST</code>进行<code>Compact</code>到下一层。</p>
 <p>在这个案例中, 我们下一次<code>flush</code>刷盘后, 假设得到了一个<code>Level 0</code>的<code>SST</code>为<code>sst_16(key060-key080)</code>, 那么此时<code>Level 0</code>的<code>SST</code>数量超过了阈值4(这个是是假定的, 实际上是可在<code>config.toml</code>中配置的), 我们需要将<code>Level 0</code>的<code>SST</code>进行<code>sst_16, sst_15, sst_14, sst_13</code>到<code>Level 1</code>。但我们新<code>Compact</code>的<code>SST</code>会和<code>Level 1</code>本来的<code>SST</code>的<code>key</code>存在范围重叠, 这是不允许的, 所以实际上, 我们是将原来的<code>Level 0</code>和旧的<code>Level 1</code>的所有<code>SST</code>一并进行重新整理<code>Compact</code>形成新的<code>Level 1 SST</code>, 这里实际上就是用迭代器将2个<code>Level</code>的迭代器进行串联, 遍历这个迭代器, 逐一构建新的<code>Level 1</code>的<code>SST</code>, 那么是怎么个串联法呢?</p>
 <ol>
-<li>首先, <code>Level 0</code>的<code>SST</code>之间存在<code>key</code>的重叠, 需要进行去重, 这里我们可以复用已有的<code>HeapIterator</code>, 见<a href="lab4/../lab2/lab2.2-iterator.html">Lab 2.2 迭代器</a></li>
+<li>首先, <code>Level 0</code>的<code>SST</code>之间存在<code>key</code>的重叠, 需要进行去重, 这里我们可以复用已有的<code>HeapIterator</code>, 见<a href="#lab-22-迭代器">Lab 2.2 迭代器</a></li>
 <li>其次就是我们将要实现的<code>ConcactIterator</code>, 这个迭代器会串联<code>Level 1</code>的所有<code>SST</code>形成层间迭代器</li>
 <li>最后就是之后小节实现的<code>TwoMergeIterator</code>, 这个迭代器会串联<code>HeapIterator</code>和<code>ConcactIterator</code>, 按照优先级对迭代器进行输出, 遍历<code>TwoMergeIterator</code>即可构建新的<code>Level 1</code>的<code>SST</code></li>
 </ol>
@@ -2676,10 +2725,11 @@ ConcactIterator::pointer ConcactIterator::operator-&gt;() const {
 <p>这里基本上都是实现迭代器的运算符重载函数, 算是比较简单的一个小<code>Lab</code></p>
 <h1 id="3-测试-6"><a class="header" href="#3-测试-6">3 测试</a></h1>
 <p>本小节没有测试, 你完成后续迭代器和涉及迭代器的查询操作后有统一的单元测试。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-44-twomergeiterator"><a class="header" href="#lab-44-twomergeiterator">Lab 4.4 TwoMergeIterator</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-44-twomergeiterator"><a class="header" href="#lab-44-twomergeiterator">Lab 4.4 TwoMergeIterator</a></h1>
 <h1 id="1-概述-10"><a class="header" href="#1-概述-10">1 概述</a></h1>
-<p>根据上一节<a href="lab4/./lab4.3-ConcactIterator.html">Lab 4.3 ConcactIterator</a>中对<code>TwoMergeIterator</code>的介绍, <code>TwoMergeIterator</code>就是整合两个优先级不同的迭代器, 生成一个新的迭代器, 该迭代器优先级为两个迭代器中优先级较高的那个。</p>
-<p>其余逻辑上一节<a href="lab4/./lab4.3-ConcactIterator.html">Lab 4.3 ConcactIterator</a>已经有所介绍, 这里不再赘述, 直接开始看头文件定义:</p>
+<p>根据上一节<a href="#lab-43-concactiterator">Lab 4.3 ConcactIterator</a>中对<code>TwoMergeIterator</code>的介绍, <code>TwoMergeIterator</code>就是整合两个优先级不同的迭代器, 生成一个新的迭代器, 该迭代器优先级为两个迭代器中优先级较高的那个。</p>
+<p>其余逻辑上一节<a href="#lab-43-concactiterator">Lab 4.3 ConcactIterator</a>已经有所介绍, 这里不再赘述, 直接开始看头文件定义:</p>
 <pre><code class="language-cpp">class TwoMergeIterator : public BaseIterator {
 private:
   std::shared_ptr&lt;BaseIterator&gt; it_a;
@@ -2737,7 +2787,8 @@ TwoMergeIterator::pointer TwoMergeIterator::operator-&gt;() const {
 </code></pre>
 <h1 id="3-测试-7"><a class="header" href="#3-测试-7">3 测试</a></h1>
 <p>本小节没有测试, 你完成后续迭代器和涉及迭代器的查询操作后有统一的单元测试。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-45-compact"><a class="header" href="#lab-45-compact">Lab 4.5 Compact</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-45-compact"><a class="header" href="#lab-45-compact">Lab 4.5 Compact</a></h1>
 <h1 id="1-概述-11"><a class="header" href="#1-概述-11">1 概述</a></h1>
 <p>完成了<code>ConcactIterator</code>和<code>TwoMergeIterator</code>, 我们就已经可以开始实现我们的<code>Compact</code>流程了。</p>
 <p>在LSM（Log-Structured Merge）树中，数据最初写入一个称为 <strong>memtable</strong> 的内存结构。一旦 memtable 达到一定大小限制，其内容会被刷写到磁盘上作为 SSTable（Sorted String Table）。随着时间的推移，可能会在 LSM 树的不同层级积累多个 SSTable。这些 SSTable 可能会导致以下问题：</p>
@@ -2938,7 +2989,12 @@ Level 2: [SST6]
 <p><strong>Size-Tiered Compaction (STCS - 基于大小分层的合并)</strong></p>
 <p><strong>Classic Leveled Compaction (经典的、更细粒度的分层合并，如LevelDB/RocksDB采用的策略)</strong></p>
 </blockquote>
-<div class="table-wrapper"><table><thead><tr><th style="text-align: left">特性 (Aspect)</th><th style="text-align: left">本实验策略 (Leveled - 全层合并)</th><th style="text-align: left">Size-Tiered Compaction (STCS)</th><th style="text-align: left">经典Leveled Compaction (细粒度合并)</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">特性 (Aspect)</th><th style="text-align: left">本实验策略 (Leveled - 全层合并)</th><th style="text-align: left">Size-Tiered Compaction (STCS)</th><th style="text-align: left">经典Leveled Compaction (细粒度合并)</th></tr>
+</thead>
+<tbody>
 <tr><td style="text-align: left"><strong>读放大 (Read Amplification)</strong></td><td style="text-align: left">L0层: 中等 (需查找多个SSTable)<br>L1+层: <strong>低</strong> (由于SSTable不重叠且有序，每层理论上最多查找一个SSTable)</td><td style="text-align: left"><strong>高</strong> (通常需要在多个层级(Tier)的多个SSTable中查找，因为不同SSTable间的键范围可能大量重叠)</td><td style="text-align: left">L0层: 中等 (需查找多个SSTable)<br>L1+层: <strong>低</strong> (与本实验的策略类似，L1+层SSTable不重叠)</td></tr>
 <tr><td style="text-align: left"><strong>写放大 (Write Amplification)</strong></td><td style="text-align: left"><strong>非常高</strong> (合并Level_N和Level_{N+1}时，两个层级的<em>全部</em>数据都会被读取和重写，即使Level_{N+1}中大部分是“冷”数据)</td><td style="text-align: left"><strong>低</strong> (数据在其生命周期中被重写的次数相对较少，通常是合并固定数量的SSTable)</td><td style="text-align: left"><strong>中等</strong> (比STCS高，但显著低于“全层合并”。仅合并Level_N中少量被选中的SSTable及其在Level_{N+1}中的键范围重叠部分)</td></tr>
 <tr><td style="text-align: left"><strong>空间放大 (Space Amplification)</strong></td><td style="text-align: left"><strong>低</strong> (合并过程频繁且较为彻底地重写数据，有利于快速回收无效数据和墓碑(Tombstone)占用的空间)</td><td style="text-align: left"><strong>高</strong> (旧版本数据和墓碑可能长时间存在于未被合并的SSTable中，导致总体磁盘占用较大，最坏情况一个键的多个版本都存在)</td><td style="text-align: left"><strong>低</strong> (与“全层合并”类似，能较好控制空间。因单次合并范围较小，整体回收速度可能略慢于全层合并，但通常有严格的层级大小限制)</td></tr>
@@ -2946,7 +3002,8 @@ Level 2: [SST6]
 <tr><td style="text-align: left"><strong>实现复杂度</strong></td><td style="text-align: left"><strong>中等</strong> (比STCS复杂，因为需要维护层级结构和SSTable元数据；但比经典的细粒度Leveled Compaction简单，因为合并整个层级的逻辑较直接)</td><td style="text-align: left"><strong>低</strong> (逻辑相对简单，主要是基于SSTable的大小和数量触发合并，易于实现和维护)</td><td style="text-align: left"><strong>高</strong> (需要复杂的SSTable挑选逻辑(picking logic)来决定哪些SSTable参与合并，键范围管理、并发控制以及避免写暂停等机制都较复杂)</td></tr>
 <tr><td style="text-align: left"><strong>墓碑/旧数据清理效率</strong></td><td style="text-align: left"><strong>高</strong> (由于整个层级的数据会定期参与合并过程，墓碑和旧版本数据能得到较快和较彻底的清理)</td><td style="text-align: left"><strong>低</strong> (清理效率依赖于包含墓碑或旧数据的SSTable何时被选中参与合并，可能存在较长延迟)</td><td style="text-align: left"><strong>中高</strong> (数据也定期参与合并过程，但由于单次合并涉及的数据范围小于全层合并，整体清理速度和彻底性可能稍逊于全层合并，但仍属高效)</td></tr>
 <tr><td style="text-align: left"><strong>查询性能稳定性/可预测性</strong></td><td style="text-align: left">L1+层: <strong>好</strong> (查询路径短且固定，性能稳定)<br>L0层: 一般 (受SSTable数量影响)</td><td style="text-align: left"><strong>差</strong> (查询性能波动较大，取决于数据具体分布在哪些SSTable以及需要检查的SSTable数量)</td><td style="text-align: left">L1+层: <strong>好</strong> (查询路径短且固定，性能稳定)<br>L0层: 一般 (受SSTable数量影响)</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h1 id="5-本实验的代码实现"><a class="header" href="#5-本实验的代码实现">5 本实验的代码实现</a></h1>
 <p>在完成之前的理论学习后, 你可以开始实现本实验的代码了</p>
@@ -3091,7 +3148,8 @@ TEST_F(LSMTest, Persistence) {
 <blockquote>
 <p>TODO: 后期实验项目书应进行优化, 不应该让学员手动来控制这一过程</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-46-level_iterator"><a class="header" href="#lab-46-level_iterator">Lab 4.6 Level_Iterator</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-46-level_iterator"><a class="header" href="#lab-46-level_iterator">Lab 4.6 Level_Iterator</a></h1>
 <h1 id="1-概述-12"><a class="header" href="#1-概述-12">1 概述</a></h1>
 <p>为什么要将<code>Level_Iterator</code>放在<code>Compact</code>之后呢? 当然是因为<code>Compact</code>之后, 我们才有了<code>Level</code>的概念, 才能对某个<code>Level</code>的所有键值对进行迭代.</p>
 <p><code>Level_Iterator</code>的实现其实非常简单了, 与<code>TwoMergeIterator</code>非常类似, 只不过整合的迭代器数量是不定的, 用一个<code>vector</code>存储, 我们先简单看看定义:</p>
@@ -3173,8 +3231,9 @@ void Level_Iterator::update_current() const {
 }
 </code></pre>
 <h1 id="3-测试-8"><a class="header" href="#3-测试-8">3 测试</a></h1>
-<p>次小节的测试将在实现下一小节 <a href="lab4/./lab4.7-Complicated-Query.html">Lab 4.7 复杂查询</a> 后统一进行。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-47-复杂查询"><a class="header" href="#lab-47-复杂查询">Lab 4.7 复杂查询</a></h1>
+<p>次小节的测试将在实现下一小节 <a href="#lab-47-复杂查询">Lab 4.7 复杂查询</a> 后统一进行。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-47-复杂查询"><a class="header" href="#lab-47-复杂查询">Lab 4.7 复杂查询</a></h1>
 <h1 id="1-概述-13"><a class="header" href="#1-概述-13">1 概述</a></h1>
 <p>其实也就是我们每个组件实现过程中最后实现的范围查询, 只是我们之前简单的<code>begin</code>和<code>end</code>也是需要实现<code>Level_Iterator</code>, 因此这里就统称其为<code>复杂查询</code>了。</p>
 <p>本小节你需要更改的代码文件为:</p>
@@ -3238,8 +3297,9 @@ LSMEngine::lsm_iters_monotony_predicate(
 <li>如果你的<code>LSMTest.Persistence</code>确实慢, 是不是缺少缓存池的优化?</li>
 <li>我们的<code>compact</code>策略太粗糙, 你是否有更好的策略?</li>
 </ul>
-<p>然后, 进入阶段3: <a href="lab4/./Optimization.html">阶段3-LSM Tree 的优化</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="阶段3-lsm-tree-的优化"><a class="header" href="#阶段3-lsm-tree-的优化">阶段3-LSM Tree 的优化</a></h1>
+<p>然后, 进入阶段3: <a href="#阶段3-lsm-tree-的优化">阶段3-LSM Tree 的优化</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="阶段3-lsm-tree-的优化"><a class="header" href="#阶段3-lsm-tree-的优化">阶段3-LSM Tree 的优化</a></h1>
 <p>上一阶段我们完成了基础的<code>LSM Engine</code>的实现, 但其缺乏性能优化。这一阶段， 你将实现以<code>Blcok</code>为单位的缓存池，以及布隆过滤器的优化。实现这两个优化方案后, 你可以对比前后的单元测试的整体运行时间, 尤其是<code>Persistence</code>这个测例(其数据规模量最大), 你可以直观地感受到这里的优化方案的必要性。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
@@ -3249,7 +3309,8 @@ git merge lab
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-48-复杂查询"><a class="header" href="#lab-48-复杂查询">Lab 4.8 复杂查询</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-48-复杂查询"><a class="header" href="#lab-48-复杂查询">Lab 4.8 复杂查询</a></h1>
 <h1 id="1-缓存池原理与设计"><a class="header" href="#1-缓存池原理与设计">1 缓存池原理与设计</a></h1>
 <h1 id="11-缓存池的作用"><a class="header" href="#11-缓存池的作用">1.1 缓存池的作用</a></h1>
 <p>在LSM Tree的实现中，数据读取是以<code>Block</code>为单位进行的。为了提高热点<code>Block</code>的读取效率，我们引入了缓存池（<code>Buffer Pool</code>）。缓存池的主要作用主要是减少磁盘I/O, 通过将频繁访问的<code>Block</code>缓存到内存中，可以显著减少对磁盘的读取次数，从而提高系统的整体性能。因此这里我们的目的就是尽量让热点<code>Block</code>数据常驻内存。</p>
@@ -3396,9 +3457,10 @@ private:
 [==========] 4 tests from 1 test suite ran. (0 ms total)
 [  PASSED  ] 4 tests.
 </code></pre>
-<p>在<code>SSt</code>和<code>Block</code>的逻辑层面, 本节实验并未新添加任何接口, 只是做出了IO层面的优化, 因此, 你只需要像<a href="lab4/./lab4.7-Complicated-Query.html">Lab 4.7 复杂查询</a>那样再次运行单元测试, 观察前后数据读取的效率变化即可。</p>
+<p>在<code>SSt</code>和<code>Block</code>的逻辑层面, 本节实验并未新添加任何接口, 只是做出了IO层面的优化, 因此, 你只需要像<a href="#lab-47-复杂查询">Lab 4.7 复杂查询</a>那样再次运行单元测试, 观察前后数据读取的效率变化即可。</p>
 <p>需要说明的是, 你需要尤其关注<code>Persistence</code>这个测例(位于<code>test/test_lsm.cpp</code>), 因为其会插入大量的数据并刷盘, 此时的大部分查询请求都是在<code>SST</code>文件层面进行的, 能够较为明显地观察出加入缓存池优化后的速度变化。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-49-布隆过滤器"><a class="header" href="#lab-49-布隆过滤器">Lab 4.9 布隆过滤器</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-49-布隆过滤器"><a class="header" href="#lab-49-布隆过滤器">Lab 4.9 布隆过滤器</a></h1>
 <p>除了缓存池之外，我们下一个要实现的优化方案是布隆过滤器。布隆过滤器你可能在各大校招实习的八股文中都遇到过（尤其是和经典问题：如何避免<code>Redis</code>的缓存穿透问题）。本小节我们就将自己实现一个布隆过滤器。</p>
 <h1 id="1-布隆过滤器简介"><a class="header" href="#1-布隆过滤器简介">1 布隆过滤器简介</a></h1>
 <h2 id="11-原理介绍"><a class="header" href="#11-原理介绍">1.1 原理介绍</a></h2>
@@ -3416,7 +3478,7 @@ private:
 </ul>
 <h2 id="12-案例介绍"><a class="header" href="#12-案例介绍">1.2 案例介绍</a></h2>
 <p>下面我们通过一个案例来看看布隆过滤器的运行机制:</p>
-<p><img src="lab4/../images/lab4/bloom-example.png" alt="bloom-example" /></p>
+<p><img src="images/lab4/bloom-example.png" alt="bloom-example"></p>
 <ol>
 <li>在新增一个记录时(<code>put/insert</code>等), 通过预定义数量(案例图片中是2个)的哈希函数对<code>key</code>进行哈希, 将哈希值对位数组的长度取模, 将结果作为索引, 将索引位置的位设置为1</li>
 <li>在查询时(<code>get</code>), 通过预定义数量(案例图片中是2个)的哈希函数对<code>key</code>进行哈希, 将哈希值对位数组的长度取模, 将结果作为索引, 如果索引位置的位为1, 则认为该<code>key</code>可能存在, 否则认为该<code>key</code>不存在</li>
@@ -3531,7 +3593,7 @@ BloomFilter BloomFilter::decode(const std::vector&lt;uint8_t&gt; &amp;data) {
 <li>解码时从<code>SST文件</code>的指定偏移位置取出<code>std::vector&lt;uint8_t&gt;</code>切片, 并解码出<code>BloomFilter</code>放置于<code>SST</code>类实例的控制结构的成员变量中。</li>
 </ul>
 <p>这里回顾一下我们的<code>SST</code>文件的结构:
-<img src="lab4/../images/lab3/SST.drawio.png" alt="SST" /></p>
+<img src="images/lab3/SST.drawio.png" alt="SST"></p>
 <p>你应该知道这里<code>Bloom Section</code>的<code>...</code>里面放置的是什么了吧?</p>
 <p>首先, 之前的<code>SSTBuilder::build</code>和<code>SST::open</code>涉及整个<code>SST</code>的持久化和编解码, 是你肯定需要修改的。此外由于每个人的设计思路不同, 因此其他地方没有固定的修改文件和函数, 你只需要保证编解码过程正确、查询数据时能够正常利用到布隆过滤器即可。</p>
 <h1 id="6-测试-2"><a class="header" href="#6-测试-2">6 测试</a></h1>
@@ -3549,25 +3611,32 @@ False positive rate: 0.08
 [----------] Global test environment tear-down
 [==========] 1 test f
 </code></pre>
-<p>类似之前缓存池的小节, 在逻辑层面本节实验并未新添加任何接口, 只是做出了IO层面的优化, 因此, 你只需要像<a href="lab4/./lab4.7-Complicated-Query.html">Lab 4.7 复杂查询</a>那样再次运行单元测试, 观察前后数据读取的效率变化即可。</p>
+<p>类似之前缓存池的小节, 在逻辑层面本节实验并未新添加任何接口, 只是做出了IO层面的优化, 因此, 你只需要像<a href="#lab-47-复杂查询">Lab 4.7 复杂查询</a>那样再次运行单元测试, 观察前后数据读取的效率变化即可。</p>
 <p>需要说明的是, 你需要尤其关注<code>Persistence</code>这个测例(位于<code>test/test_lsm.cpp</code>), 因为其会插入大量的数据并刷盘, 此时的大部分查询请求都是在<code>SST</code>文件层面进行的, 能够较为明显地观察出加入缓存池优化后的速度变化。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-5-事务--mvcc--wal"><a class="header" href="#lab-5-事务--mvcc--wal">Lab 5 事务 &amp;&amp; MVCC &amp;&amp; WAL</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-5-事务--mvcc--wal"><a class="header" href="#lab-5-事务--mvcc--wal">Lab 5 事务 &amp;&amp; MVCC &amp;&amp; WAL</a></h1>
 <h1 id="事务理论知识"><a class="header" href="#事务理论知识">事务理论知识</a></h1>
 <p>本小节主要介绍事务的基本概念，事务的ACID特性，事务的隔离级别, 没有代码任务需要你完成。因此，如果你对这些内容已经熟悉，可以跳过本小节，直接进入下一节。</p>
 <h1 id="1-本小节目标"><a class="header" href="#1-本小节目标">1 本小节目标</a></h1>
 <p>之前大家实现的各种函数中, 都是忽略了<code>tranc_id</code>这个参数的, 这一小节之后, <code>tranc_id</code>的神秘面纱将被揭开, 我们将学习事务的基础知识, 并修改之前所有的涉及<code>tranc_id</code>的函数, 使其能够支持事务特性。</p>
 <p>首先给出本章实验后的架构示意图:</p>
-<p><img src="lab5/../images/intro/tiny-lsm-arch-full.drawio.png" alt="Arch" /></p>
-<p>相比之前实现的<code>LSM Engine</code>的基础部分的<a href="lab5/../images/intro/tiny-lsm-arch.drawio.png">架构</a>, 这里新增了<code>TrancManager</code>、<code>WAL</code>、<code>TrancContext</code>杰哥模块, 其中<code>TrancManager</code>用于管理事务, <code>WAL</code>用于持久化事务操作, <code>TrancContext</code>用于与客户端进行直接交互。</p>
+<p><img src="images/intro/tiny-lsm-arch-full.drawio.png" alt="Arch"></p>
+<p>相比之前实现的<code>LSM Engine</code>的基础部分的<a href="images/intro/tiny-lsm-arch.drawio.png">架构</a>, 这里新增了<code>TrancManager</code>、<code>WAL</code>、<code>TrancContext</code>杰哥模块, 其中<code>TrancManager</code>用于管理事务, <code>WAL</code>用于持久化事务操作, <code>TrancContext</code>用于与客户端进行直接交互。</p>
 <h1 id="2-kv存储中的事务"><a class="header" href="#2-kv存储中的事务">2 KV存储中的事务</a></h1>
 <h2 id="21-事务介绍"><a class="header" href="#21-事务介绍">2.1 事务介绍</a></h2>
 <p>在数据库系统中，事务（Transaction）是指一组原子性操作的执行单元，需要满足ACID特性。这里简单介绍下<code>ACID</code>的基本性质:</p>
-<div class="table-wrapper"><table><thead><tr><th>特性</th><th>定义</th><th>技术实现</th><th>KV存储中的特殊表现</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>特性</th><th>定义</th><th>技术实现</th><th>KV存储中的特殊表现</th></tr>
+</thead>
+<tbody>
 <tr><td><strong>原子性</strong><br>(Atomicity)</td><td>事务内的操作要么全部成功，要么全部失败，不存在中间状态。</td><td>- WAL（Write-Ahead Logging）<br>- 两阶段提交（2PC）<br>- 操作回滚日志</td><td>- 单键操作天然原子<br>- 跨键原子性需显式事务（如批量提交）<br>- LSM-Tree依赖WAL保证崩溃恢复</td></tr>
 <tr><td><strong>一致性</strong><br>(Consistency)</td><td>事务执行后数据库必须保持预设的业务规则（如唯一性、完整性约束）。</td><td>- 关系型：外键、触发器<br>- 声明式约束（DDL）<br>- 事务回滚机制</td><td>- 业务逻辑一致性需应用层实现</td></tr>
 <tr><td><strong>隔离性</strong><br>(Isolation)</td><td>并发事务相互隔离，避免脏读、不可重复读、幻读。</td><td>- 锁机制（悲观锁）<br>- MVCC（多版本并发控制）<br>- 快照隔离（Snapshot Isolation）</td><td>- 通常采用乐观锁（版本号校验）<br>- 全局时间戳实现快照隔离<br>- 弱隔离级别常见（如Read Committed）</td></tr>
 <tr><td><strong>持久性</strong><br>(Durability)</td><td>事务提交后，数据永久存储，即使系统崩溃也不丢失。</td><td>- 同步刷盘（<code>fsync</code>）<br>- 副本复制（Replication）<br>- 冗余存储（如RAID）</td><td>- LSM-Tree依赖SSTable落盘<br>- 内存数据需通过WAL持久化<br>- 异步刷盘可能牺牲部分持久性（如Redis AOF）</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p>在这四个基本性质中, KV存储由于数据较为简单, 不存在类似关系型数据库中的外键、触发器、声明式约束等复杂业务规则, 因此一致性是比较容易实现的，基本上你实现了一致性、隔离性，一致性就自然满足了，这里我们探讨下其他几个形状在<code>KV存储</code>中的实现逻辑:</p>
 <ol>
@@ -3586,12 +3655,18 @@ False positive rate: 0.08
 <blockquote>
 <p>这里如果对这些隔离级别不熟悉, 建议先学下数据库的课程</p>
 </blockquote>
-<div class="table-wrapper"><table><thead><tr><th>隔离级别</th><th>脏读(Dirty Read)</th><th>不可重复读(Non-Repeatable Read)</th><th>幻读(Phantom Read)</th><th>典型实现方案</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>隔离级别</th><th>脏读(Dirty Read)</th><th>不可重复读(Non-Repeatable Read)</th><th>幻读(Phantom Read)</th><th>典型实现方案</th></tr>
+</thead>
+<tbody>
 <tr><td><strong>读未提交</strong></td><td>允许</td><td>允许</td><td>允许</td><td>- 无版本控制<br>- 直接读取内存最新值</td></tr>
 <tr><td><strong>读已提交</strong></td><td>禁止</td><td>允许</td><td>允许</td><td>- 单版本快照<br>- 每次读获取最新提交版本</td></tr>
 <tr><td><strong>可重复读</strong></td><td>禁止</td><td>禁止</td><td>允许</td><td>- 多版本快照<br>- 事务级版本锚定（如MySQL InnoDB的MVCC）</td></tr>
 <tr><td><strong>可串行化</strong></td><td>禁止</td><td>禁止</td><td>禁止</td><td>- 严格锁机制<br>- 冲突范围检测（如FoundationDB）</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <blockquote>
 <p>注：快照隔离下幻读仍可能发生，但可通过追加范围锁避免</p>
@@ -3599,29 +3674,46 @@ False positive rate: 0.08
 <h3 id="222-kv存储中事务冲突和隔离级别的案例"><a class="header" href="#222-kv存储中事务冲突和隔离级别的案例">2.2.2 KV存储中事务冲突和隔离级别的案例</a></h3>
 <p>在LSM-Tree结构的KV存储中，我们举一个例子说明隔离级别和实物冲突的联系:</p>
 <p>在下面的场景时序图, 事务按照创建的时间从小大大分配<code>ID</code>, 在这个</p>
-<div class="table-wrapper"><table><thead><tr><th>Timeline</th><th>事务A (ID=100)</th><th>事务B (ID=101)</th><th>Key1状态</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Timeline</th><th>事务A (ID=100)</th><th>事务B (ID=101)</th><th>Key1状态</th></tr>
+</thead>
+<tbody>
 <tr><td>T0</td><td>Begin</td><td></td><td>Version=0 (初始值)</td></tr>
 <tr><td>T1</td><td>Read Key1 (Version=0)</td><td>Begin</td><td></td></tr>
 <tr><td>T2</td><td>Modify Key1→ValueA</td><td>Read Key1 (Version=0)</td><td></td></tr>
 <tr><td>T3</td><td></td><td>Modify Key1→ValueB</td><td></td></tr>
 <tr><td>T4</td><td></td><td>Commit ✅ (Version=1)</td><td>Version=1 (ValueB)</td></tr>
 <tr><td>T5</td><td>Attempt Commit ❌</td><td></td><td>检测到Key1已更新</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p>在这个例子中, 更早创建的事务A和和更晚创建的事务B在读写了同一个<code>Key1</code>, 事务B先提交, 并且更新了<code>Key1</code>的值为<code>ValueB</code>, 事务A在提交后, 数据库中面临这样的问题: 以哪一个版本的修改为准?</p>
 <p>以上问题就是一种事务冲突，在<code>KV存储</code>中，事务冲突的解决方式直接取决于<strong>隔离级别</strong>的设计。以下是不同隔离级别的处理差异：</p>
-<div class="table-wrapper"><table><thead><tr><th>隔离级别</th><th>事务A提交结果</th><th>原因</th><th>最终Key1值</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>隔离级别</th><th>事务A提交结果</th><th>原因</th><th>最终Key1值</th></tr>
+</thead>
+<tbody>
 <tr><td><strong>读未提交</strong></td><td>✅ 成功</td><td>允许覆盖未提交数据，但导致事务B的修改丢失（违反原子性）</td><td>ValueA</td></tr>
 <tr><td><strong>读已提交</strong></td><td>❌ 中止</td><td>检测到Key1已提交新版本（Version=1 &gt; 事务A的起始版本）</td><td>ValueB</td></tr>
 <tr><td><strong>可重复读</strong></td><td>❌ 中止</td><td>事务A的读快照锁定Version=0，但写冲突仍存在</td><td>ValueB</td></tr>
 <tr><td><strong>可串行化</strong></td><td>❌ 中止</td><td>通过范围锁阻止事务B写入，或强制事务串行执行</td><td>ValueB</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p>以上是<code>put</code>时是事务冲突, 基于这个案例, 同时有2个事务再去读取<code>key1</code>:</p>
 <blockquote>
 <p>假设初始时刻 <code>Key1 = Value0</code></p>
 </blockquote>
-<div class="table-wrapper"><table><thead><tr><th>Timeline</th><th>事务A (ID=100)</th><th>事务B (ID=101)</th><th>事务C (ID=102)</th><th>事务D (ID=103)</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Timeline</th><th>事务A (ID=100)</th><th>事务B (ID=101)</th><th>事务C (ID=102)</th><th>事务D (ID=103)</th></tr>
+</thead>
+<tbody>
 <tr><td>T0</td><td>Begin</td><td></td><td>Key1 = Value0 (初始值)</td><td>Key1 = Value0 (初始值)</td></tr>
 <tr><td>T1</td><td>Read Key1</td><td>Begin</td><td></td><td></td></tr>
 <tr><td>T2</td><td>Modify Key1→ValueA</td><td></td><td>Begin</td><td></td></tr>
@@ -3633,58 +3725,79 @@ False positive rate: 0.08
 <tr><td>T8</td><td></td><td></td><td>Read Key1 (Key1=❓)</td><td>Read Key1 (Key1=❓)</td></tr>
 <tr><td>T9</td><td>Attempt Commit ❓</td><td></td><td></td><td></td></tr>
 <tr><td>T10</td><td></td><td></td><td>Read Key1 (Key1=❓)</td><td>Read Key1 (Key1=❓)</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p>这个场景下, 在事务A和B操作时, 另外还存在2个事务C和D在读取<code>key1</code>的值, 事务C和D的读取结果是仍然取决于隔离级别:</p>
 <h4 id="1-读未提交read-uncommitted"><a class="header" href="#1-读未提交read-uncommitted"><strong>1. 读未提交（Read Uncommitted）</strong></a></h4>
 <p>允许读取未提交的中间值（包括可能回滚的脏数据）。</p>
-<div class="table-wrapper"><table><thead><tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr>
+</thead>
+<tbody>
 <tr><td><strong>A</strong></td><td>-</td><td>-</td><td>-</td><td>✅ 成功</td><td>不检测写冲突，直接覆盖事务B的提交（Key1=ValueA）</td></tr>
 <tr><td><strong>B</strong></td><td>-</td><td>-</td><td>-</td><td>✅ 成功</td><td>事务B先提交（Key1=ValueB），但被事务A覆盖</td></tr>
 <tr><td><strong>C</strong></td><td>ValueA</td><td>ValueB</td><td>ValueA</td><td>-</td><td>T3读取事务A未提交的ValueA；T8时事务B已经提交，读ValueB；T10事务A提交后读ValueA</td></tr>
 <tr><td><strong>D</strong></td><td>-</td><td>ValueB</td><td>ValueA</td><td>-</td><td>T8时事务A未提交，读ValueB；T10事务A提交后读ValueA</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
-<p><strong>最终Key1值</strong>：ValueA（事务A覆盖事务B）<br />
-<strong>风险</strong>：事务B的合法提交被覆盖，数据一致性被破坏。</p>
-<hr />
+<p><strong>最终Key1值</strong>：ValueA（事务A覆盖事务B）<br><strong>风险</strong>：事务B的合法提交被覆盖，数据一致性被破坏。</p>
+<hr>
 <h4 id="2-读已提交read-committed"><a class="header" href="#2-读已提交read-committed"><strong>2. 读已提交（Read Committed）</strong></a></h4>
 <p>仅读取已提交的数据，但同一事务内多次读取结果可能不同。</p>
-<div class="table-wrapper"><table><thead><tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr>
+</thead>
+<tbody>
 <tr><td><strong>A</strong></td><td>-</td><td>-</td><td>-</td><td>✅ 成功 <br>or <br>❌中止</td><td>只确保读取时的数据是提交的, 但不确保提交时没有冲突, 取决于具体的实现</td></tr>
 <tr><td><strong>B</strong></td><td>-</td><td>-</td><td>-</td><td>✅ 成功</td><td>事务B提交成功（Key1=ValueB）</td></tr>
 <tr><td><strong>C</strong></td><td>Value0</td><td>ValueB</td><td>ValueA</td><td>-</td><td>T3时事务A/B均未提交，读Value0；T8时事务B已提交，读ValueB, 最后T10时事务A提交，读ValueA</td></tr>
 <tr><td><strong>D</strong></td><td>-</td><td>ValueB</td><td>ValueA</td><td>-</td><td>T8时事务B已提交，读ValueB, 最后T10时事务A提交，读ValueA</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
-<p><strong>最终Key1值</strong>：ValueA（事务A覆盖事务B）<br />
-<strong>风险</strong>：事务B的合法提交被覆盖，数据一致性被破坏。
+<p><strong>最终Key1值</strong>：ValueA（事务A覆盖事务B）<br><strong>风险</strong>：事务B的合法提交被覆盖，数据一致性被破坏。
 <strong>相较于前者的优化</strong>: 读取的数据一定是已经提交的数据</p>
-<hr />
+<hr>
 <h4 id="3-可重复读repeatable-read"><a class="header" href="#3-可重复读repeatable-read"><strong>3. 可重复读（Repeatable Read）</strong></a></h4>
 <p>基于首次读取时的值锚定，保证多次读取结果一致。</p>
-<div class="table-wrapper"><table><thead><tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr>
+</thead>
+<tbody>
 <tr><td><strong>A</strong></td><td>-</td><td>-</td><td>-</td><td>❌ 中止</td><td>提交时检测到Key1已被事务B修改</td></tr>
 <tr><td><strong>B</strong></td><td>-</td><td>-</td><td>-</td><td>✅ 成功</td><td>事务B提交成功（Key1=ValueB）</td></tr>
 <tr><td><strong>C</strong></td><td>Value0</td><td>Value0</td><td>Value0</td><td>-</td><td>事务C首次读取锚定Value0，后续读取强制复用</td></tr>
 <tr><td><strong>D</strong></td><td>-</td><td>ValueB</td><td>ValueB</td><td>-</td><td>事务D首次读取时事务B已提交，锚定ValueB</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
-<p><strong>最终Key1值</strong>：ValueB<br />
-<strong>实现难点</strong>：需在内存中维护事务首次读取的键值锚定表，防止Compaction清理旧版本。</p>
-<hr />
+<p><strong>最终Key1值</strong>：ValueB<br><strong>实现难点</strong>：需在内存中维护事务首次读取的键值锚定表，防止Compaction清理旧版本。</p>
+<hr>
 <h4 id="5-可串行化serializable"><a class="header" href="#5-可串行化serializable"><strong>5. 可串行化（Serializable）</strong></a></h4>
 <p>通过锁机制强制事务串行执行，完全禁止并发冲突。</p>
-<div class="table-wrapper"><table><thead><tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>事务</th><th>T3（C读取）</th><th>T8（C/D读取）</th><th>T10（C/D读取）</th><th>事务提交结果</th><th>结果解释</th></tr>
+</thead>
+<tbody>
 <tr><td><strong>A</strong></td><td>-</td><td>-</td><td>-</td><td>❌ 中止</td><td>事务C持有Key1的共享锁，事务A尝试获取排他锁时被阻塞，最终超时中止</td></tr>
 <tr><td><strong>B</strong></td><td>-</td><td>-</td><td>-</td><td>✅ 成功</td><td>事务B在事务C释放锁后获取排他锁并提交</td></tr>
 <tr><td><strong>C</strong></td><td>Value0</td><td>Value0</td><td>Value0</td><td>-</td><td>事务C持有共享锁，保证读取一致性</td></tr>
 <tr><td><strong>D</strong></td><td>-</td><td>ValueB</td><td>ValueB</td><td>-</td><td>事务D在事务B提交后读取ValueB</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
-<p><strong>最终Key1值</strong>：ValueB<br />
-<strong>锁竞争时序</strong>：事务C的共享锁阻塞事务A/B，事务B在事务C释放锁后提交。</p>
-<hr />
+<p><strong>最终Key1值</strong>：ValueB<br><strong>锁竞争时序</strong>：事务C的共享锁阻塞事务A/B，事务B在事务C释放锁后提交。</p>
+<hr>
 <p>通过这个案例, 我们可以复习下MVCC在读已提交和可重复读的区别:</p>
 <ol>
 <li>读已提交: 读取时，快照基于当前这一次操作的时间</li>
@@ -3692,8 +3805,9 @@ False positive rate: 0.08
 </ol>
 <h1 id="3-wal简单介绍"><a class="header" href="#3-wal简单介绍">3 WAL简单介绍</a></h1>
 <p><code>WAL</code>（Write-Ahead Logging）是一种常用的日志记录机制，用于确保在系统崩溃或故障恢复时，数据的一致性和完整性。<code>WAL</code>的核心思想是：在执行数据修改操作之前，首先将修改操作记录到日志中，然后再对数据进行修改。这样，即使系统在修改数据的过程中崩溃，也可以通过日志中的记录来恢复数据。</p>
-<p><code>WAl</code>主要是一种思想, 具体的日志编码格式、存储方式、检查恢复方式在不同数据库中差异很大，我们会在<a href="lab5/./lab5.3-Record.html">Lab 5.3</a>中对本实验项目的<code>WAL</code>设计进行详细讲解。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="阶段1-事务基础功能"><a class="header" href="#阶段1-事务基础功能">阶段1-事务基础功能</a></h1>
+<p><code>WAl</code>主要是一种思想, 具体的日志编码格式、存储方式、检查恢复方式在不同数据库中差异很大，我们会在<a href="#lab-53-wal日志编解码">Lab 5.3</a>中对本实验项目的<code>WAL</code>设计进行详细讲解。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="阶段1-事务基础功能"><a class="header" href="#阶段1-事务基础功能">阶段1-事务基础功能</a></h1>
 <p>本阶段要求实现事务的基本功能，包括事务的提交和回滚，并在其中实现事务不同隔离级别下的<code>ACID</code>特性。</p>
 <p>具体来说, 你首先需要实现一个<code>事务管理器</code>, 这个事务管理器负责事务<code>id</code>的生成、<code>事务上下文</code>的分配。</p>
 <p>其次，你需要实现<code>事务上下文</code>的<code>CRUD</code>接口, <code>事务上下文</code>可以看做一个句柄, 其就是<code>CLient</code>直接操作的对象, 提供包括<code>get</code>、<code>put</code>、<code>remove</code>、<code>commit</code>、<code>abort</code>等接口。</p>
@@ -3705,14 +3819,15 @@ git merge lab
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="2-lab-51-事务基础功能"><a class="header" href="#2-lab-51-事务基础功能">2# Lab 5.1 事务基础功能</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="2-lab-51-事务基础功能"><a class="header" href="#2-lab-51-事务基础功能">2# Lab 5.1 事务基础功能</a></h1>
 <h1 id="1-本kv引擎的mvcc和事务设计"><a class="header" href="#1-本kv引擎的mvcc和事务设计">1 本KV引擎的MVCC和事务设计</a></h1>
 <p>通过事前的<code>MVCC</code>运行机制的分析可知, 在可重复读级别下, 我们需要记录这个事务开始的时间, 其实只需要记录这个事务的<code>id</code>就可以了, 因为我们可以设计一个事务管理器, 使得事务开始的时间严格按照事务<code>id</code>排序.</p>
 <p>另一方面, 如果是读已提交, 我们需要按理说需要记录每个读操作的时间, 但是实际上, 我们的<code>KV</code>存储引擎是追加写入的, 我们本身读取的相同<code>key</code>就是按照最近时间读取的, 不需要额外记录本次操作的时间戳。换句话说，假设你遍历整个存储引擎的键值对， 其都是按照插入时间从近到久排序的。</p>
 <p>故我们首先需要在键值对中记录事务<code>id</code>， 你应该在之前的<code>Lab</code>中已经实现了, 只是那是你不知道其具体的含义:</p>
-<p><img src="lab5/../images/lab3/Block.png" alt="trac_id" /></p>
+<p><img src="images/lab3/Block.png" alt="trac_id"></p>
 <p>同时, 你现在应该也明白了我们为什么需要在每个<code>SST</code>中记录事务<code>id</code>的范围, 这样我们才能在查找指定事务的记录时能够通过<code>SST</code>的元数据快速定位到对应的<code>SST</code>文件：</p>
-<p><img src="lab5/../images/lab3/SST.drawio.png" alt="MemTable-SST" /></p>
+<p><img src="images/lab3/SST.drawio.png" alt="MemTable-SST"></p>
 <h1 id="2-代码修改"><a class="header" href="#2-代码修改">2 代码修改</a></h1>
 <p>现在，我们需要对之前的<code>Lab</code>中涉及到事务操作的函数进行修改, 其实也就是参数列表中包含了<code>tranc_id</code>或者<code>max_tranc_id</code>的函数进行逻辑补全。</p>
 <p>本章你需要修改的代码文件：</p>
@@ -3807,11 +3922,12 @@ git merge lab
 </blockquote>
 <h1 id="3-测试-9"><a class="header" href="#3-测试-9">3 测试</a></h1>
 <p>由于事务功能的耦合度较高, 因此现在还没有办法进行单元测试, 你可以按照自己的需要编写测试用例进行测试, 测试用例的编写思路和之前的<code>Lab</code>类似, 你可以参考<code>src/test</code>中的测试用例进行编写。</p>
-<p>不过别忘了我们在<a href="lab5/../lab1/lab1.3-range-query.html">Lab 1.3</a>中先搁置的<code>SkipListTest.TransactionId</code>单元测试, 此时你应该可以通过这个单元测试测例。</p>
+<p>不过别忘了我们在<a href="#lab-13-范围查询">Lab 1.3</a>中先搁置的<code>SkipListTest.TransactionId</code>单元测试, 此时你应该可以通过这个单元测试测例。</p>
 <blockquote>
 <p>TODO: 后续版本中补全这里的阶段性测试, 而不是2个Lab完成后才有一个大测试</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-52-引入事务-id"><a class="header" href="#lab-52-引入事务-id">Lab 5.2 引入事务 ID</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-52-引入事务-id"><a class="header" href="#lab-52-引入事务-id">Lab 5.2 引入事务 ID</a></h1>
 <p>之前我们已经对各个组件的接口进行了统一, 添加了<code>tranc_id</code>这个事务id参数, 接下来这个章节, 我们将介绍顶层的事务设计, 即事务id是如何生成的, 实现相关的事务管理器。</p>
 <h1 id="1-事务的设计思想"><a class="header" href="#1-事务的设计思想">1 事务的设计思想</a></h1>
 <p>我们先给出一个完成后的<code>demo</code>, 演示我们的事务设计是如何工作的, 代码如下:</p>
@@ -4133,7 +4249,8 @@ void TranManager::update_max_flushed_tranc_id(uint64_t tranc_id) {
 unknown file: Failure
 C++ exception with description "bad optional access" thrown in the test body.
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="阶段2-wal和崩溃恢复"><a class="header" href="#阶段2-wal和崩溃恢复">阶段2-WAL和崩溃恢复</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="阶段2-wal和崩溃恢复"><a class="header" href="#阶段2-wal和崩溃恢复">阶段2-WAL和崩溃恢复</a></h1>
 <p>首先恭喜你进入了<code>WAL</code>与包括恢复的阶段, 这一阶段是我们本课程早轮子部分的最后一个阶段, 再之后就是偏向业务层的<code>Redis</code>协议兼容了。</p>
 <p>本阶段你将学习到</p>
 <ul>
@@ -4151,7 +4268,8 @@ git merge lab
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-53-wal日志编解码"><a class="header" href="#lab-53-wal日志编解码">Lab 5.3 WAL日志编解码</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-53-wal日志编解码"><a class="header" href="#lab-53-wal日志编解码">Lab 5.3 WAL日志编解码</a></h1>
 <p>之前我们已经完成了数据库内存中和编码文件中事务信息的融入, 现在我们还需要加上<code>WAL</code>与崩溃恢复的内容。
 这一小节我们主要对<code>WAL</code>中的单条日志记录 (即<code>Record</code>) 进行编解码设计和实现。</p>
 <h1 id="1-record-编码设计"><a class="header" href="#1-record-编码设计">1 Record 编码设计</a></h1>
@@ -4220,7 +4338,7 @@ private:
 <p><code>Record</code>仅仅是内存中的一个类, 且其会因记录类型的不同导致占据的内存大小不同, 因此我们需要将采用某种编码格式将其序列化到磁盘上, 以便在崩溃恢复时能够从磁盘上恢复出<code>Record</code>。这里我们采用一种简单的序列化方式, 将每一个<code>Record</code>的长度和内容依次写入磁盘, 具体格式如下:</p>
 <pre><code class="language-text">| record_len | tranc_id | operation_type | key_len(optional) | key(optional) | value_len(optional) | value(optional) |
 </code></pre>
-<p>这里, 当<code>operation_type</code>是<code>CREATE</code>, <code>ROLLBACK</code>, <code>COMMIT</code>时, 只需要记录<code>tranc_id</code>和<code>operation_type</code>即可, 其余的<code>optional</code>部分不存在, 当<code>operation_type</code>是<code>PUT</code>时, 需要记录<code>tranc_id</code>, <code>operation_type</code>, <code>key</code>, <code>value</code>; 当<code>operation_type</code>是<code>DELETE</code>时, 需要记录<code>tranc_id</code>, <code>operation_type</code>, <code>key</code>。'</p>
+<p>这里, 当<code>operation_type</code>是<code>CREATE</code>, <code>ROLLBACK</code>, <code>COMMIT</code>时, 只需要记录<code>tranc_id</code>和<code>operation_type</code>即可, 其余的<code>optional</code>部分不存在, 当<code>operation_type</code>是<code>PUT</code>时, 需要记录<code>tranc_id</code>, <code>operation_type</code>, <code>key</code>, <code>value</code>; 当<code>operation_type</code>是<code>DELETE</code>时, 需要记录<code>tranc_id</code>, <code>operation_type</code>, <code>key</code>。’</p>
 <p>每个条目的第一部分是<code>record_len</code>, 其记录了整个日志条目的长度(16位)。这里的编解码需要注意一下，<code>encode</code>函数是以单个<code>Record</code>为单位, 将其编码为字节流, 而<code>decode</code>函数是以字节流为单位, 将其解码为<code>Record</code>数组。</p>
 <h1 id="2-代码实现-9"><a class="header" href="#2-代码实现-9">2 代码实现</a></h1>
 <p>现在你已经了解了<code>Record</code>的设计和编码格式, 接下来你需要实现<code>Record</code>的基础构造函数和编解码函数。</p>
@@ -4273,7 +4391,8 @@ std::vector&lt;Record&gt; Record::decode(const std::vector&lt;uint8_t&gt; &amp;d
 </blockquote>
 <h1 id="3-测试-10"><a class="header" href="#3-测试-10">3 测试</a></h1>
 <p>本小节没有单元测试, 你在完成下一小节后会有统一的单元测试。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-54-wal-运行机制"><a class="header" href="#lab-54-wal-运行机制">Lab 5.4 WAL 运行机制</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-54-wal-运行机制"><a class="header" href="#lab-54-wal-运行机制">Lab 5.4 WAL 运行机制</a></h1>
 <p>上一小节的<code>Lab</code>你已经实现了单条<code>WAL</code>记录<code>Record</code>的设计, 这一小节我们将整合<code>Record</code>, 完成<code>WAL</code>组件的设计。</p>
 <h1 id="1-wal-文件设计"><a class="header" href="#1-wal-文件设计">1 WAL 文件设计</a></h1>
 <p>首先，<code>WAL</code>文件的内容本质上分就是<code>Record</code>的数组。但这里却不仅仅是对<code>Record</code>的简单存储，而是需要考虑<code>WAL</code>文件的时效性对其进行清理, 以及写入文件的方式。设计要点包括：</p>
@@ -4387,7 +4506,8 @@ void WAL::cleaner() {
 </code></pre>
 <h1 id="4-测试-6"><a class="header" href="#4-测试-6">4 测试</a></h1>
 <p><code>WAL</code>组件的测试代码在<code>test/lab5/test_wal.cpp</code>中, 你需要保证你的<code>WAL</code>组件能够通过这些测试, 但这个测试文件编写其实非常粗糙, 因为本节<code>Lab</code>对你的实现方案没有做任何限制, 因此你的实现的元数据也不好测试。因此, 这个测试看看就行, 在你完成下一小节(也是本章最后一个<code>Lab</code>)的逻辑后, 你可以通过<code>test _lsm</code>的<code>LSMTest.Recover</code>判断你的实现是否正确。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-55-崩溃恢复"><a class="header" href="#lab-55-崩溃恢复">Lab 5.5 崩溃恢复</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-55-崩溃恢复"><a class="header" href="#lab-55-崩溃恢复">Lab 5.5 崩溃恢复</a></h1>
 <h1 id="1-崩溃恢复运行机制"><a class="header" href="#1-崩溃恢复运行机制">1 崩溃恢复运行机制</a></h1>
 <p>当某一时刻存储引擎发送崩溃时, 需要进行崩溃恢复，以恢复数据状态。崩溃恢复的关键是<strong>回放日志</strong>，以确定已提交的事务，并执行其操作。在这个描述中我们不难得到一个信息, 即成功执行的事务一定要先将操作记录持久化到日志中, 然后再在内存中进行操作, 最后返回成功信息给客户端或者调用者。这也是为什么这个机制称为<strong>预写式日志</strong>。其崩溃恢复的工作流程包括：</p>
 <ol>
@@ -4597,7 +4717,8 @@ private:
 [==========] 9 tests from 1 test suite ran. (8091 ms total)
 [  PASSED  ] 9 tests.
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-6-redis-兼容"><a class="header" href="#lab-6-redis-兼容">Lab 6 Redis 兼容</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-6-redis-兼容"><a class="header" href="#lab-6-redis-兼容">Lab 6 Redis 兼容</a></h1>
 <p>之前章节的<code>Lab</code>, 你已经实现了一个功能较为完备的<code>LSM Tree</code>, 这一章我们将目光向上层移动, 来设计一个兼容<code>Redis</code>协议的服务层, 使其能替代<code>redis-server</code>处理<code>redis-cli</code>的请求。</p>
 <p>需要注意的是，本章的实验实现了<code>Redis</code>的<code>RESP</code>协议的解析与命令功能的实现, 底层使用的是我们的<code>LSM Tree</code>存储引擎的<code>KV</code>接口。</p>
 <p>此外本章不会额外介绍<code>Redis</code>是什么, 你可以参考<a href="https://redis.io/learn/howtos/quick-start">Redis官网</a>进行简短的学习(只需要了解基础命令的使用即可)。</p>
@@ -4648,11 +4769,11 @@ v1
 <h2 id="12-数据类型语法"><a class="header" href="#12-数据类型语法">1.2 数据类型语法</a></h2>
 <p>通过之前的案例我们可以看到, <code>RESP</code>使用一些符号来对数据类型进行标记, 这里简单总结如下:</p>
 <ul>
-<li><strong>简单字符串（Simple Strings）</strong>：以"+"开头，如<code>+OK\r\n</code>。</li>
-<li><strong>错误（Errors）</strong>：以"-"开头，如<code>-ERR unknown command\r\n</code>。</li>
-<li><strong>整数（Integers）</strong>：以":"开头，如<code>:1000\r\n</code>。</li>
-<li><strong>批量字符串（Bulk Strings）</strong>：以"$"开头，如<code>$6\r\nfoobar\r\n</code>。</li>
-<li><strong>数组（Arrays）</strong>：以"*"开头，如<code>*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n</code>。</li>
+<li><strong>简单字符串（Simple Strings）</strong>：以“+“开头，如<code>+OK\r\n</code>。</li>
+<li><strong>错误（Errors）</strong>：以“-“开头，如<code>-ERR unknown command\r\n</code>。</li>
+<li><strong>整数（Integers）</strong>：以“:“开头，如<code>:1000\r\n</code>。</li>
+<li><strong>批量字符串（Bulk Strings）</strong>：以“$“开头，如<code>$6\r\nfoobar\r\n</code>。</li>
+<li><strong>数组（Arrays）</strong>：以“*“开头，如<code>*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n</code>。</li>
 </ul>
 <h1 id="2-redis实现思路"><a class="header" href="#2-redis实现思路">2 Redis实现思路</a></h1>
 <p>这里我们将利用自身的<code>LSM Tree</code>接口来设计一个兼容<code>Redis</code>协议的服务层, 使其能替代<code>redis-server</code>处理<code>redis-cli</code>的请求.</p>
@@ -4677,11 +4798,12 @@ v1
 <li><code>List</code>, <code>Set</code>, <code>Sorted Set</code>等数据结构的<code>key</code>的<code>value</code>中要记录所管理成员的元信息</li>
 <li>归属于某个大数据结构(<code>List</code>, <code>Set</code>, <code>Sorted Set</code>等)的成员的<code>key</code>需要包含统一的前缀, 这样才能通过我的的存储引擎进行前缀查询</li>
 </ol>
-<p>现在你已经对<code>RESP</code>和<code>Redis</code>的兼容层的设计思想有一个大致的认知, 接下来我们就可以开始实现我们的兼容层了: <a href="lab6/./lab6.1-String.html">Lab 6.1 简单字符串</a></p>
+<p>现在你已经对<code>RESP</code>和<code>Redis</code>的兼容层的设计思想有一个大致的认知, 接下来我们就可以开始实现我们的兼容层了: <a href="#lab-61-简单字符串">Lab 6.1 简单字符串</a></p>
 <blockquote>
-<p>!!! 你做<code>Lab</code>时如果对<code>RESP</code>协议的格式不熟悉, 可以参考附录中的<a href="lab6/../appendix/RESP.html">RESP 常见格式</a>进行学习</p>
+<p>!!! 你做<code>Lab</code>时如果对<code>RESP</code>协议的格式不熟悉, 可以参考附录中的<a href="#resp-常见格式">RESP 常见格式</a>进行学习</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-61-简单字符串"><a class="header" href="#lab-61-简单字符串">Lab 6.1 简单字符串</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-61-简单字符串"><a class="header" href="#lab-61-简单字符串">Lab 6.1 简单字符串</a></h1>
 <h1 id="1-简单字符串的设计"><a class="header" href="#1-简单字符串的设计">1 简单字符串的设计</a></h1>
 <p>你也许会认为, 简单字符串不就是调用我们<code>LSM Tree</code>的<code>get</code>和<code>put</code>方法吗? 其实不然, 你是否忘记了我们的<code>Redis</code>是支持对键值对进行过期时间设置的?</p>
 <p>那么, 由于过期时间的存在, 你的代码实现需要解决以下几个难点:</p>
@@ -4843,7 +4965,7 @@ std::string RedisWrapper::redis_decr(const std::string &amp;key) {
 }
 </code></pre>
 <p>对一个值类型的<code>key</code>进行自增或自减操作, 如果不存在则新建一个值为1或-1的<code>key</code>。</p>
-<p>如果该键值对的值不是数值类型, 则返回<code>error</code>。在<code>RESP</code>中如何表示<code>error</code>你需要自行回顾<a href="lab6/./lab6-Redis.html">Lab 6 Redis 兼容</a>中的简单介绍, 或者看官方文档(甚至是问LLM)。</p>
+<p>如果该键值对的值不是数值类型, 则返回<code>error</code>。在<code>RESP</code>中如何表示<code>error</code>你需要自行回顾<a href="#lab-6-redis-兼容">Lab 6 Redis 兼容</a>中的简单介绍, 或者看官方文档(甚至是问LLM)。</p>
 <h2 id="46-del"><a class="header" href="#46-del">4.6 del</a></h2>
 <pre><code class="language-cpp">std::string RedisWrapper::redis_del(std::vector&lt;std::string&gt; &amp;args) {
   // TODO: Lab 6.1 删除一个key
@@ -4869,7 +4991,8 @@ std::string RedisWrapper::redis_decr(const std::string &amp;key) {
 [       OK ] RedisCommandsTest.Expire (2014 ms)
 [ RUN      ] RedisCommandsTest.HSetAndHGet # Failed
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-62-哈希表"><a class="header" href="#lab-62-哈希表">Lab 6.2 哈希表</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-62-哈希表"><a class="header" href="#lab-62-哈希表">Lab 6.2 哈希表</a></h1>
 <h1 id="1-redis-实现思路"><a class="header" href="#1-redis-实现思路">1 Redis 实现思路</a></h1>
 <p><code>Redis</code>的哈希结构就是一个<code>key</code>中管理了一个哈希表, 这里的实现有以下方案
 <strong>方案1-序列化整个哈希数据结构到value</strong>
@@ -4977,7 +5100,8 @@ std::string RedisWrapper::redis_hset(const std::string &amp;key,
 [       OK ] RedisCommandsTest.HExpire (1111 ms)
 [ RUN      ] RedisCommandsTest.ListOperations
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-63-无序集合"><a class="header" href="#lab-63-无序集合">Lab 6.3 无序集合</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-63-无序集合"><a class="header" href="#lab-63-无序集合">Lab 6.3 无序集合</a></h1>
 <h1 id="1-实现原理"><a class="header" href="#1-实现原理">1 实现原理</a></h1>
 <p>相比之前实现的哈希, <code>Redis</code>的无序数据结构功能简单不少, 其只需要将字符串存储在这个<code>Set</code>中即可, 也不要求数据的有序性, 其行为类似<code>C++</code>中的<code>std::unordered_set</code>。</p>
 <p>因此, 这里你需要面对的问题就是, 如何组织这么多个字符串, 并且保证其唯一性?</p>
@@ -5058,7 +5182,8 @@ std::string RedisWrapper::redis_hset(const std::string &amp;key,
 [       OK ] RedisCommandsTest.HExpire (1111 ms)
 [ RUN      ] RedisCommandsTest.ListOperations
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-64-有序集合"><a class="header" href="#lab-64-有序集合">Lab 6.4 有序集合</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-64-有序集合"><a class="header" href="#lab-64-有序集合">Lab 6.4 有序集合</a></h1>
 <h1 id="1-redis-zset-实现思路"><a class="header" href="#1-redis-zset-实现思路">1 Redis ZSet 实现思路</a></h1>
 <h2 id="11-实现思路"><a class="header" href="#11-实现思路">1.1 实现思路</a></h2>
 <p>这里也不介绍<code>Redis zset</code>的语法了, 既然看这篇文章, 相比大家对<code>Redis</code>非常熟悉了, 这里本实验选择实现如下常见的<code>api</code>:</p>
@@ -5116,7 +5241,7 @@ ZRANGE student 0 1 # 查询前两名学生
 # 使用谓词查询, 谓词为查询所有前缀为 student_score_ 的key, 并按照key排序, 返回前两个key中的value即可
 </code></pre>
 <h1 id="3-代码实现-4"><a class="header" href="#3-代码实现-4">3 代码实现</a></h1>
-<p>通过上面的理论讲解和案例说明, 你应该对此非常熟悉了...</p>
+<p>通过上面的理论讲解和案例说明, 你应该对此非常熟悉了…</p>
 <p>你需要修改的代码文件包括:</p>
 <ul>
 <li><code>src/redis_wrapper/redis_wrapper.cpp</code></li>
@@ -5210,7 +5335,8 @@ ZRANGE student 0 1 # 查询前两名学生
 [       OK ] RedisCommandsTest.ZSetOperations (8 ms)
 [ RUN      ] RedisCommandsTest.ListOperations # failed
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-65-链表"><a class="header" href="#lab-65-链表">Lab 6.5 链表</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-65-链表"><a class="header" href="#lab-65-链表">Lab 6.5 链表</a></h1>
 <p>最后我们来实现<code>Redis</code>中的链表。之前的<code>Lab</code>中, 作者对设计方案都进行了详细的介绍, 也许你觉得这限制了你自己的设计, 因此这一小节作者打算不给你任何提示, 你需要自己设计并实现一个链表, 并通过对应的单元测试。</p>
 <h1 id="1-代码实现"><a class="header" href="#1-代码实现">1 代码实现</a></h1>
 <p>你需要修改的代码文件包括:</p>
@@ -5301,7 +5427,8 @@ std::string RedisWrapper::redis_lrange(const std::string &amp;key, int start,
 <pre><code class="language-bash">✗ xmake run test_redis
 # ...
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lab-66-redis-server实现"><a class="header" href="#lab-66-redis-server实现">Lab 6.6 redis-server实现</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-66-redis-server实现"><a class="header" href="#lab-66-redis-server实现">Lab 6.6 redis-server实现</a></h1>
 <h1 id="1-概述-14"><a class="header" href="#1-概述-14">1 概述</a></h1>
 <p>之前我们完成了利用<code>KV</code>接口实现常见<code>Redis</code>命令的常见命令, 我们的<code>Lab</code>即将迎来最后一个部分, 即实现<code>Redis</code>服务器的部分。</p>
 <p>这一部分内容其实也很简单，网络框架作者已经为你搭建好了，你只需要实现<code>Resp</code>请求的解析, 利用解析出的参数调用我们之前实现的各个命令的接口即可。</p>
@@ -5341,7 +5468,7 @@ xmake run server
 </code></pre>
 <p>此时你就可以在<code>redis-cli</code>中输入我们之前<code>Lab</code>实现的命令和<code>server</code>进行交互了</p>
 <p>预期的结果应该如下所示:</p>
-<p><img src="lab6/../images/lab6/redis-example.png" alt="redis-example" /></p>
+<p><img src="images/lab6/redis-example.png" alt="redis-example"></p>
 <h1 id="4-redis-benchmark-压测"><a class="header" href="#4-redis-benchmark-压测">4 redis-benchmark 压测</a></h1>
 <p>由于我们已经实现了支持<code>Resp</code>的服务器, 其提供类似官方的<code>redis-server</code>的服务。同时， <code>redis</code>官方提供了压测工具<code>redis-benchmark</code>, 我们可以利用其进行压测。</p>
 <h2 id="41-redis-benchmark-安装"><a class="header" href="#41-redis-benchmark-安装">4.1 redis-benchmark 安装</a></h2>
@@ -5353,7 +5480,7 @@ xmake run server
 <pre><code class="language-bash">redis-benchmark [选项] [测试]
 </code></pre>
 <p>如果不带任何选项，<code>redis-benchmark</code> 会使用默认设置连接到本地 (127.0.0.1) 的 6379 端口，并执行一组预定义的测试。</p>
-<hr />
+<hr>
 <h3 id="常用选项"><a class="header" href="#常用选项">常用选项</a></h3>
 <p>以下是一些常用的 <code>redis-benchmark</code> 选项：</p>
 <ul>
@@ -5416,7 +5543,7 @@ xmake run server
 </ul>
 </li>
 </ul>
-<hr />
+<hr>
 <h3 id="输出结果解析"><a class="header" href="#输出结果解析">输出结果解析</a></h3>
 <p><code>redis-benchmark</code> 会为每个测试的命令输出类似以下的信息：</p>
 <pre><code>====== SET ======
@@ -5431,10 +5558,10 @@ xmake run server
 </code></pre>
 <p>关键指标包括：</p>
 <ul>
-<li><strong>requests completed in ... seconds</strong>: 完成指定请求数所花费的时间。</li>
+<li><strong>requests completed in … seconds</strong>: 完成指定请求数所花费的时间。</li>
 <li><strong>parallel clients</strong>: 并发客户端数量。</li>
 <li><strong>bytes payload</strong>: 数据负载大小。</li>
-<li><strong>...% &lt;= ... milliseconds</strong>: 不同百分位的请求延迟。例如，<code>99.76% &lt;= 1 milliseconds</code> 表示 99.76% 的请求在 1 毫秒内完成。这有助于了解延迟的分布情况。</li>
+<li><strong>…% &lt;= … milliseconds</strong>: 不同百分位的请求延迟。例如，<code>99.76% &lt;= 1 milliseconds</code> 表示 99.76% 的请求在 1 毫秒内完成。这有助于了解延迟的分布情况。</li>
 <li><strong>requests per second (QPS)</strong>: 每秒处理的请求数。这是衡量 Redis 吞吐量的主要指标。</li>
 </ul>
 <h3 id="示例"><a class="header" href="#示例">示例</a></h3>
@@ -5497,7 +5624,8 @@ ZADD: 137362.64 requests per second, p50=0.535 msec
 <p>这里我们对<code>SET,GET,INCR,SADD,HSET,ZADD</code>命令的实现的性能与<code>redis-server</code>的性能相近, 且有些许性能优势。你可以对比你自己的实现和<code>redis-server</code>的QPS, 预期的结果是与<code>redis-server</code>的QPS在同一数量级。</p>
 <p><strong>压测之后呢?</strong>
 这里的压测本身不是我们的目的, 你需要关注的是压测反映出的性能不足问题, 并修改相应代码的实现。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="结语"><a class="header" href="#结语">结语</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="结语"><a class="header" href="#结语">结语</a></h1>
 <p>本项目的初衷是作为<code>LSM Tree</code>的入门课程, 使参与者入门数据存储领域。这个<code>Lab</code>从代码实现, 到最后<code>Lab</code>文档的设计, 耗时半年, 花费了作者非常多的心血。因此, 如果您觉得这个<code>Lab</code>对您有帮助, 请在<code>GitHub</code>上给这个<code>Lab</code>一个<code>Star</code>。</p>
 <h1 id="致谢"><a class="header" href="#致谢">致谢</a></h1>
 <p>感谢网友<a href="https://github.com/koi2000">koi</a>对本项目文档的校正与补全, 让这个<code>Lab</code>的文档更加完善。</p>
@@ -5520,9 +5648,11 @@ ZADD: 137362.64 requests per second, p50=0.535 msec
 <li><strong><a href="https://ceph.io/">Ceph</a></strong>: 一个统一的分布式存储系统，支持对象存储、块存储和文件存储，广泛应用于云计算和大规模存储场景。</li>
 </ul>
 <p>通过研究这些项目的源码和文档，你可以更全面地了解存储系统的设计与实现。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="附录"><a class="header" href="#附录">附录</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="附录"><a class="header" href="#附录">附录</a></h1>
 <p>这里列出一些学习资源或参考资料，供读者参考。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="resp-常见格式"><a class="header" href="#resp-常见格式">RESP 常见格式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="resp-常见格式"><a class="header" href="#resp-常见格式">RESP 常见格式</a></h1>
 <h3 id="常见-redis-命令及其-resp-编码"><a class="header" href="#常见-redis-命令及其-resp-编码">常见 Redis 命令及其 RESP 编码</a></h3>
 <h4 id="1-set"><a class="header" href="#1-set">1. <strong>SET</strong></a></h4>
 <p>设置指定键的值。</p>
@@ -5808,11 +5938,13 @@ redis-cli -p 6379 LPUSH mylist item1 item2 item3
 redis-cli -p 6379 LRANGE mylist 0 2
 </code></pre>
 <p>通过这些测试命令，你可以验证你的服务器是否正确实现了这些 Redis 命令。如果有任何问题，请检查日志输出并进行相应的调试。</p>
-<div style="break-before: page; page-break-before: always;"></div><p>本实验的<code>1.0</code>版本已经完成，但目前该实验存在以下优化方向:</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="后续更新计划"><a href="#后续更新计划" class="header">后续更新计划</a></h1>
+<p>本实验的<code>1.0</code>版本已经完成，但目前该实验存在以下优化方向:</p>
 <ol>
 <li>自由度提升: <code>1.0</code>版本的<code>Lab</code>, 基本上就是在既有的项目代码下进行关键函数的挖空, 在组件设计层面没有给实验参与者太多的发挥空间, 后续应该添加更多的自由度, 允许实验者自由设计组件, 并且在组件设计中添加更多的测试用例。</li>
 <li>测试用例覆盖率不足: <code>1.0</code>版本的<code>Lab</code>中, 测试用例的覆盖率比较低, 比如对崩溃恢复的各种边界条件的考虑不足, 当然这确实也比较难控制就是了。</li>
-<li>各个<code>Lab</code>工作量不尽相同, 现在的<code>Lab</code>设计是按照功能模块进行划分的, 但这导致<a href="./lab5/lab5-Tranc-MVCC.html">Lab 5</a>和<a href="./lab6/lab6-Redis.html">Lab 6</a>的测代码量和难度远大于之前的<code>Lab</code>, 难度曲线可能不太合理, 后续应考虑对各个<code>Lab</code>进行更加均衡的划分。</li>
+<li>各个<code>Lab</code>工作量不尽相同, 现在的<code>Lab</code>设计是按照功能模块进行划分的, 但这导致<a href="#lab-5-事务--mvcc--wal">Lab 5</a>和<a href="#lab-6-redis-兼容">Lab 6</a>的测代码量和难度远大于之前的<code>Lab</code>, 难度曲线可能不太合理, 后续应考虑对各个<code>Lab</code>进行更加均衡的划分。</li>
 <li>进一步补充一些背景理论知识, 尤其是实际场景中的各种性能优化方案。</li>
 </ol>
 <p>如果你有兴趣参与本实验的建设，欢迎在下面的分支上提交PR:</p>
@@ -5840,6 +5972,11 @@ redis-cli -p 6379 LRANGE mylist 0 2
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -5848,13 +5985,13 @@ redis-cli -p 6379 LRANGE mylist 0 2
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
         <script src="./src/giscus.js"></script>
