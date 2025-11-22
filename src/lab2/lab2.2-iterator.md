@@ -110,14 +110,19 @@ bool operator==(const SearchItem &a, const SearchItem &b) {
 ## 3.3 实现构造函数
 接下来你需要实现`HeapIterator`的构造函数, 其参数就是已经遍历了所有`Skiplist`的迭代器构造的`vector`, `max_tranc_id`你可以暂时忽略:
 ```cpp
+HeapIterator::HeapIterator(bool skip_delete)
+    : max_tranc_id_(0), skip_delete_(skip_delete) {
+  // TODO: Lab2.2 实现 HeapIterator 构造函数
+}
 HeapIterator::HeapIterator(std::vector<SearchItem> item_vec,
-                           uint64_t max_tranc_id)
-    : max_tranc_id_(max_tranc_id) {
+                           uint64_t max_tranc_id, bool skip_delete)
+    : max_tranc_id_(max_tranc_id), skip_delete_(skip_delete) {
   // TODO: Lab2.2 实现 HeapIterator 构造函数
 }
 ```
 
-> Hint: 构造完堆后, 是否需要额外的一些初始化的滤除?
+> Hint 1: 构造完堆后, 是否需要额外的一些初始化的滤除?
+> Hint 2: （重要！！！）这里说明下`skip_delete`参数，这个参数用于控制迭代器是否删除`value`为空的键值对。`value`为空在逻辑上表示删除标记，这样的键值对是否保留取决于具体场景。当作为借口暴露给外部时，我们应该跳过删除的键值对；但用于数据刷盘时，删除标记是有效的存储记录，是不能被跳过的。
 
 ## 3.4 实现自增函数
 接下来自增函数是最重要的, 自增函数的逻辑是:
