@@ -60,8 +60,9 @@ class HeapIterator : public BaseIterator {
   friend class SstIterator;
 
 public:
-  HeapIterator() = default;
-  HeapIterator(std::vector<SearchItem> item_vec, uint64_t max_tranc_id);
+  HeapIterator(bool skip_delete = true);
+  HeapIterator(std::vector<SearchItem> item_vec, uint64_t max_tranc_id,
+               bool skip_delete = true);
   pointer operator->() const;
   virtual value_type operator*() const override;
   BaseIterator &operator++() override;
@@ -88,5 +89,6 @@ private:
       items;
   mutable std::shared_ptr<value_type> current; // 用于存储当前元素
   uint64_t max_tranc_id_ = 0;
+  bool skip_delete_;
 };
 } // namespace tiny_lsm

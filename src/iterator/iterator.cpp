@@ -21,9 +21,13 @@ bool operator==(const SearchItem &a, const SearchItem &b) {
 }
 
 // *************************** HeapIterator ***************************
+HeapIterator::HeapIterator(bool skip_delete)
+    : max_tranc_id_(0), skip_delete_(skip_delete) {
+  // TODO: Lab2.2 实现 HeapIterator 构造函数
+}
 HeapIterator::HeapIterator(std::vector<SearchItem> item_vec,
-                           uint64_t max_tranc_id)
-    : max_tranc_id_(max_tranc_id) {
+                           uint64_t max_tranc_id, bool skip_delete)
+    : max_tranc_id_(max_tranc_id), skip_delete_(skip_delete) {
   // TODO: Lab2.2 实现 HeapIterator 构造函数
 }
 
