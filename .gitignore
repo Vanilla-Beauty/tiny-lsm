@@ -3,3 +3,5 @@ book
 build
 sdk
 logs
+.cache
+compile_commands.json
