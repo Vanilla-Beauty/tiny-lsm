@@ -238,6 +238,9 @@ I have a plan to make this project a step-to-step Lab like `CMU15445` or `MIT 6.
 
 Besides, the branch `lab-dev` is a development branch for the lab construction.
 
+# Tools
+You can use the scripts or binaries in the `scripts` directory to help you debug or understand the project. For example, you can use `scripts/sst_visualize.py` to see the layout of the sst file.
+
 # 📜 License
 
 This project is licensed under the MIT License.
