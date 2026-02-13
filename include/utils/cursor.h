@@ -1,7 +1,9 @@
 // ...existing code...
 
+#include <cstddef>
 #include <cstdint>
 #include <vector>
+
 namespace tiny_lsm {
 
 class FileObj;
