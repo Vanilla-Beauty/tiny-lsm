@@ -1,3 +1,4 @@
+#ifndef _WIN32
 #pragma once
 
 #include <cstddef>
@@ -56,3 +57,4 @@ private:
   MmapFile &operator=(const MmapFile &) = delete;
 };
 } // namespace tiny_lsm
+#endif

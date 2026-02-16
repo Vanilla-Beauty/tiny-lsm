@@ -135,6 +135,7 @@ TEST_F(FileTest, MoveSemantics) {
   EXPECT_EQ(read_data, data);
 }
 
+#ifndef _WIN32
 TEST_F(FileTest, TruncateFile) {
   const std::string path = "test_data/truncate.dat";
   std::vector<uint8_t> data = {10, 20, 30, 40, 50, 60, 70, 80};
@@ -163,6 +164,7 @@ TEST_F(FileTest, TruncateFile) {
   auto reopened_file = FileObj::open(path, false);
   EXPECT_EQ(reopened_file.size(), 0);
 }
+#endif
 
 TEST_F(FileTest, MixedWriteAndAppendIntegers) {
   const std::string path = "test_data/mixed_rw.dat";

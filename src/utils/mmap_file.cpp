@@ -1,3 +1,4 @@
+#ifndef _WIN32
 #include "../../include/utils/mmap_file.h"
 #include <cstdint>
 #include <errno.h>
@@ -172,3 +173,4 @@ bool MmapFile::truncate(size_t size) {
 }
 
 } // namespace tiny_lsm
+#endif
