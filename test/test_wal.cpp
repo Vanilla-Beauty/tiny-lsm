@@ -161,10 +161,10 @@ TEST_F(WALTest, RecoverTest) {
 TEST_F(WALTest, PartialFlushRecoveryTest) {
   {
     LSM lsm(test_dir);
-    auto tran_ctx1 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
-    auto tran_ctx2 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
-    auto tran_ctx3 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
-    auto tran_ctx4 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto tran_ctx1 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
+    auto tran_ctx2 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
+    auto tran_ctx3 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
+    auto tran_ctx4 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
 
     tran_ctx4->put("key0", "value0");
 
@@ -193,14 +193,14 @@ TEST_F(WALTest, ConcurrentTransactionsTest) {
   {
     LSM lsm(test_dir);
     std::vector<std::thread> threads;
-    auto global_ctx = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto global_ctx = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     for (int j = 0; j < 10; ++j) {
       global_ctx->put("key" + std::to_string(-1) + "-" + std::to_string(j),
                 "value" + std::to_string(j));
     }
     for (int i = 0; i < 40; ++i) {
       threads.emplace_back([&, i]() {
-        auto ctx = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+        auto ctx = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
         for (int j = 0; j < 1000; ++j) {
           ctx->put("key" + std::to_string(i) + "-" + std::to_string(j),
                    "value" + std::to_string(j));
@@ -249,7 +249,7 @@ TEST_F(WALTest, HighConcurrencyWithAborts) {
     
     for (int i = 0; i < THREAD_COUNT; i++) {
       threads.emplace_back([&, i] {
-        auto ctx = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+        auto ctx = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
         bool do_abort = (i % 5 == 0);  // 20%的事务abort
         
         for (int j = 0; j < OPS_PER_THREAD; j++) {
@@ -306,32 +306,32 @@ TEST_F(WALTest, MixedTransactionCommitAbortAndCrashRecovery) {
   {
     LSM lsm(test_dir);
 
-    auto t1 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto t1 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     t1->put("k1", "v1");
     t1->commit();  // 提交
 
-    auto t2 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto t2 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     t2->put("k2", "v2");
     t2->abort();  // 中止
 
-    auto t3 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto t3 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     // 未提交，也未中止
     t3->put("k3", "v3");
 
-    auto t5 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto t5 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     t5->put("k5", "v5");
     t5->commit();
 
 
-    auto t6 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto t6 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     t6->put("k6", "v6");
     t6->commit();
 
-    auto t4 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto t4 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     t4->put("k4", "v4");
     t4->commit();
 
-    auto t7 = lsm.begin_tran(IsolationLevel::READ_COMMITTED);
+    auto t7 = lsm.begin_tran(IsolationLevel::READ_OP_COMMITTED);
     t7->put("k7", "v7");
     t7->commit();
 

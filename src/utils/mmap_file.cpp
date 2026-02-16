@@ -43,7 +43,7 @@ bool MmapFile::open(const std::string &filename, bool create) {
   return true;
 }
 
-bool MmapFile::create(const std::string &filename, std::vector<uint8_t> &buf) {
+bool MmapFile::create(const std::string &filename, const std::vector<uint8_t> &buf) {
   // 创建文件，设置大小并映射到内存
   if (!create_and_map(filename, buf.size())) {
     // throw std::runtime_error("Failed to create or wrte file: " + filename);

@@ -31,7 +31,7 @@ public:
   bool open(const std::string &filename, bool create = false);
 
   // 创建文件
-  bool create(const std::string &filename, std::vector<uint8_t> &buf);
+  bool create(const std::string &filename, const std::vector<uint8_t> &buf);
 
   // 关闭文件
   void close();

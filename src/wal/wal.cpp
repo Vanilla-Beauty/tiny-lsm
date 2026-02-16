@@ -1,6 +1,7 @@
 // src/wal/wal.cpp
 
 #include "../../include/wal/wal.h"
+#include "spdlog/spdlog.h"
 #include <algorithm>
 #include <cstdint>
 #include <fstream>
@@ -30,10 +31,13 @@ WAL::~WAL() {
     stop_cleaner_ = true;
   }
 
+  // 确保线程被正确唤醒并退出
   if (cleaner_thread_.joinable()) {
     cleaner_thread_.join();
   }
-  log_file_.sync();
+
+  // 显式关闭文件
+  log_file_.close(); // 显式关闭文件
 }
 
 std::map<uint64_t, std::vector<Record>>

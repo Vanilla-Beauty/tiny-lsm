@@ -15,14 +15,14 @@
 namespace tiny_lsm {
 
 enum class IsolationLevel {
-  READ_UNCOMMITTED,
-  READ_COMMITTED,
+  READ_UNOP_COMMITTED,
+  READ_OP_COMMITTED,
   REPEATABLE_READ,
   SERIALIZABLE
 };
 
 enum class TransactionState {
-  COMMITTED,
+  OP_COMMITTED,
   ABORTED
 };
 
@@ -49,7 +49,7 @@ public:
 
 public:
   std::shared_ptr<LSMEngine> engine_;
-  std::shared_ptr<TranManager> tranManager_;
+  std::weak_ptr<TranManager> tranManager_;
   uint64_t tranc_id_;
   std::vector<Record> operations;
   std::unordered_map<std::string, std::string> temp_map_;

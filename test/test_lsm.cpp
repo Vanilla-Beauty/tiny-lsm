@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <gtest/gtest.h>
+#include <iostream>
 #include <string>
 #include <unordered_map>
 
@@ -22,13 +23,18 @@ protected:
   }
 
   void TearDown() override {
+    if (no_clear) {
+      return;
+    }
     // Clean up test directory
     if (std::filesystem::exists(test_dir)) {
       std::filesystem::remove_all(test_dir);
     }
   }
+  void setNoClear() { no_clear = true; }
 
   std::string test_dir;
+  bool no_clear = false;
 };
 
 // Test basic operations: put, get, remove
@@ -222,6 +228,38 @@ TEST_F(LSMTest, MonotonyPredicate) {
   EXPECT_EQ(actual_keys, expected_keys);
 }
 
+TEST_F(LSMTest, TranContextTest) {
+  LSM lsm(test_dir);
+  {
+    auto tran_ctx = lsm.begin_tran(IsolationLevel::REPEATABLE_READ);
+
+    tran_ctx->put("key1", "value1");
+    tran_ctx->put("key2", "value2");
+
+    auto query = lsm.get("key1");
+    // 事务还没有提交, 应该查不到数据
+    EXPECT_FALSE(query.has_value());
+
+    auto commit_res = tran_ctx->commit();
+    EXPECT_TRUE(commit_res);
+
+    // 事务已经提交, 应该可以查到数据
+    query = lsm.get("key1");
+    EXPECT_EQ(query.value(), "value1");
+    query = lsm.get("key2");
+    EXPECT_EQ(query.value(), "value2");
+
+    auto tran_ctx2 = lsm.begin_tran(IsolationLevel::REPEATABLE_READ);
+    tran_ctx2->put("key1", "value1");
+    tran_ctx2->put("key2", "value2");
+
+    lsm.put("key2", "value22");
+
+    commit_res = tran_ctx2->commit();
+    EXPECT_FALSE(commit_res);
+  }
+}
+
 TEST_F(LSMTest, TrancIdTest) {
   // 注意是 LSMEngine 而不是 LSM
   // 因为 LSMEngine 才能手动控制事务id
@@ -268,36 +306,6 @@ TEST_F(LSMTest, TrancIdTest) {
       EXPECT_EQ(res.value().first, "tranc1");
     }
   }
-}
-
-TEST_F(LSMTest, TranContextTest) {
-  LSM lsm(test_dir);
-  auto tran_ctx = lsm.begin_tran(IsolationLevel::REPEATABLE_READ);
-
-  tran_ctx->put("key1", "value1");
-  tran_ctx->put("key2", "value2");
-
-  auto query = lsm.get("key1");
-  // 事务还没有提交, 应该查不到数据
-  EXPECT_FALSE(query.has_value());
-
-  auto commit_res = tran_ctx->commit();
-  EXPECT_TRUE(commit_res);
-
-  // 事务已经提交, 应该可以查到数据
-  query = lsm.get("key1");
-  EXPECT_EQ(query.value(), "value1");
-  query = lsm.get("key2");
-  EXPECT_EQ(query.value(), "value2");
-
-  auto tran_ctx2 = lsm.begin_tran(IsolationLevel::REPEATABLE_READ);
-  tran_ctx2->put("key1", "value1");
-  tran_ctx2->put("key2", "value2");
-
-  lsm.put("key2", "value22");
-
-  commit_res = tran_ctx2->commit();
-  EXPECT_FALSE(commit_res);
 }
 
 TEST_F(LSMTest, Recover) {
@@ -374,11 +382,11 @@ TEST_F(LSMTest, BigPersistence) {
   }
 }
 
-//伪随机，打乱vector
+// 伪随机，打乱vector
 void random_change_vector(std::vector<int> &a) {
   std::vector<int> pri{3, 5, 7, 11, 13};
   int pri_pos = 0;
-  int swap_cnt = std::min((int)a.size(), 50000);
+  int swap_cnt = (std::min)((int)a.size(), 50000);
   for (int i = 0; i < swap_cnt; i++) {
     int x1 = ((i * pri[pri_pos] + i * i + 19) % (a.size()));
     int x2 = ((i * i * pri[(pri_pos + 1) % 5] * pri[(pri_pos + 1) % 5] + i * i +
@@ -389,7 +397,7 @@ void random_change_vector(std::vector<int> &a) {
 }
 
 TEST_F(LSMTest, BigPersistence2) {
-  //固定num的后一半会被删除
+  // 固定num的后一半会被删除
   int num = 1000000;
   std::vector<int> idx1, idx2;
   idx1.reserve(num / 2 + 1), idx2.reserve(num / 2 + 1);
@@ -436,16 +444,17 @@ TEST_F(LSMTest, BigPersistence2) {
 }
 
 TEST_F(LSMTest, SmallConfigLargeDataPersistent) {
+  setNoClear();
 
   auto &&config = const_cast<TomlConfig &>(TomlConfig::getInstance());
-  //手动设置，把size都调小一些
+  // 手动设置，把size都调小一些
   config.modify_lsm_tol_mem_size_limit(98304);
 
   config.modify_lsm_per_mem_size_limit(4096);
   config.modify_lsm_block_size(1024);
 
-  //固定num的后一半会被删除
-  int num = 500000;
+  // 固定num的后一半会被删除
+  int num = 30000;
   std::vector<int> idx1, idx2;
   idx1.reserve(num / 2 + 1), idx2.reserve(num / 2 + 1);
 

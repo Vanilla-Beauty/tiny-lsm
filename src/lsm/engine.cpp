@@ -11,6 +11,7 @@
 #include <cassert>
 #include <cstddef>
 #include <filesystem>
+#include <iostream>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -76,8 +77,8 @@ LSMEngine::LSMEngine(std::string path) : data_dir(path) {
       // 加载SST文件, 初始化时需要加写锁
       std::unique_lock<std::shared_mutex> lock(ssts_mtx); // 写锁
 
-      next_sst_id = std::max(sst_id, next_sst_id); // 记录目前最大的 sst_id
-      cur_max_level = std::max(level, cur_max_level); // 记录目前最大的 level
+      next_sst_id = (std::max)(sst_id, next_sst_id);    // 记录目前最大的 sst_id
+      cur_max_level = (std::max)(level, cur_max_level); // 记录目前最大的 level
       std::string sst_path = get_sst_path(sst_id, level);
       auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache);
       spdlog::info("LSMEngine--"
@@ -611,7 +612,7 @@ void LSMEngine::full_compact(size_t src_level) {
   level_sst_ids[src_level].clear();
   level_sst_ids[src_level + 1].clear();
 
-  cur_max_level = std::max(cur_max_level, src_level + 1);
+  cur_max_level = (std::max)(cur_max_level, src_level + 1);
 
   // 添加新的sst
   for (auto &new_sst : new_ssts) {
@@ -716,7 +717,7 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
     }
   }
 
-  //只要builder里面存在没有落盘的数据，就要把它放到sst里面去。
+  // 只要builder里面存在没有落盘的数据，就要把它放到sst里面去。
   if (new_sst_builder.real_size() > 0) {
     size_t sst_id = next_sst_id++; // TODO: 后续优化并发性
     std::string sst_path = get_sst_path(sst_id, target_level);
@@ -758,9 +759,9 @@ LSM::LSM(std::string path)
       continue;
     }
     for (auto &record : records) {
-      if (record.getOperationType() == OperationType::PUT) {
+      if (record.getOperationType() == OperationType::OP_PUT) {
         engine->put(record.getKey(), record.getValue(), tranc_id);
-      } else if (record.getOperationType() == OperationType::DELETE) {
+      } else if (record.getOperationType() == OperationType::OP_DELETE) {
         engine->remove(record.getKey(), tranc_id);
       }
     }

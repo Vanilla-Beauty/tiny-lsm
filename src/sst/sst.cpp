@@ -215,8 +215,8 @@ void SSTBuilder::add(const std::string &key, const std::string &value,
   }
 
   // 记录 事务id 范围
-  max_tranc_id_ = std::max(max_tranc_id_, tranc_id);
-  min_tranc_id_ = std::min(min_tranc_id_, tranc_id);
+  max_tranc_id_ = (std::max)(max_tranc_id_, tranc_id);
+  min_tranc_id_ = (std::min)(min_tranc_id_, tranc_id);
 
   bool force_write = key == last_key;
   // 连续出现相同的 key 必须位于 同一个 block 中

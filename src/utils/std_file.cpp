@@ -1,5 +1,15 @@
 #include "../../include/utils/std_file.h"
+#include "spdlog/spdlog.h"
+#include <fstream>
+#include <iostream>
+
+#ifdef _WIN32
+#include <io.h>
+#include <windows.h>
+
+#else
 #include <unistd.h>
+#endif
 
 namespace tiny_lsm {
 
@@ -13,7 +23,20 @@ bool StdFile::open(const std::string &filename, bool create) {
     file_.open(filename, std::ios::in | std::ios::out | std::ios::binary);
   }
 
-  return file_.is_open();
+  if (!file_.is_open()) {
+    // 获取具体的错误信息
+    int err = errno;
+    std::string error_msg = fmt::format("Failed to open file '{}': {} ({})",
+                                        filename, strerror(err), err);
+
+    // 同时输出到日志文件和标准错误
+    spdlog::error(error_msg);
+    std::cerr << "[ERROR] " << error_msg << std::endl;
+
+    return false;
+  }
+
+  return true;
 }
 
 bool StdFile::create(const std::string &filename, std::vector<uint8_t> &buf) {
@@ -63,8 +86,13 @@ bool StdFile::sync() {
   return file_.good();
 }
 
-bool StdFile::remove() { return std::remove(filename_.c_str()) == 0; }
+bool StdFile::remove() {
+  // 修复类型转换问题
+  return std::remove((const char *)filename_.c_str()) == 0;
+}
 
+// TODO: Windows下的文件截断实现目前有问题搁置
+#ifndef _WIN32
 bool StdFile::truncate(size_t size) {
   if (file_.is_open())
     file_.close();
@@ -72,4 +100,5 @@ bool StdFile::truncate(size_t size) {
   file_.open(filename_, std::ios::in | std::ios::out | std::ios::binary);
   return ret == 0 && file_.is_open();
 }
+#endif
 } // namespace tiny_lsm

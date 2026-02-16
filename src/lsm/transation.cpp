@@ -17,10 +17,10 @@ namespace tiny_lsm {
 
 inline std::string isolation_level_to_string(const IsolationLevel &level) {
   switch (level) {
-  case IsolationLevel::READ_UNCOMMITTED:
-    return "READ_UNCOMMITTED";
-  case IsolationLevel::READ_COMMITTED:
-    return "READ_COMMITTED";
+  case IsolationLevel::READ_UNOP_COMMITTED:
+    return "READ_UNOP_COMMITTED";
+  case IsolationLevel::READ_OP_COMMITTED:
+    return "READ_OP_COMMITTED";
   case IsolationLevel::REPEATABLE_READ:
     return "REPEATABLE_READ";
   case IsolationLevel::SERIALIZABLE:
@@ -35,7 +35,7 @@ TranContext::TranContext(uint64_t tranc_id, std::shared_ptr<LSMEngine> engine,
                          std::shared_ptr<TranManager> tranManager,
                          const enum IsolationLevel &isolation_level)
     : tranc_id_(tranc_id), engine_(std::move(engine)),
-      tranManager_(std::move(tranManager)), isolation_level_(isolation_level) {
+      tranManager_(tranManager), isolation_level_(isolation_level) {
   operations.emplace_back(Record::createRecord(tranc_id_));
 }
 
@@ -49,16 +49,16 @@ void TranContext::put(const std::string &key, const std::string &value) {
   // 所有隔离级别都需要先写入 operations 中
   operations.emplace_back(Record::putRecord(this->tranc_id_, key, value));
 
-  if (isolation_level == IsolationLevel::READ_UNCOMMITTED) {
-    // 1 如果隔离级别是 READ_UNCOMMITTED, 直接写入 memtable
+  if (isolation_level == IsolationLevel::READ_UNOP_COMMITTED) {
+    // 1 如果隔离级别是 READ_UNOP_COMMITTED, 直接写入 memtable
     // 先查询以前的记录, 因为回滚时可能需要
     auto prev_record = engine_->get(key, 0);
     rollback_map_[key] = prev_record;
     engine_->put(key, value, tranc_id_);
 
     spdlog::trace(
-        "TranContext--READ_UNCOMMITTED: put({}, {}) applied to memtable", key,
-        value);
+        "TranContext--READ_UNOP_COMMITTED: put({}, {}) applied to memtable",
+        key, value);
 
     return;
   }
@@ -78,15 +78,16 @@ void TranContext::remove(const std::string &key) {
   // 所有隔离级别都需要先写入 operations 中
   operations.emplace_back(Record::deleteRecord(this->tranc_id_, key));
 
-  if (isolation_level == IsolationLevel::READ_UNCOMMITTED) {
-    // 1 如果隔离级别是 READ_UNCOMMITTED, 直接写入 memtable
+  if (isolation_level == IsolationLevel::READ_UNOP_COMMITTED) {
+    // 1 如果隔离级别是 READ_UNOP_COMMITTED, 直接写入 memtable
     // 先查询以前的记录, 因为回滚时可能需要
     auto prev_record = engine_->get(key, 0);
     rollback_map_[key] = prev_record;
     engine_->remove(key, tranc_id_);
 
     spdlog::trace(
-        "TranContext--READ_UNCOMMITTED: remove({}) applied to memtable", key);
+        "TranContext--READ_UNOP_COMMITTED: remove({}) applied to memtable",
+        key);
 
     return;
   }
@@ -104,7 +105,7 @@ std::optional<std::string> TranContext::get(const std::string &key) {
 
   // 1 所有隔离级别先就近在当前操作的临时缓存中查找
   if (temp_map_.find(key) != temp_map_.end()) {
-    // READ_UNCOMMITTED 随单次操作更新数据库, 不需要最后的统一更新
+    // READ_UNOP_COMMITTED 随单次操作更新数据库, 不需要最后的统一更新
     // 这一步骤肯定会自然跳过的
     spdlog::trace("TranContext--{}: get({}) found in temp map",
                   isolation_level_to_string(isolation_level), key);
@@ -114,12 +115,12 @@ std::optional<std::string> TranContext::get(const std::string &key) {
 
   // 2 否则使用 engine 查询
   std::optional<std::pair<std::string, uint64_t>> query;
-  if (isolation_level == IsolationLevel::READ_UNCOMMITTED) {
-    // 2.1 如果隔离级别是 READ_UNCOMMITTED, 使用 engine
+  if (isolation_level == IsolationLevel::READ_UNOP_COMMITTED) {
+    // 2.1 如果隔离级别是 READ_UNOP_COMMITTED, 使用 engine
     // 查询时不需要判断 tranc_id, 直接获取最新值
     query = engine_->get(key, 0);
-  } else if (isolation_level == IsolationLevel::READ_COMMITTED) {
-    // 2.2 如果隔离级别是 READ_COMMITTED, 使用 engine
+  } else if (isolation_level == IsolationLevel::READ_OP_COMMITTED) {
+    // 2.2 如果隔离级别是 READ_OP_COMMITTED, 使用 engine
     // 查询时判断 tranc_id
     query = engine_->get(key, this->tranc_id_);
   } else {
@@ -150,13 +151,14 @@ bool TranContext::commit(bool test_fail) {
 
   auto isolation_level = get_isolation_level();
 
-  if (isolation_level == IsolationLevel::READ_UNCOMMITTED) {
-    // READ_UNCOMMITTED 随单次操作更新数据库, 不需要最后的统一更新
+  if (isolation_level == IsolationLevel::READ_UNOP_COMMITTED) {
+    // READ_UNOP_COMMITTED 随单次操作更新数据库, 不需要最后的统一更新
     // 因此也不需要使用到后面的锁保证正确性
     operations.emplace_back(Record::commitRecord(this->tranc_id_));
 
     // 先刷入wal
-    auto wal_success = tranManager_->write_to_wal(operations);
+    auto tranManager = tranManager_.lock();
+    auto wal_success = tranManager->write_to_wal(operations);
 
     if (!wal_success) {
       spdlog::error(
@@ -167,7 +169,8 @@ bool TranContext::commit(bool test_fail) {
     }
     engine_->memtable.put_("", "", tranc_id_);
     isCommited = true;
-    tranManager_->add_ready_to_flush_tranc_id(tranc_id_, TransactionState::COMMITTED);
+    tranManager->add_ready_to_flush_tranc_id(tranc_id_,
+                                             TransactionState::OP_COMMITTED);
 
     spdlog::info(
         "TranContext--commit(): Transaction ID={} committed successfully",
@@ -185,6 +188,8 @@ bool TranContext::commit(bool test_fail) {
   MemTable &memtable = engine_->memtable;
   std::unique_lock<std::shared_mutex> wlock1(memtable.frozen_mtx);
   std::unique_lock<std::shared_mutex> wlock2(memtable.cur_mtx);
+
+  auto tranManager = tranManager_.lock();
 
   if (isolation_level == IsolationLevel::REPEATABLE_READ ||
       isolation_level == IsolationLevel::SERIALIZABLE) {
@@ -204,7 +209,8 @@ bool TranContext::commit(bool test_fail) {
         // 表示更晚创建的事务修改了相同的key, 并先提交, 发生了冲突
         // 需要终止事务
         isAborted = true;
-        tranManager_->add_ready_to_flush_tranc_id(tranc_id_, TransactionState::ABORTED);
+        tranManager->add_ready_to_flush_tranc_id(tranc_id_,
+                                                 TransactionState::ABORTED);
 
         spdlog::warn("TranContext--commit(): Conflict detected on key={}, "
                      "aborting transaction ID={}",
@@ -213,7 +219,7 @@ bool TranContext::commit(bool test_fail) {
         return false;
       } else {
         // 步骤2: 判断sst中是否是否存在冲突
-        if (tranManager_->get_max_flushed_tranc_id() <= tranc_id_) {
+        if (tranManager->get_max_flushed_tranc_id() <= tranc_id_) {
           // sst 中最大的 tranc_id 小于当前 tranc_id, 没有冲突
           continue;
         }
@@ -228,7 +234,8 @@ bool TranContext::commit(bool test_fail) {
             // 表示更晚创建的事务修改了相同的key, 并先提交, 发生了冲突
             // 需要终止事务
             isAborted = true;
-            tranManager_->add_ready_to_flush_tranc_id(tranc_id_, TransactionState::ABORTED);
+            tranManager->add_ready_to_flush_tranc_id(tranc_id_,
+                                                     TransactionState::ABORTED);
 
             spdlog::warn("TranContext--commit(): SST conflict on key={}, "
                          "aborting transaction ID={}",
@@ -247,7 +254,7 @@ bool TranContext::commit(bool test_fail) {
   operations.emplace_back(Record::commitRecord(this->tranc_id_));
 
   // 先刷入wal
-  auto wal_success = tranManager_->write_to_wal(operations);
+  auto wal_success = tranManager->write_to_wal(operations);
 
   if (!wal_success) {
     spdlog::error(
@@ -267,7 +274,8 @@ bool TranContext::commit(bool test_fail) {
   }
 
   isCommited = true;
-  tranManager_->add_ready_to_flush_tranc_id(tranc_id_, TransactionState::COMMITTED);
+  tranManager->add_ready_to_flush_tranc_id(tranc_id_,
+                                           TransactionState::OP_COMMITTED);
 
   spdlog::info(
       "TranContext--commit(): Transaction ID={} committed successfully",
@@ -280,7 +288,9 @@ bool TranContext::abort() {
   auto isolation_level = get_isolation_level();
   spdlog::info("TranContext--abort(): Aborting transaction ID={}", tranc_id_);
 
-  if (isolation_level == IsolationLevel::READ_UNCOMMITTED) {
+  auto tranManager = tranManager_.lock();
+
+  if (isolation_level == IsolationLevel::READ_UNOP_COMMITTED) {
     // 需要手动恢复之前的更改
     // TODO: 需要使用批量化操作优化性能
     for (auto &[k, res] : rollback_map_) {
@@ -292,8 +302,9 @@ bool TranContext::abort() {
       }
     }
     isAborted = true;
-    tranManager_->add_ready_to_flush_tranc_id(tranc_id_, TransactionState::ABORTED);
-    
+    tranManager->add_ready_to_flush_tranc_id(tranc_id_,
+                                             TransactionState::ABORTED);
+
     spdlog::info("TranContext--abort(): Transaction ID={} aborted", tranc_id_);
 
     return true;
@@ -304,14 +315,15 @@ bool TranContext::abort() {
 
   // operations.emplace_back(Record::rollbackRecord(this->tranc_id_));
   // // 先刷入wal
-  // auto wal_success = tranManager_->write_to_wal(operations);
+  // auto wal_success = tranManager->write_to_wal(operations);
 
   // if (!wal_success) {
   //   throw std::runtime_error("write to wal failed");
   // }
 
   isAborted = true;
-  tranManager_->add_ready_to_flush_tranc_id(tranc_id_, TransactionState::ABORTED);
+  tranManager->add_ready_to_flush_tranc_id(tranc_id_,
+                                           TransactionState::ABORTED);
   return true;
 }
 
@@ -344,7 +356,8 @@ void TranManager::init_new_wal() {
       std::filesystem::remove(entry.path());
     }
   }
-  wal = std::make_shared<WAL>(data_dir_, 128, get_max_flushed_tranc_id(), 1, 4096);
+  wal = std::make_shared<WAL>(data_dir_, 128, get_max_flushed_tranc_id(), 1,
+                              4096);
   flushedTrancIds_.clear();
   flushedTrancIds_.insert(nextTransactionId_.load() - 1);
   spdlog::info("TranManager--init_new_wal(): New WAL initialized");
@@ -369,9 +382,8 @@ void TranManager::write_tranc_id_file() {
   memcpy(buf.data(), &nextTransactionId, sizeof(uint64_t));
   memcpy(buf.data() + sizeof(uint64_t), &tranc_size, sizeof(uint64_t));
   int offset = sizeof(uint64_t) * 2;
-  for (auto& tranc_id : flushedTrancIds_) {
-    memcpy(buf.data() + offset, &tranc_id,
-         sizeof(uint64_t));
+  for (auto &tranc_id : flushedTrancIds_) {
+    memcpy(buf.data() + offset, &tranc_id, sizeof(uint64_t));
     offset += sizeof(uint64_t);
   }
 
@@ -390,7 +402,8 @@ void TranManager::read_tranc_id_file() {
   }
 }
 
-void TranManager::add_ready_to_flush_tranc_id(uint64_t tranc_id, TransactionState state) {
+void TranManager::add_ready_to_flush_tranc_id(uint64_t tranc_id,
+                                              TransactionState state) {
   std::unique_lock lock(mutex_);
   readyToFlushTrancIds_[tranc_id] = state;
 }
@@ -398,11 +411,11 @@ void TranManager::add_ready_to_flush_tranc_id(uint64_t tranc_id, TransactionStat
 void TranManager::add_flushed_tranc_id(uint64_t tranc_id) {
   std::unique_lock lock(mutex_);
   std::vector<uint64_t> needRemove;
-  for (auto& [readyId, state] : readyToFlushTrancIds_) {
-    if(readyId < tranc_id && state == TransactionState::ABORTED) {
+  for (auto &[readyId, state] : readyToFlushTrancIds_) {
+    if (readyId < tranc_id && state == TransactionState::ABORTED) {
       flushedTrancIds_.insert(readyId);
       needRemove.push_back(readyId);
-    } else if(readyId == tranc_id) {
+    } else if (readyId == tranc_id) {
       flushedTrancIds_.insert(readyId);
       needRemove.push_back(readyId);
       break;
@@ -411,7 +424,7 @@ void TranManager::add_flushed_tranc_id(uint64_t tranc_id) {
   for (auto id : needRemove) {
     readyToFlushTrancIds_.erase(id);
   }
-  
+
   flushedTrancIds_ = compressSet<uint64_t>(flushedTrancIds_);
 }
 
@@ -419,7 +432,7 @@ uint64_t TranManager::getNextTransactionId() {
   return nextTransactionId_.fetch_add(1);
 }
 
-std::set<uint64_t>& TranManager::get_flushed_tranc_ids() {
+std::set<uint64_t> &TranManager::get_flushed_tranc_ids() {
   return flushedTrancIds_;
 }
 

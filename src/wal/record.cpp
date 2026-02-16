@@ -8,21 +8,21 @@ namespace tiny_lsm {
 
 Record Record::createRecord(uint64_t tranc_id) {
   Record record;
-  record.operation_type_ = OperationType::CREATE;
+  record.operation_type_ = OperationType::OP_CREATE;
   record.tranc_id_ = tranc_id;
   record.record_len_ = sizeof(uint16_t) + sizeof(uint64_t) + sizeof(uint8_t);
   return record;
 }
 Record Record::commitRecord(uint64_t tranc_id) {
   Record record;
-  record.operation_type_ = OperationType::COMMIT;
+  record.operation_type_ = OperationType::OP_COMMIT;
   record.tranc_id_ = tranc_id;
   record.record_len_ = sizeof(uint16_t) + sizeof(uint64_t) + sizeof(uint8_t);
   return record;
 }
 Record Record::rollbackRecord(uint64_t tranc_id) {
   Record record;
-  record.operation_type_ = OperationType::ROLLBACK;
+  record.operation_type_ = OperationType::OP_ROLLBACK;
   record.tranc_id_ = tranc_id;
   record.record_len_ = sizeof(uint16_t) + sizeof(uint64_t) + sizeof(uint8_t);
   return record;
@@ -30,7 +30,7 @@ Record Record::rollbackRecord(uint64_t tranc_id) {
 Record Record::putRecord(uint64_t tranc_id, const std::string &key,
                          const std::string &value) {
   Record record;
-  record.operation_type_ = OperationType::PUT;
+  record.operation_type_ = OperationType::OP_PUT;
   record.tranc_id_ = tranc_id;
   record.key_ = key;
   record.value_ = value;
@@ -41,7 +41,7 @@ Record Record::putRecord(uint64_t tranc_id, const std::string &key,
 }
 Record Record::deleteRecord(uint64_t tranc_id, const std::string &key) {
   Record record;
-  record.operation_type_ = OperationType::DELETE;
+  record.operation_type_ = OperationType::OP_DELETE;
   record.tranc_id_ = tranc_id;
   record.key_ = key;
   record.record_len_ = sizeof(uint16_t) + sizeof(uint64_t) + sizeof(uint8_t) +
@@ -69,7 +69,7 @@ std::vector<uint8_t> Record::encode() const {
   std::memcpy(record.data() + sizeof(uint16_t) + sizeof(uint64_t), &type_byte,
               sizeof(uint8_t));
 
-  if (this->operation_type_ == OperationType::PUT) {
+  if (this->operation_type_ == OperationType::OP_PUT) {
     uint16_t key_len = key_.size();
     std::memcpy(record.data() + key_offset, &key_len, sizeof(uint16_t));
     std::memcpy(record.data() + key_offset + sizeof(uint16_t), key_.data(),
@@ -81,7 +81,7 @@ std::vector<uint8_t> Record::encode() const {
     std::memcpy(record.data() + value_offset, &value_len, sizeof(uint16_t));
     std::memcpy(record.data() + value_offset + sizeof(uint16_t), value_.data(),
                 value_.size());
-  } else if (this->operation_type_ == OperationType::DELETE) {
+  } else if (this->operation_type_ == OperationType::OP_DELETE) {
     uint16_t key_len = key_.size();
     std::memcpy(record.data() + key_offset, &key_len, sizeof(uint16_t));
     std::memcpy(record.data() + key_offset + sizeof(uint16_t), key_.data(),
@@ -124,7 +124,7 @@ std::vector<Record> Record::decode(const std::vector<uint8_t> &data) {
     record.operation_type_ = operation_type;
     record.record_len_ = record_len;
 
-    if (operation_type == OperationType::PUT) {
+    if (operation_type == OperationType::OP_PUT) {
       // 读取 key_len
       uint16_t key_len;
       std::memcpy(&key_len, data.data() + pos, sizeof(uint16_t));
@@ -144,7 +144,7 @@ std::vector<Record> Record::decode(const std::vector<uint8_t> &data) {
       record.value_ = std::string(
           reinterpret_cast<const char *>(data.data() + pos), value_len);
       pos += value_len;
-    } else if (operation_type == OperationType::DELETE) {
+    } else if (operation_type == OperationType::OP_DELETE) {
       // 读取 key_len
       uint16_t key_len;
       std::memcpy(&key_len, data.data() + pos, sizeof(uint16_t));
@@ -173,14 +173,14 @@ bool Record::operator==(const Record &other) const {
   }
 
   // 不需要 key 和 value 比较的情况
-  if (operation_type_ == OperationType::CREATE ||
-      operation_type_ == OperationType::COMMIT ||
-      operation_type_ == OperationType::ROLLBACK) {
+  if (operation_type_ == OperationType::OP_CREATE ||
+      operation_type_ == OperationType::OP_COMMIT ||
+      operation_type_ == OperationType::OP_ROLLBACK) {
     return true;
   }
 
   // 需要 key 比较的情况
-  if (operation_type_ == OperationType::DELETE) {
+  if (operation_type_ == OperationType::OP_DELETE) {
     return key_ == other.key_;
   }
 

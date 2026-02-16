@@ -22,6 +22,7 @@ size_t FileObj::size() const { return m_file->size(); }
 
 void FileObj::del_file() { m_file->remove(); }
 
+#ifndef _WIN32
 bool FileObj::truncate(size_t offset) {
   if (offset > m_file->size()) {
     throw std::out_of_range("Truncate offset beyond file size");
@@ -30,6 +31,7 @@ bool FileObj::truncate(size_t offset) {
 
   return ok;
 }
+#endif
 
 FileObj FileObj::create_and_write(const std::string &path,
                                   std::vector<uint8_t> buf) {
@@ -191,4 +193,10 @@ bool FileObj::sync() { return m_file->sync(); }
 Cursor FileObj::get_cursor(FileObj &file_obj) {
   return Cursor(&file_obj, 0);
 }
+
+// 添加 close 函数
+void FileObj::close() {
+  m_file->close();
+}
+
 } // namespace tiny_lsm

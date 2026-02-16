@@ -269,8 +269,8 @@ MemTable::flush_last(SSTBuilder &builder, std::string &sst_path, size_t sst_id,
     if (k == "" && v == "") {
       flushed_tranc_ids.push_back(t);
     }
-    max_tranc_id = std::max(t, max_tranc_id);
-    min_tranc_id = std::min(t, min_tranc_id);
+    max_tranc_id = (std::max)(t, max_tranc_id);
+    min_tranc_id = (std::min)(t, min_tranc_id);
     builder.add(k, v, t);
   }
   auto sst = builder.build(sst_id, sst_path, block_cache);

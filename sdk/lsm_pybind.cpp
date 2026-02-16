@@ -49,8 +49,8 @@ void bind_TranContext(py::module &m) {
 
 void bind_IsolationLevel(py::module &m) {
   py::enum_<tiny_lsm::IsolationLevel>(m, "IsolationLevel")
-      .value("READ_UNCOMMITTED", tiny_lsm::IsolationLevel::READ_UNCOMMITTED)
-      .value("READ_COMMITTED", tiny_lsm::IsolationLevel::READ_COMMITTED)
+      .value("READ_UNOP_COMMITTED", tiny_lsm::IsolationLevel::READ_UNOP_COMMITTED)
+      .value("READ_OP_COMMITTED", tiny_lsm::IsolationLevel::READ_OP_COMMITTED)
       .value("REPEATABLE_READ", tiny_lsm::IsolationLevel::REPEATABLE_READ)
       .value("SERIALIZABLE", tiny_lsm::IsolationLevel::SERIALIZABLE)
       .export_values();
