@@ -1,7 +1,7 @@
-#include "../include/logger/logger.h"
-#include "../include/wal/record.h"
-#include "../include/lsm/engine.h"
-#include "../include/wal/wal.h"
+#include "logger/logger.h"
+#include "wal/record.h"
+#include "lsm/engine.h"
+#include "wal/wal.h"
 #include <filesystem>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

@@ -1,4 +1,4 @@
-#include "../../include/lsm/two_merge_iterator.h"
+#include "lsm/two_merge_iterator.h"
 
 namespace tiny_lsm {
 

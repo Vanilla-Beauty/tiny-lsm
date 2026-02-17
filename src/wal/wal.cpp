@@ -1,6 +1,6 @@
 // src/wal/wal.cpp
 
-#include "../../include/wal/wal.h"
+#include "wal/wal.h"
 #include "spdlog/spdlog.h"
 #include <algorithm>
 #include <cstdint>

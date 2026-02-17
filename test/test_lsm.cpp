@@ -1,7 +1,7 @@
-#include "../include/config/config.h"
-#include "../include/logger/logger.h"
-#include "../include/lsm/engine.h"
-#include "../include/lsm/level_iterator.h"
+#include "config/config.h"
+#include "logger/logger.h"
+#include "lsm/engine.h"
+#include "lsm/level_iterator.h"
 #include <cstdlib>
 #include <filesystem>
 #include <gtest/gtest.h>

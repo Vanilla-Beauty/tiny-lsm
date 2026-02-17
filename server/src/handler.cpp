@@ -8,77 +8,32 @@ std::string toLower(const std::string &str) {
   return lowerStr;
 }
 
-// 将操作类型字符串转换为枚举类型 OPS
+const std::unordered_map<std::string, OPS> &getOpsMap() {
+  static const std::unordered_map<std::string, OPS> opsMap = {
+      {"ping", OPS::PING},       {"flushall", OPS::FLUSHALL},
+      {"save", OPS::SAVE},       {"get", OPS::GET},
+      {"set", OPS::SET},         {"del", OPS::DEL},
+      {"incr", OPS::INCR},       {"decr", OPS::DECR},
+      {"expire", OPS::EXPIRE},   {"ttl", OPS::TTL},
+      {"hset", OPS::HSET},       {"hget", OPS::HGET},
+      {"hdel", OPS::HDEL},       {"hkeys", OPS::HKEYS},
+      {"rpush", OPS::RPUSH},     {"lpush", OPS::LPUSH},
+      {"rpop", OPS::RPOP},       {"lpop", OPS::LPOP},
+      {"llen", OPS::LLEN},       {"lrange", OPS::LRANGE},
+      {"zadd", OPS::ZADD},       {"zcard", OPS::ZCARD},
+      {"zincrby", OPS::ZINCRBY}, {"zrange", OPS::ZRANGE},
+      {"zrank", OPS::ZRANK},     {"zrem", OPS::ZREM},
+      {"zscore", OPS::ZSCORE},   {"sadd", OPS::SADD},
+      {"scard", OPS::SCARD},     {"smembers", OPS::SMEMBERS},
+      {"srem", OPS::SREM},       {"sismember", OPS::SISMEMBER}};
+  return opsMap;
+}
+
 OPS string2Ops(const std::string &opStr) {
   std::string lowerOpStr = toLower(opStr);
-
-  if (lowerOpStr == "ping") {
-    return OPS::PING;
-  } else if (lowerOpStr == "flushall") {
-    return OPS::FLUSHALL;
-  } else if (lowerOpStr == "save") {
-    return OPS::SAVE;
-  } else if (lowerOpStr == "get") {
-    return OPS::GET;
-  } else if (lowerOpStr == "set") {
-    return OPS::SET;
-  } else if (lowerOpStr == "del") {
-    return OPS::DEL;
-  } else if (lowerOpStr == "incr") {
-    return OPS::INCR;
-  } else if (lowerOpStr == "decr") {
-    return OPS::DECR;
-  } else if (lowerOpStr == "expire") {
-    return OPS::EXPIRE;
-  } else if (lowerOpStr == "ttl") {
-    return OPS::TTL;
-  } else if (lowerOpStr == "hset") {
-    return OPS::HSET;
-  } else if (lowerOpStr == "hget") {
-    return OPS::HGET;
-  } else if (lowerOpStr == "hdel") {
-    return OPS::HDEL;
-  } else if (lowerOpStr == "hkeys") {
-    return OPS::HKEYS;
-  } else if (lowerOpStr == "rpush") {
-    return OPS::RPUSH;
-  } else if (lowerOpStr == "lpush") {
-    return OPS::LPUSH;
-  } else if (lowerOpStr == "rpop") {
-    return OPS::RPOP;
-  } else if (lowerOpStr == "lpop") {
-    return OPS::LPOP;
-  } else if (lowerOpStr == "llen") {
-    return OPS::LLEN;
-  } else if (lowerOpStr == "lrange") {
-    return OPS::LRANGE;
-  } else if (lowerOpStr == "zadd") {
-    return OPS::ZADD;
-  } else if (lowerOpStr == "zcard") {
-    return OPS::ZCARD;
-  } else if (lowerOpStr == "zincrby") {
-    return OPS::ZINCRBY;
-  } else if (lowerOpStr == "zrange") {
-    return OPS::ZRANGE;
-  } else if (lowerOpStr == "zrank") {
-    return OPS::ZRANK;
-  } else if (lowerOpStr == "zrem") {
-    return OPS::ZREM;
-  } else if (lowerOpStr == "zscore") {
-    return OPS::ZSCORE;
-  } else if (lowerOpStr == "sadd") {
-    return OPS::SADD;
-  } else if (lowerOpStr == "scard") {
-    return OPS::SCARD;
-  } else if (lowerOpStr == "smembers") {
-    return OPS::SMEMBERS;
-  } else if (lowerOpStr == "srem") {
-    return OPS::SREM;
-  } else if (lowerOpStr == "sismember") {
-    return OPS::SISMEMBER;
-  } else {
-    return OPS::UNKNOWN;
-  }
+  const auto &opsMap = getOpsMap();
+  auto it = opsMap.find(lowerOpStr);
+  return (it != opsMap.end()) ? it->second : OPS::UNKNOWN;
 }
 
 std::string flushall_handler(RedisWrapper &engine) {

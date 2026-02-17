@@ -1,5 +1,5 @@
-#include "../include/block/blockmeta.h"
-#include "../include/logger/logger.h"
+#include "block/blockmeta.h"
+#include "logger/logger.h"
 #include <gtest/gtest.h>
 
 using namespace ::tiny_lsm;

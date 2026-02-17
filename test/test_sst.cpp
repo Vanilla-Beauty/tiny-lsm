@@ -1,8 +1,8 @@
-#include "../include/config/config.h"
-#include "../include/consts.h"
-#include "../include/logger/logger.h"
-#include "../include/sst/sst.h"
-#include "../include/sst/sst_iterator.h"
+#include "config/config.h"
+#include "consts.h"
+#include "logger/logger.h"
+#include "sst/sst.h"
+#include "sst/sst_iterator.h"
 #include <filesystem>
 #include <gtest/gtest.h>
 

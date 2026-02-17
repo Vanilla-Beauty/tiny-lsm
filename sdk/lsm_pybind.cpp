@@ -1,5 +1,5 @@
-#include "../include/lsm/engine.h"
-#include "../include/lsm/level_iterator.h"
+#include "lsm/engine.h"
+#include "lsm/level_iterator.h"
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

@@ -1,7 +1,7 @@
-#include "../include/consts.h"
-#include "../include/iterator/iterator.h"
-#include "../include/logger/logger.h"
-#include "../include/memtable/memtable.h"
+#include "consts.h"
+#include "iterator/iterator.h"
+#include "logger/logger.h"
+#include "memtable/memtable.h"
 #include <gtest/gtest.h>
 #include <iomanip>
 #include <string>

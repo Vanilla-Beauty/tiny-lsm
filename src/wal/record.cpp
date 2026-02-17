@@ -1,6 +1,6 @@
 // src/wal/record.cpp
 
-#include "../../include/wal/record.h"
+#include "wal/record.h"
 #include <cstddef>
 #include <cstring>
 

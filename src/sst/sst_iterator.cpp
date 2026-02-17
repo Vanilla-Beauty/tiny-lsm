@@ -1,5 +1,5 @@
-#include "../../include/sst/sst_iterator.h"
-#include "../../include/sst/sst.h"
+#include "sst/sst_iterator.h"
+#include "sst/sst.h"
 #include <cstddef>
 #include <optional>
 #include <stdexcept>

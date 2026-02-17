@@ -1,5 +1,5 @@
 #pragma once
-#include "../../include/redis_wrapper/redis_wrapper.h"
+#include "redis_wrapper/redis_wrapper.h"
 #include <algorithm>
 #include <cctype>
 #include <string>

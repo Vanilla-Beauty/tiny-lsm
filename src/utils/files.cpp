@@ -1,5 +1,5 @@
-#include "../../include/utils/files.h"
-#include "../../include/utils/cursor.h"
+#include "utils/files.h"
+#include "utils/cursor.h"
 #include <cstring>
 #include <stdexcept>
 

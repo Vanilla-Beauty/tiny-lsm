@@ -1,7 +1,7 @@
-#include "../include/block/block.h"
-#include "../include/block/block_iterator.h"
-#include "../include/config/config.h"
-#include "../include/logger/logger.h"
+#include "block/block.h"
+#include "block/block_iterator.h"
+#include "config/config.h"
+#include "logger/logger.h"
 #include <gtest/gtest.h>
 #include <iomanip>
 #include <memory>

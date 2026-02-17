@@ -1,7 +1,7 @@
-#include "../../include/sst/sst.h"
-#include "../../include/config/config.h"
-#include "../../include/consts.h"
-#include "../../include/sst/sst_iterator.h"
+#include "sst/sst.h"
+#include "config/config.h"
+#include "consts.h"
+#include "sst/sst_iterator.h"
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>

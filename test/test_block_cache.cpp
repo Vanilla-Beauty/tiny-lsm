@@ -1,6 +1,6 @@
-#include "../include/block/block.h"
-#include "../include/block/block_cache.h"
-#include "../include/logger/logger.h"
+#include "block/block.h"
+#include "block/block_cache.h"
+#include "logger/logger.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <vector>

@@ -1,6 +1,6 @@
-#include "../include/consts.h"
-#include "../include/logger/logger.h"
-#include "../include/lsm/engine.h"
+#include "consts.h"
+#include "logger/logger.h"
+#include "lsm/engine.h"
 #include <cstdlib>
 #include <filesystem>
 #include <gtest/gtest.h>

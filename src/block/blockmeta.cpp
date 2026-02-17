@@ -1,4 +1,4 @@
-#include "../../include/block/blockmeta.h"
+#include "block/blockmeta.h"
 #include <cstring>
 #include <functional>
 #include <stdexcept>

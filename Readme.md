@@ -50,8 +50,8 @@ xmake install --root lsm_shared
 Here is a simple example demonstrating how to use the LSM Tree for basic key-value operations:
 
 ```cpp
-#include "../include/lsm/engine.h"
-#include "../include/lsm/level_iterator.h"
+#include "lsm/engine.h"
+#include "lsm/level_iterator.h"
 #include <iostream>
 #include <string>
 

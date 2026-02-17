@@ -1,4 +1,4 @@
-#include "../../include/sst/concact_iterator.h"
+#include "sst/concact_iterator.h"
 
 namespace tiny_lsm {
 

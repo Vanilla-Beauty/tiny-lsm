@@ -1,7 +1,7 @@
-#include "../include/logger/logger.h"
-#include "../include/utils/bloom_filter.h"
-#include "../include/utils/cursor.h"
-#include "../include/utils/files.h"
+#include "logger/logger.h"
+#include "utils/bloom_filter.h"
+#include "utils/cursor.h"
+#include "utils/files.h"
 #include <filesystem>
 #include <gtest/gtest.h>
 #include <random>

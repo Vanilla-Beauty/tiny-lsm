@@ -1,5 +1,5 @@
-#include "../include/lsm/engine.h"
-#include "../include/lsm/level_iterator.h"
+#include "lsm/engine.h"
+#include "lsm/level_iterator.h"
 #include <iostream>
 #include <string>
 

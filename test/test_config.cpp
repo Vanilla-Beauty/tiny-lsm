@@ -1,5 +1,5 @@
-#include "../include/config/config.h"
-#include "../include/logger/logger.h"
+#include "config/config.h"
+#include "logger/logger.h"
 #include <gtest/gtest.h>
 
 using namespace ::tiny_lsm;

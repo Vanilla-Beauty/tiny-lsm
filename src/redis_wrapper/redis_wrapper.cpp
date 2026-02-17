@@ -1,6 +1,6 @@
-#include "../../include/redis_wrapper/redis_wrapper.h"
-#include "../../include/config/config.h"
-#include "../../include/consts.h"
+#include "redis_wrapper/redis_wrapper.h"
+#include "config/config.h"
+#include "consts.h"
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>

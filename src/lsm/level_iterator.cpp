@@ -1,7 +1,7 @@
-#include "../../include/lsm/level_iterator.h"
-#include "../../include/lsm/engine.h"
-#include "../../include/sst/concact_iterator.h"
-#include "../../include/sst/sst.h"
+#include "lsm/level_iterator.h"
+#include "lsm/engine.h"
+#include "sst/concact_iterator.h"
+#include "sst/sst.h"
 #include <memory>
 #include <shared_mutex>
 #include <string>

@@ -1,5 +1,5 @@
-#include "../include/logger/logger.h"
-#include "../include/redis_wrapper/redis_wrapper.h"
+#include "logger/logger.h"
+#include "redis_wrapper/redis_wrapper.h"
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>

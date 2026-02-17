@@ -1,6 +1,6 @@
 // ...existing code...
-#include "../../include/utils/cursor.h"
-#include "../../include/utils/files.h"
+#include "utils/cursor.h"
+#include "utils/files.h"
 
 namespace tiny_lsm {
 

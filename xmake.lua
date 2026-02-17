@@ -53,7 +53,7 @@ target("skiplist")
     add_packages("toml11", "spdlog")
     add_includedirs("include", {public = true})
 
-    target("memtable")
+target("memtable")
     set_kind("static")
     add_deps("skiplist", "iterator", "config", "sst")
     add_packages("toml11", "spdlog")
@@ -99,10 +99,13 @@ target("redis")
 
 target("lsm_shared")
     set_kind("shared")
-    add_files("src/**.cpp")
+    add_files("src/logger/*.cpp", "src/config/*.cpp", "src/utils/*.cpp", 
+              "src/iterator/*.cpp", "src/skiplist/*.cpp", "src/memtable/*.cpp",
+              "src/block/*.cpp", "src/sst/*.cpp", "src/wal/*.cpp", "src/lsm/*.cpp",
+              "src/redis_wrapper/*.cpp")
     add_packages("toml11", "spdlog")
-    add_includedirs("include", {public = true})
-    set_targetdir("$(buildir)/lib")
+    add_includedirs("include", {public = true})  -- 确保包含路径正确
+    set_targetdir("$(builddir)/lib")
 
     if is_plat("windows") then
         set_extension(".dll")
@@ -134,6 +137,7 @@ target("test_config")
     add_files("test/test_config.cpp")
     add_deps("logger", "config")
     add_packages("gtest", "toml11", "spdlog")
+    add_includedirs("include", {public = true})
 
 target("test_skiplist")
     set_kind("binary")
@@ -141,6 +145,7 @@ target("test_skiplist")
     add_files("test/test_skiplist.cpp")
     add_deps("logger", "skiplist")
     add_packages("gtest", "toml11", "spdlog")
+    add_includedirs("include", {public = true})
 
 target("test_memtable")
     set_kind("binary")
@@ -148,7 +153,7 @@ target("test_memtable")
     add_files("test/test_memtable.cpp")
     add_deps("logger", "memtable")
     add_packages("gtest", "toml11", "spdlog")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
 
 target("test_block")
     set_kind("binary")
@@ -156,7 +161,7 @@ target("test_block")
     add_files("test/test_block.cpp")
     add_deps("logger", "block")
     add_packages("gtest", "toml11", "spdlog")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
 
 target("test_blockmeta")
     set_kind("binary")
@@ -164,7 +169,7 @@ target("test_blockmeta")
     add_files("test/test_blockmeta.cpp")
     add_deps("logger", "block")
     add_packages("gtest", "toml11", "spdlog")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
 
 target("test_utils")
     set_kind("binary")
@@ -172,7 +177,7 @@ target("test_utils")
     add_files("test/test_utils.cpp")
     add_deps("logger", "utils")
     add_packages("gtest", "toml11", "spdlog")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
 
 target("test_sst")
     set_kind("binary")
@@ -180,7 +185,7 @@ target("test_sst")
     add_files("test/test_sst.cpp")
     add_deps("logger", "sst")
     add_packages("gtest", "toml11", "spdlog")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
 
 target("test_lsm")
     set_kind("binary")
@@ -188,14 +193,14 @@ target("test_lsm")
     add_files("test/test_lsm.cpp")
     add_deps("logger", "lsm", "memtable", "iterator")
     add_packages("gtest", "toml11", "spdlog")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
 
 target("test_block_cache")
     set_kind("binary")
     set_group("tests")
     add_files("test/test_block_cache.cpp")
     add_deps("logger", "block")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
     add_packages("gtest", "toml11", "spdlog")
 
 target("test_compact")
@@ -204,14 +209,14 @@ target("test_compact")
     add_files("test/test_compact.cpp")
     add_deps("logger", "lsm", "memtable", "iterator")
     add_packages("gtest", "toml11", "spdlog")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
 
 target("test_redis")
     set_kind("binary")
     set_group("tests")
     add_files("test/test_redis.cpp")
     add_deps("logger", "redis", "memtable", "iterator")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
     add_packages("gtest", "toml11", "spdlog")
 
 target("test_wal")
@@ -219,7 +224,7 @@ target("test_wal")
     set_group("tests")
     add_files("test/test_wal.cpp")
     add_deps("logger", "wal", "lsm")
-    add_includedirs("include")
+    add_includedirs("include", {public = true})
     add_packages("gtest", "toml11", "spdlog")
 
 -- ============ 可执行目标 ============
@@ -229,15 +234,16 @@ target("example")
     add_files("example/main.cpp")
     add_deps("logger", "config", "utils", "iterator", "skiplist", 
              "memtable", "block", "sst", "wal", "lsm", "redis")
-    add_includedirs("include", {public = true})
-    set_targetdir("$(buildir)/bin")
+    add_includedirs("include")  -- 显式添加包含路径
+    set_targetdir("$(builddir)/bin")
 
 target("debug")
     set_kind("binary")
     add_files("example/debug.cpp")
     add_deps("logger", "config", "utils", "iterator", "skiplist", 
-             "memtable", "block", "sst", "wal", "lsm", "redis")    add_includedirs("include", {public = true})
-    set_targetdir("$(buildir)/bin")
+             "memtable", "block", "sst", "wal", "lsm", "redis")
+    add_includedirs("include")  -- 显式添加包含路径
+    set_targetdir("$(builddir)/bin")
 
 target("server")
     set_kind("binary")
@@ -245,7 +251,7 @@ target("server")
     add_deps("redis")
     add_includedirs("include", {public = true})
     add_packages("asio")
-    set_targetdir("$(buildir)/bin")
+    set_targetdir("$(builddir)/bin")
 
 -- ============ Python 绑定 ============
 
@@ -257,7 +263,7 @@ if is_plat("windows") then
         add_packages("pybind11")
         add_deps("lsm")  -- Windows下使用原来的依赖
         add_includedirs("include", {public = true})
-        set_targetdir("$(buildir)/lib")
+        set_targetdir("$(builddir)/lib")
         set_filename("lsm_pybind.pyd")
         add_cxxflags("/LD")
 else
@@ -268,7 +274,7 @@ else
         add_packages("pybind11")
         add_deps("lsm_shared")  -- Unix下使用共享库依赖
         add_includedirs("include", {public = true})
-        set_targetdir("$(buildir)/lib")
+        set_targetdir("$(builddir)/lib")
         set_filename("lsm_pybind.so")
         add_ldflags("-Wl,-rpath,$ORIGIN")
         add_defines("TINYLSM_EXPORT=__attribute__((visibility(\"default\")))")

@@ -1,9 +1,9 @@
-#include "../../include/memtable/memtable.h"
-#include "../../include/config/config.h"
-#include "../../include/consts.h"
-#include "../../include/iterator/iterator.h"
-#include "../../include/skiplist/skiplist.h"
-#include "../../include/sst/sst.h"
+#include "memtable/memtable.h"
+#include "config/config.h"
+#include "consts.h"
+#include "iterator/iterator.h"
+#include "skiplist/skiplist.h"
+#include "sst/sst.h"
 #include "spdlog/spdlog.h"
 #include <algorithm>
 #include <cstddef>

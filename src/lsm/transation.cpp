@@ -1,7 +1,7 @@
-#include "../../include/lsm/engine.h"
-#include "../../include/lsm/transaction.h"
-#include "../../include/utils/files.h"
-#include "../../include/utils/set_operation.h"
+#include "lsm/engine.h"
+#include "lsm/transaction.h"
+#include "utils/files.h"
+#include "utils/set_operation.h"
 #include "spdlog/spdlog.h"
 #include <algorithm>
 #include <cerrno>

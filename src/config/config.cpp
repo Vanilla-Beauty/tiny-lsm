@@ -1,4 +1,4 @@
-#include "../../include/config/config.h"
+#include "config/config.h"
 #include "spdlog/spdlog.h"
 #include <iostream>
 #include <toml.hpp>

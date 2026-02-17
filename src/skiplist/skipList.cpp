@@ -1,4 +1,4 @@
-#include "../../include/skiplist/skiplist.h"
+#include "skiplist/skiplist.h"
 #include <cstdint>
 #include <iostream>
 #include <spdlog/spdlog.h>

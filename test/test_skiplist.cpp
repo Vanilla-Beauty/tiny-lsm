@@ -1,5 +1,5 @@
-#include "../include/logger/logger.h"
-#include "../include/skiplist/skiplist.h"
+#include "logger/logger.h"
+#include "skiplist/skiplist.h"
 #include <algorithm>
 #include <atomic>
 #include <chrono>
