@@ -3,10 +3,10 @@
 #include "consts.h"
 #include "logger/logger.h"
 #include "lsm/level_iterator.h"
+#include "spdlog/spdlog.h"
 #include "sst/concact_iterator.h"
 #include "sst/sst.h"
 #include "sst/sst_iterator.h"
-#include "spdlog/spdlog.h"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
@@ -77,7 +77,7 @@ LSMEngine::LSMEngine(std::string path) : data_dir(path) {
       // 加载SST文件, 初始化时需要加写锁
       std::unique_lock<std::shared_mutex> lock(ssts_mtx); // 写锁
 
-      next_sst_id = (std::max)(sst_id, next_sst_id);    // 记录目前最大的 sst_id
+      next_sst_id = (std::max)(sst_id, next_sst_id); // 记录目前最大的 sst_id
       cur_max_level = (std::max)(level, cur_max_level); // 记录目前最大的 level
       std::string sst_path = get_sst_path(sst_id, level);
       auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache);
@@ -698,7 +698,7 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
       SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
   while (iter.is_valid() && !iter.is_end()) {
 
-    new_sst_builder.add((*iter).first, (*iter).second, 0);
+    new_sst_builder.add((*iter).first, (*iter).second, iter.get_tranc_id());
     ++iter;
 
     if (new_sst_builder.estimated_size() >= target_sst_size) {
