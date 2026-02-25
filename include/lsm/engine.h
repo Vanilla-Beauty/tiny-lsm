@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../memtable/memtable.h"
-#include "../sst/sst.h"
+#include "memtable/memtable.h"
+#include "sst/sst.h"
 #include "compact.h"
 #include "transaction.h"
 #include "two_merge_iterator.h"

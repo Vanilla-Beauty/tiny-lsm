@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../utils/files.h"
+#include "utils/files.h"
 #include "record.h"
 #include <atomic>
 #include <condition_variable>

@@ -1,5 +1,5 @@
 #pragma once
-#include "../lsm/engine.h"
+#include "lsm/engine.h"
 #include <memory>
 
 namespace tiny_lsm {

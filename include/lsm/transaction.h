@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../utils/files.h"
-#include "../wal/wal.h"
+#include "utils/files.h"
+#include "wal/wal.h"
 #include <atomic>
 #include <map>
 #include <set>

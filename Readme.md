@@ -38,7 +38,12 @@ xmake run example
 xmake run test_lsm
 ```
 
-3. Install the shared library
+1. Generate compile_commands.json for clangd
+```bash
+xmake project -k compile_commands
+```
+
+1. Install the shared library
 ```bash
 xmake install --root lsm_shared
 ```

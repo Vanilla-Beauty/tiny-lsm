@@ -8,6 +8,7 @@
 #include <thread>
 #include <utility>
 #include <vector>
+#include <chrono>
 
 using namespace ::tiny_lsm;
 

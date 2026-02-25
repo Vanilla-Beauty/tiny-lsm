@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../iterator/iterator.h"
-#include "../skiplist/skiplist.h"
+#include "iterator/iterator.h"
+#include "skiplist/skiplist.h"
 #include <cstddef>
 #include <functional>
 #include <iostream>

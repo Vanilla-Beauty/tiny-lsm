@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../block/block.h"
-#include "../block/block_cache.h"
-#include "../block/blockmeta.h"
-#include "../utils/bloom_filter.h"
-#include "../utils/files.h"
+#include "block/block.h"
+#include "block/block_cache.h"
+#include "block/blockmeta.h"
+#include "utils/bloom_filter.h"
+#include "utils/files.h"
 #include <cstddef>
 #include <cstdint>
 #include <memory>
