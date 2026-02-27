@@ -36,12 +36,15 @@ bool operator==(const SearchItem &a, const SearchItem &b) {
 }
 
 // *************************** HeapIterator ***************************
-HeapIterator::HeapIterator(bool skip_delete) : skip_delete_(skip_delete) {
+HeapIterator::HeapIterator(bool skip_delete, bool keep_all_versions)
+    : skip_delete_(skip_delete), keep_all_versions_(keep_all_versions) {
   // 默认构造函数
 }
 HeapIterator::HeapIterator(std::vector<SearchItem> item_vec,
-                           uint64_t max_tranc_id, bool skip_delete)
-    : max_tranc_id_(max_tranc_id), skip_delete_(skip_delete) {
+                           uint64_t max_tranc_id, bool skip_delete,
+                           bool keep_all_versions)
+    : max_tranc_id_(max_tranc_id), skip_delete_(skip_delete),
+      keep_all_versions_(keep_all_versions) {
   for (auto &item : item_vec) {
 
     items.push(item);
@@ -58,7 +61,11 @@ HeapIterator::HeapIterator(std::vector<SearchItem> item_vec,
     while (!items.empty() && items.top().value_.empty()) {
       // 如果当前元素的value为空，则说明该元素已经被删除，需要从优先队列中删除
       auto del_key = items.top().key_;
-      while (!items.empty() && items.top().key_ == del_key) {
+      if (!keep_all_versions_) {
+        while (!items.empty() && items.top().key_ == del_key) {
+          items.pop();
+        }
+      } else {
         items.pop();
       }
     }
@@ -83,8 +90,10 @@ BaseIterator &HeapIterator::operator++() {
   items.pop();
 
   // 删除与旧元素key相同的元素
-  while (!items.empty() && items.top().key_ == old_item.key_) {
-    items.pop();
+  if (!keep_all_versions_) {
+    while (!items.empty() && items.top().key_ == old_item.key_) {
+      items.pop();
+    }
   }
 
   // 与构造函数相同, 下一个key中事务不可见部分和删除的元素需要跳过
@@ -99,7 +108,11 @@ BaseIterator &HeapIterator::operator++() {
     while (!items.empty() && items.top().value_.empty()) {
       // 如果当前元素的value为空，则说明该元素已经被删除，需要从优先队列中删除
       auto del_key = items.top().key_;
-      while (!items.empty() && items.top().key_ == del_key) {
+      if (!keep_all_versions_) {
+        while (!items.empty() && items.top().key_ == del_key) {
+          items.pop();
+        }
+      } else {
         items.pop();
       }
     }
@@ -186,5 +199,10 @@ IteratorType HeapIterator::get_type() const {
   return IteratorType::HeapIterator;
 }
 
-uint64_t HeapIterator::get_tranc_id() const { return max_tranc_id_; }
+uint64_t HeapIterator::get_tranc_id() const {
+  if (keep_all_versions_ && !items.empty()) {
+    return items.top().tranc_id_;
+  }
+  return max_tranc_id_;
+}
 } // namespace tiny_lsm

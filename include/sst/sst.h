@@ -92,7 +92,7 @@ public:
   std::optional<std::pair<SstIterator, SstIterator>>
   iters_monotony_predicate(std::function<bool(const std::string &)> predicate);
 
-  SstIterator begin(uint64_t tranc_id);
+  SstIterator begin(uint64_t tranc_id, bool keep_all_versions = false);
   SstIterator end();
 
   std::pair<uint64_t, uint64_t> get_tranc_id_range() const;
