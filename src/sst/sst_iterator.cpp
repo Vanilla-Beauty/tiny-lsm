@@ -50,16 +50,19 @@ std::optional<std::pair<SstIterator, SstIterator>> sst_iters_monotony_predicate(
   return std::make_pair(final_begin.value(), final_end.value());
 }
 
-SstIterator::SstIterator(std::shared_ptr<SST> sst, uint64_t tranc_id)
-    : m_sst(sst), m_block_idx(0), m_block_it(nullptr), max_tranc_id_(tranc_id) {
+SstIterator::SstIterator(std::shared_ptr<SST> sst, uint64_t tranc_id,
+                         bool keep_all_versions)
+    : m_sst(sst), m_block_idx(0), m_block_it(nullptr), max_tranc_id_(tranc_id),
+      keep_all_versions_(keep_all_versions) {
   if (m_sst) {
     seek_first();
   }
 }
 
 SstIterator::SstIterator(std::shared_ptr<SST> sst, const std::string &key,
-                         uint64_t tranc_id)
-    : m_sst(sst), m_block_idx(0), m_block_it(nullptr), max_tranc_id_(tranc_id) {
+                         uint64_t tranc_id, bool keep_all_versions)
+    : m_sst(sst), m_block_idx(0), m_block_it(nullptr), max_tranc_id_(tranc_id),
+      keep_all_versions_(keep_all_versions) {
   if (m_sst) {
     seek(key);
   }
@@ -78,7 +81,8 @@ void SstIterator::seek_first() {
 
   m_block_idx = 0;
   auto block = m_sst->read_block(m_block_idx);
-  m_block_it = std::make_shared<BlockIterator>(block, 0, max_tranc_id_);
+  m_block_it = std::make_shared<BlockIterator>(block, 0, max_tranc_id_,
+                                               keep_all_versions_);
 }
 
 void SstIterator::seek(const std::string &key) {
@@ -101,7 +105,8 @@ void SstIterator::seek(const std::string &key) {
       m_block_it = nullptr;
       return;
     }
-    m_block_it = std::make_shared<BlockIterator>(block, key, max_tranc_id_);
+    m_block_it = std::make_shared<BlockIterator>(block, key, max_tranc_id_,
+                                                 keep_all_versions_);
     if (m_block_it->is_end()) {
       // block 中找不到
       m_block_idx = m_sst->num_blocks();
@@ -138,7 +143,8 @@ BaseIterator &SstIterator::operator++() {
     if (m_block_idx < m_sst->num_blocks()) {
       // 读取下一个block
       auto next_block = m_sst->read_block(m_block_idx);
-      BlockIterator new_blk_it(next_block, 0, max_tranc_id_);
+      BlockIterator new_blk_it(next_block, 0, max_tranc_id_,
+                               keep_all_versions_);
       (*m_block_it) = new_blk_it;
     } else {
       // 没有下一个block
@@ -181,7 +187,12 @@ SstIterator::value_type SstIterator::operator*() const {
 
 IteratorType SstIterator::get_type() const { return IteratorType::SstIterator; }
 
-uint64_t SstIterator::get_tranc_id() const { return max_tranc_id_; }
+uint64_t SstIterator::get_tranc_id() const {
+  if (keep_all_versions_ && m_block_it) {
+    return m_block_it->get_cur_tranc_id();
+  }
+  return max_tranc_id_;
+}
 bool SstIterator::is_end() const { return !m_block_it; }
 
 bool SstIterator::is_valid() const {
@@ -199,19 +210,26 @@ void SstIterator::update_current() const {
   }
 }
 
+uint64_t SstIterator::get_cur_tranc_id() const {
+  if (!m_block_it) {
+    return 0;
+  }
+  return m_block_it->get_cur_tranc_id();
+}
+
 std::pair<HeapIterator, HeapIterator>
 SstIterator::merge_sst_iterator(std::vector<SstIterator> iter_vec,
-                                uint64_t tranc_id) {
+                                uint64_t tranc_id, bool keep_all_versions) {
   if (iter_vec.empty()) {
     return std::make_pair(HeapIterator(), HeapIterator());
   }
 
-  HeapIterator it_begin(false); // 不跳过删除元素
+  HeapIterator it_begin(false, keep_all_versions); // 不跳过删除元素
   for (auto &iter : iter_vec) {
     while (iter.is_valid() && !iter.is_end()) {
       it_begin.items.emplace(
           iter.key(), iter.value(), -iter.m_sst->get_sst_id(), 0,
-          tranc_id); // ! 此处的level暂时没有作用, 都作用于同一层的比较
+          iter.get_cur_tranc_id()); // ! 此处的level暂时没有作用, 都作用于同一层的比较
       ++iter;
     }
   }

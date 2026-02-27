@@ -170,8 +170,8 @@ size_t SST::sst_size() const { return file.size(); }
 
 size_t SST::get_sst_id() const { return sst_id; }
 
-SstIterator SST::begin(uint64_t tranc_id) {
-  return SstIterator(shared_from_this(), tranc_id);
+SstIterator SST::begin(uint64_t tranc_id, bool keep_all_versions) {
+  return SstIterator(shared_from_this(), tranc_id, keep_all_versions);
 }
 
 SstIterator SST::end() {

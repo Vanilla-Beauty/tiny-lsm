@@ -8,15 +8,16 @@ class Block;
 
 namespace tiny_lsm {
 BlockIterator::BlockIterator(std::shared_ptr<Block> b, size_t index,
-                             uint64_t tranc_id)
+                             uint64_t tranc_id, bool keep_all_versions)
     : block(b), current_index(index), tranc_id_(tranc_id),
-      cached_value(std::nullopt) {
+      cached_value(std::nullopt), keep_all_versions_(keep_all_versions) {
   skip_by_tranc_id();
 }
 
 BlockIterator::BlockIterator(std::shared_ptr<Block> b, const std::string &key,
-                             uint64_t tranc_id)
-    : block(b), tranc_id_(tranc_id), cached_value(std::nullopt) {
+                             uint64_t tranc_id, bool keep_all_versions)
+    : block(b), tranc_id_(tranc_id), cached_value(std::nullopt),
+      keep_all_versions_(keep_all_versions) {
   auto key_idx_ops = block->get_idx_binary(key, tranc_id);
   if (key_idx_ops.has_value()) {
     current_index = key_idx_ops.value();
@@ -45,14 +46,16 @@ BlockIterator &BlockIterator::operator++() {
     ++current_index;
 
     // 跳过相同的key
-    while (block && current_index < block->size()) {
-      auto cur_offset = block->get_offset_at(current_index);
-      auto cur_entry = block->get_entry_at(cur_offset);
-      if (cur_entry.key != prev_entry.key) {
-        break;
+    if (!keep_all_versions_) {
+      while (block && current_index < block->size()) {
+        auto cur_offset = block->get_offset_at(current_index);
+        auto cur_entry = block->get_entry_at(cur_offset);
+        if (cur_entry.key != prev_entry.key) {
+          break;
+        }
+        // 可能会连续出现多个key, 但由不同事务创建, 同样的key直接跳过
+        ++current_index;
       }
-      // 可能会连续出现多个key, 但由不同事务创建, 同样的key直接跳过
-      ++current_index;
     }
 
     // 出现不同的key时, 还需要跳过不可见事务的键值对
@@ -91,6 +94,14 @@ BlockIterator::value_type BlockIterator::operator*() const {
 }
 
 bool BlockIterator::is_end() { return current_index == block->offsets.size(); }
+
+uint64_t BlockIterator::get_cur_tranc_id() const {
+  if (!block || current_index >= block->offsets.size()) {
+    return 0;
+  }
+  size_t offset = block->get_offset_at(current_index);
+  return block->get_tranc_id_at(offset);
+}
 
 void BlockIterator::update_current() const {
   if (!cached_value && current_index < block->offsets.size()) {

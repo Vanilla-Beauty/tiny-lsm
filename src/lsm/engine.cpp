@@ -636,22 +636,22 @@ LSMEngine::full_l0_l1_compact(std::vector<size_t> &l0_ids,
   std::vector<std::shared_ptr<SST>> l1_ssts;
 
   for (auto id : l0_ids) {
-    auto sst_it = ssts[id]->begin(0);
+    auto sst_it = ssts[id]->begin(0, true);
     l0_iters.push_back(sst_it);
   }
   for (auto id : l1_ids) {
     l1_ssts.push_back(ssts[id]);
   }
   // l0 的sst之间的key有重叠, 需要合并
-  auto [l0_begin, l0_end] = SstIterator::merge_sst_iterator(l0_iters, 0);
+  auto [l0_begin, l0_end] = SstIterator::merge_sst_iterator(l0_iters, 0, true);
 
   std::shared_ptr<HeapIterator> l0_begin_ptr = std::make_shared<HeapIterator>();
   *l0_begin_ptr = l0_begin;
 
   std::shared_ptr<ConcactIterator> old_l1_begin_ptr =
-      std::make_shared<ConcactIterator>(l1_ssts, 0);
+      std::make_shared<ConcactIterator>(l1_ssts, 0, true);
 
-  TwoMergeIterator l0_l1_begin(l0_begin_ptr, old_l1_begin_ptr, 0);
+  TwoMergeIterator l0_l1_begin(l0_begin_ptr, old_l1_begin_ptr, 0, true);
 
   return gen_sst_from_iter(l0_l1_begin,
                            TomlConfig::getInstance().getLsmPerMemSizeLimit() *
@@ -674,12 +674,12 @@ LSMEngine::full_common_compact(std::vector<size_t> &lx_ids,
   }
 
   std::shared_ptr<ConcactIterator> old_lx_begin_ptr =
-      std::make_shared<ConcactIterator>(lx_iters, 0);
+      std::make_shared<ConcactIterator>(lx_iters, 0, true);
 
   std::shared_ptr<ConcactIterator> old_ly_begin_ptr =
-      std::make_shared<ConcactIterator>(ly_iters, 0);
+      std::make_shared<ConcactIterator>(ly_iters, 0, true);
 
-  TwoMergeIterator lx_ly_begin(old_lx_begin_ptr, old_ly_begin_ptr, 0);
+  TwoMergeIterator lx_ly_begin(old_lx_begin_ptr, old_ly_begin_ptr, 0, true);
 
   // TODO:如果目标 level 的下一级 level+1 不存在, 则为底层的level,
   // 可以清理掉删除标记
@@ -697,11 +697,16 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
   auto new_sst_builder =
       SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
   while (iter.is_valid() && !iter.is_end()) {
-
-    new_sst_builder.add((*iter).first, (*iter).second, iter.get_tranc_id());
+    std::string cur_key = (*iter).first;
+    new_sst_builder.add(cur_key, (*iter).second, iter.get_tranc_id());
     ++iter;
 
-    if (new_sst_builder.estimated_size() >= target_sst_size) {
+    // Never split different versions of the same key across SSTs; doing so
+    // creates overlapping SST key-ranges at L1+, breaking binary search.
+    bool next_is_same_key =
+        iter.is_valid() && !iter.is_end() && (*iter).first == cur_key;
+    if (!next_is_same_key &&
+        new_sst_builder.estimated_size() >= target_sst_size) {
       size_t sst_id = next_sst_id++; // TODO: 后续优化并发性
       std::string sst_path = get_sst_path(sst_id, target_level);
       auto new_sst = new_sst_builder.build(sst_id, sst_path, this->block_cache);

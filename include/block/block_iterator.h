@@ -21,9 +21,10 @@ public:
   using reference = const value_type &;
 
   // 构造函数
-  BlockIterator(std::shared_ptr<Block> b, size_t index, uint64_t tranc_id);
+  BlockIterator(std::shared_ptr<Block> b, size_t index, uint64_t tranc_id,
+                bool keep_all_versions = false);
   BlockIterator(std::shared_ptr<Block> b, const std::string &key,
-                uint64_t tranc_id);
+                uint64_t tranc_id, bool keep_all_versions = false);
   // BlockIterator(std::shared_ptr<Block> b, uint64_t tranc_id);
   BlockIterator()
       : block(nullptr), current_index(0), tranc_id_(0) {} // end iterator
@@ -36,6 +37,7 @@ public:
   bool operator!=(const BlockIterator &other) const;
   value_type operator*() const;
   bool is_end();
+  uint64_t get_cur_tranc_id() const;
 
 private:
   void update_current() const;
@@ -47,5 +49,6 @@ private:
   size_t current_index;                           // 当前位置的索引
   uint64_t tranc_id_;                             // 当前事务 id
   mutable std::optional<value_type> cached_value; // 缓存当前值
+  bool keep_all_versions_ = false;
 };
 } // namespace tiny_lsm

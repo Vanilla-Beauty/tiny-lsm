@@ -6,9 +6,10 @@ TwoMergeIterator::TwoMergeIterator() {}
 
 TwoMergeIterator::TwoMergeIterator(std::shared_ptr<BaseIterator> it_a,
                                    std::shared_ptr<BaseIterator> it_b,
-                                   uint64_t max_tranc_id)
+                                   uint64_t max_tranc_id,
+                                   bool keep_all_versions)
     : it_a(std::move(it_a)), it_b(std::move(it_b)),
-      max_tranc_id_(max_tranc_id) {
+      max_tranc_id_(max_tranc_id), keep_all_versions_(keep_all_versions) {
   // 先跳过不可见的事务
   skip_by_tranc_id();
   skip_it_b();              // 跳过与 it_a 重复的 key
@@ -22,10 +23,25 @@ bool TwoMergeIterator::choose_it_a() {
   if (it_b->is_end()) {
     return true;
   }
-  return (**it_a).first < (**it_b).first; // 比较 key
+  auto key_a = (**it_a).first;
+  auto key_b = (**it_b).first;
+  if (key_a != key_b) {
+    return key_a < key_b; // 比较 key
+  }
+  // Same key: in keep_all_versions mode emit the larger tranc_id first so
+  // that block entries remain in descending-tranc_id order, which is what
+  // Block::adjust_idx_by_tranc_id expects.
+  if (keep_all_versions_) {
+    return it_a->get_tranc_id() > it_b->get_tranc_id();
+  }
+  // Normal query mode: prefer it_a (newer, from memtable / higher level).
+  return true;
 }
 
 void TwoMergeIterator::skip_it_b() {
+  if (keep_all_versions_) {
+    return;
+  }
   if (!it_a->is_end() && !it_b->is_end() && (**it_a).first == (**it_b).first) {
     ++(*it_b);
   }
@@ -87,7 +103,17 @@ IteratorType TwoMergeIterator::get_type() const {
   return IteratorType::TwoMergeIterator;
 }
 
-uint64_t TwoMergeIterator::get_tranc_id() const { return max_tranc_id_; }
+uint64_t TwoMergeIterator::get_tranc_id() const {
+  if (keep_all_versions_) {
+    if (choose_a && it_a && !it_a->is_end()) {
+      return it_a->get_tranc_id();
+    }
+    if (!choose_a && it_b && !it_b->is_end()) {
+      return it_b->get_tranc_id();
+    }
+  }
+  return max_tranc_id_;
+}
 
 bool TwoMergeIterator::is_end() const {
   if (it_a == nullptr && it_b == nullptr) {

@@ -30,6 +30,7 @@ private:
   uint64_t max_tranc_id_;
   std::shared_ptr<BlockIterator> m_block_it;
   mutable std::optional<value_type> cached_value; // 缓存当前值
+  bool keep_all_versions_ = false;
 
   void update_current() const;
   void set_block_idx(size_t idx);
@@ -37,10 +38,11 @@ private:
 
 public:
   // 创建迭代器, 并移动到第一个key
-  SstIterator(std::shared_ptr<SST> sst, uint64_t tranc_id);
+  SstIterator(std::shared_ptr<SST> sst, uint64_t tranc_id,
+              bool keep_all_versions = false);
   // 创建迭代器, 并移动到第指定key
   SstIterator(std::shared_ptr<SST> sst, const std::string &key,
-              uint64_t tranc_id);
+              uint64_t tranc_id, bool keep_all_versions = false);
 
   // 创建迭代器, 并移动到第指定前缀的首端或者尾端
   static std::optional<std::pair<SstIterator, SstIterator>>
@@ -62,8 +64,10 @@ public:
   virtual bool is_valid() const override;
 
   pointer operator->() const;
+  uint64_t get_cur_tranc_id() const;
 
   static std::pair<HeapIterator, HeapIterator>
-  merge_sst_iterator(std::vector<SstIterator> iter_vec, uint64_t tranc_id);
+  merge_sst_iterator(std::vector<SstIterator> iter_vec, uint64_t tranc_id,
+                     bool keep_all_versions = false);
 };
 } // namespace tiny_lsm
