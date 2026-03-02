@@ -5,6 +5,7 @@
 #include "compact.h"
 #include "transaction.h"
 #include "two_merge_iterator.h"
+#include "vlog/vlog.h"
 #include <cstddef>
 #include <deque>
 #include <map>
@@ -25,6 +26,7 @@ public:
   std::unordered_map<size_t, std::shared_ptr<SST>> ssts;
   std::shared_mutex ssts_mtx;
   std::shared_ptr<BlockCache> block_cache;
+  std::shared_ptr<VLog> vlog_;
   std::weak_ptr<TranManager> tran_manager;
   size_t next_sst_id = 0;
   size_t cur_max_level = 0;

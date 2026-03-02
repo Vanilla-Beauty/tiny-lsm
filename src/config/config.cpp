@@ -30,6 +30,9 @@ void TomlConfig::setDefaultValues() {
   // --- Bloom Filter ---
   bloom_filter_expected_size_ = 65536;
   bloom_filter_expected_error_rate_ = 0.1;
+
+  // --- WiscKey ---
+  wisckey_value_threshold_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////
@@ -121,6 +124,15 @@ bool TomlConfig::loadFromFile(const std::string &filePath) {
     bloom_filter_expected_error_rate_ =
         bloom_config.at("BLOOM_FILTER_EXPECTED_ERROR_RATE").as_floating();
 
+    // --- Load WiscKey ---
+    try {
+      auto wisckey_config = config["lsm"]["wisckey"];
+      wisckey_value_threshold_ = static_cast<size_t>(
+          wisckey_config.at("WISCKEY_VALUE_THRESHOLD").as_integer());
+    } catch (...) {
+      // Section missing — keep default of 0 (disabled)
+    }
+
     spdlog::info("Configuration loaded successfully from {}", filePath);
     return true;
 
@@ -178,6 +190,10 @@ int TomlConfig::getBloomFilterExpectedSize() const {
 }
 double TomlConfig::getBloomFilterExpectedErrorRate() const {
   return bloom_filter_expected_error_rate_;
+}
+
+size_t TomlConfig::getWisckeyValueThreshold() const {
+  return wisckey_value_threshold_;
 }
 
 const TomlConfig &TomlConfig::getInstance(const std::string &config_path) {
