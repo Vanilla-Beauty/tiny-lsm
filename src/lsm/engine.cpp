@@ -37,7 +37,12 @@ LSMEngine::LSMEngine(std::string path) : data_dir(path) {
                  "DB path ndo not exist. Creating data directory: {}",
                  path);
     std::filesystem::create_directory(path);
-  } else {
+  }
+
+  // Initialize VLog (always open, even if threshold=0 — cheap and future-safe)
+  vlog_ = VLog::open(data_dir + "/vlog.data");
+
+  if (std::filesystem::exists(path)) {
     // 如果目录存在，则检查是否有 sst 文件并加载
     spdlog::info("LSMEngine--"
                  "DB path exist. Loading data directory: {} ...",
@@ -80,7 +85,7 @@ LSMEngine::LSMEngine(std::string path) : data_dir(path) {
       next_sst_id = (std::max)(sst_id, next_sst_id); // 记录目前最大的 sst_id
       cur_max_level = (std::max)(level, cur_max_level); // 记录目前最大的 level
       std::string sst_path = get_sst_path(sst_id, level);
-      auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache);
+      auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache, vlog_);
       spdlog::info("LSMEngine--"
                    "Loaded SST: {} successfully!",
                    sst_path);
@@ -448,6 +453,12 @@ void LSMEngine::clear() {
     // 处理文件系统错误
     spdlog::error("Error clearing directory: {}", e.what());
   }
+
+  // Re-create the vlog so new writes go to a fresh file
+  if (vlog_) {
+    vlog_->del_vlog();
+    vlog_ = VLog::open(data_dir + "/vlog.data");
+  }
 }
 
 uint64_t LSMEngine::flush() {
@@ -468,8 +479,10 @@ uint64_t LSMEngine::flush() {
   size_t new_sst_id = next_sst_id++;
 
   // 3. 准备 SSTBuilder
-  SSTBuilder builder(TomlConfig::getInstance().getLsmBlockSize(),
-                     true); // 4KB block size
+  size_t wk = TomlConfig::getInstance().getWisckeyValueThreshold();
+  SSTBuilder builder = (wk > 0 && vlog_)
+      ? SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true, vlog_, wk)
+      : SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
 
   // 4. 将 memtable 中最旧的表写入 SST
   std::vector<uint64_t> flushed_tranc_ids;
@@ -694,8 +707,10 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
   // TODO: 这里需要补全的是对已经完成事务的删除
   // std::cout << "process into gen\n";
   std::vector<std::shared_ptr<SST>> new_ssts;
-  auto new_sst_builder =
-      SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
+  size_t wk = TomlConfig::getInstance().getWisckeyValueThreshold();
+  auto new_sst_builder = (wk > 0 && vlog_)
+      ? SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true, vlog_, wk)
+      : SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
   while (iter.is_valid() && !iter.is_end()) {
     std::string cur_key = (*iter).first;
     new_sst_builder.add(cur_key, (*iter).second, iter.get_tranc_id());
@@ -717,8 +732,9 @@ LSMEngine::gen_sst_from_iter(BaseIterator &iter, size_t target_sst_size,
                     "at level{}",
                     sst_id, target_level);
 
-      new_sst_builder = SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(),
-                                   true); // 重置builder
+      new_sst_builder = (wk > 0 && vlog_)
+          ? SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true, vlog_, wk)
+          : SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true); // 重置builder
     }
   }
 

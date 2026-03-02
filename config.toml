@@ -44,3 +44,8 @@ REDIS_SET_PREFIX = "REDIS_SET_"
 BLOOM_FILTER_EXPECTED_SIZE = 65536
 # Expected false positive rate
 BLOOM_FILTER_EXPECTED_ERROR_RATE = 0.1 # Represented as a float/double
+
+# WiscKey value separation
+[lsm.wisckey]
+# Values larger than this (bytes) go to the Value Log. 0 = disabled (default).
+WISCKEY_VALUE_THRESHOLD = 0

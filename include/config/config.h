@@ -36,6 +36,9 @@ private:
   int bloom_filter_expected_size_;
   double bloom_filter_expected_error_rate_;
 
+  // --- WiscKey ---
+  size_t wisckey_value_threshold_ = 0;
+
   // Private method to set default values
   void setDefaultValues();
 
@@ -73,6 +76,8 @@ public:
 
   int getBloomFilterExpectedSize() const;
   double getBloomFilterExpectedErrorRate() const;
+
+  size_t getWisckeyValueThreshold() const;
 
   static const TomlConfig &
   getInstance(const std::string &config_path = "config.toml");

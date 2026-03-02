@@ -41,6 +41,13 @@ target("utils")
     add_packages("toml11", "spdlog")
     add_includedirs("include", {public = true})
 
+target("vlog")
+    set_kind("static")
+    add_deps("utils", "config")
+    add_files("src/vlog/*.cpp")
+    add_packages("toml11", "spdlog")
+    add_includedirs("include", {public = true})
+
 target("iterator")
     set_kind("static")
     add_files("src/iterator/*.cpp")
@@ -69,7 +76,7 @@ target("block")
 
 target("sst")
     set_kind("static")
-    add_deps("block", "utils", "iterator")
+    add_deps("block", "utils", "iterator", "vlog")
     add_files("src/sst/*.cpp")
     add_packages("toml11", "spdlog")
     add_includedirs("include", {public = true})
@@ -99,7 +106,8 @@ target("redis")
 
 target("lsm_shared")
     set_kind("shared")
-    add_files("src/logger/*.cpp", "src/config/*.cpp", "src/utils/*.cpp", 
+    add_files("src/logger/*.cpp", "src/config/*.cpp", "src/utils/*.cpp",
+              "src/vlog/*.cpp",
               "src/iterator/*.cpp", "src/skiplist/*.cpp", "src/memtable/*.cpp",
               "src/block/*.cpp", "src/sst/*.cpp", "src/wal/*.cpp", "src/lsm/*.cpp",
               "src/redis_wrapper/*.cpp")
@@ -226,6 +234,14 @@ target("test_wal")
     add_deps("logger", "wal", "lsm")
     add_includedirs("include", {public = true})
     add_packages("gtest", "toml11", "spdlog")
+
+target("test_wisckey")
+    set_kind("binary")
+    set_group("tests")
+    add_files("test/test_wisckey.cpp")
+    add_deps("logger", "lsm", "memtable", "iterator")
+    add_packages("gtest", "toml11", "spdlog")
+    add_includedirs("include", {public = true})
 
 -- ============ 可执行目标 ============
 

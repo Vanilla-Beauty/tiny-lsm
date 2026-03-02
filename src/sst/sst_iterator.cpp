@@ -130,7 +130,7 @@ std::string SstIterator::value() {
   if (!m_block_it) {
     throw std::runtime_error("Iterator is invalid");
   }
-  return (*m_block_it)->second;
+  return m_sst->resolve_value((*m_block_it)->second);
 }
 
 BaseIterator &SstIterator::operator++() {
@@ -182,7 +182,9 @@ SstIterator::value_type SstIterator::operator*() const {
   if (!m_block_it) {
     throw std::runtime_error("Iterator is invalid");
   }
-  return (**m_block_it);
+  auto raw = (**m_block_it);
+  raw.second = m_sst->resolve_value(raw.second);
+  return raw;
 }
 
 IteratorType SstIterator::get_type() const { return IteratorType::SstIterator; }
@@ -206,7 +208,9 @@ SstIterator::pointer SstIterator::operator->() const {
 
 void SstIterator::update_current() const {
   if (!cached_value && m_block_it && !m_block_it->is_end()) {
-    cached_value = *(*m_block_it);
+    auto raw = *(*m_block_it);
+    raw.second = m_sst->resolve_value(raw.second);
+    cached_value = raw;
   }
 }
 
@@ -228,7 +232,8 @@ SstIterator::merge_sst_iterator(std::vector<SstIterator> iter_vec,
   for (auto &iter : iter_vec) {
     while (iter.is_valid() && !iter.is_end()) {
       it_begin.items.emplace(
-          iter.key(), iter.value(), -iter.m_sst->get_sst_id(), 0,
+          iter.key(), iter.m_sst->resolve_value(iter.m_block_it->operator*().second),
+          -iter.m_sst->get_sst_id(), 0,
           iter.get_cur_tranc_id()); // ! 此处的level暂时没有作用, 都作用于同一层的比较
       ++iter;
     }
