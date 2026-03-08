@@ -3,7 +3,7 @@ name: Deploy mdBook Documentation
 on:
   push:
     branches:
-      - lab-doc
+      - lab-doc-2
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout source branch
         uses: actions/checkout@v3
         with:
-          ref: lab-doc
+          ref: lab-doc-2
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
