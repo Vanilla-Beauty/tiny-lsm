@@ -29,16 +29,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "../searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ee995ad7.js"></script>
+        <script src="../toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -234,6 +236,14 @@ Level 2: sst_08(key100-key120), sst_09(key121-key140)
 <li>后续实现缓存池后, 构造函数中需要对缓存池进行初始化, 现阶段你的构造函数, 只需要将<code>block_cache</code>初始化为<code>nullptr</code>即可</li>
 <li>第一次启动引擎时, 需要创建数据目录</li>
 <li><code>init_spdlog_file</code>函数用于初始化日志, 其内部是对<code>std::call_once</code>的封装, 因此其只有第一次调用时会执行</li>
+<li>引擎初始化时需要初始化 <code>vlog_</code>：
+<pre><code class="language-cpp">vlog_ = VLog::open(data_dir + "/vlog.data");
+</code></pre>
+<code>VLog</code> 是 WiscKey 键值分离的核心组件（后续Lab内容），这里<strong>必须</strong>在引擎初始化时打开，即使 WiscKey 阈值为 0，也能保证文件存在、正常重启读取。</li>
+<li>加载 SST 文件时，需将 <code>vlog_</code> 传入 <code>SST::open</code>：
+<pre><code class="language-cpp">auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache, vlog_);
+</code></pre>
+对于普通模式（非 WiscKey）的 SST，<code>vlog_</code> 不会被使用，传入后忽略即可。</li>
 </ol>
 <blockquote>
 <p><strong>Hint</strong></p>

@@ -29,16 +29,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "../searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ee995ad7.js"></script>
+        <script src="../toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -203,9 +205,11 @@ private:
 <p>此外, 你在头文件中除了基础的<code>CRUD</code>函数外, 还会看到这个函数:</p>
 <pre><code class="language-cpp">  std::shared_ptr&lt;SST&gt; flush_last(SSTBuilder &amp;builder, std::string &amp;sst_path,
                                   size_t sst_id,
+                                  std::vector&lt;uint64_t&gt; &amp;flushed_tranc_ids,
                                   std::shared_ptr&lt;BlockCache&gt; block_cache);
 </code></pre>
 <p>这个函数不是本<code>Lab</code>要求实现的函数, 但可以先进行简单的介绍便于认知整体架构。当<code>MemTable</code>中的数据量达到阈值时, 会调用这个函数将最古老的一个<code>SST</code>进行持久化, 形成一个<code>Level 0</code>的<code>SST</code>, 因此你可以理解为, <code>Skiplist</code>是和<code>Level 0 SST</code>的数据来源。</p>
+<p>其中新增的<code>flushed_tranc_ids</code>是一个输出参数, 刷盘过程中会将已经完成的事务<code>id</code>收集到这个数组中, 供上层组件通知事务管理器哪些事务已经安全持久化。</p>
 <h1 id="2-put-的实现"><a class="header" href="#2-put-的实现">2 put 的实现</a></h1>
 <p>你首先要实现的是<code>put</code>系列的函数:</p>
 <pre><code class="language-cpp">void MemTable::put_(const std::string &amp;key, const std::string &amp;value,

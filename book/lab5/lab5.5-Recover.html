@@ -29,16 +29,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "../searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ee995ad7.js"></script>
+        <script src="../toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -282,6 +284,7 @@ COMMIT TX100
    -&gt; 调用 LSMEngine 的构造函数
    -&gt; 调用 TranManager 的构造函数
       -&gt; TranManager 初始化除了 WAL 之外的组件
+      -&gt; TranManager 从磁盘读取已持久化的事务 id 信息（checkpoint_tranc_id）
    -&gt; 调用 TranManager::check_recover 检查是否需要重放WAL日志
    -&gt; 将重放的 WAL 日志应用到 LSMEngine
    -&gt; 调用 TranManager::init_new_wal 初始化 WAL 组件
@@ -289,12 +292,12 @@ COMMIT TX100
 -&gt; LSM::LSM 构造函数结束
 </code></pre>
 <pre><code class="language-cpp">std::map&lt;uint64_t, std::vector&lt;Record&gt;&gt;
-WAL::recover(const std::string &amp;log_dir, uint64_t max_flushed_tranc_id) {
+WAL::recover(const std::string &amp;log_dir, uint64_t checkpoint_tranc_id) {
   // TODO: Lab 5.5 检查需要重放的WAL日志
   return {};
 }
 </code></pre>
-<p>这个函数是一个静态函数, 在你的引擎正式初始化前(或者初始化的过程中, 取决于你的实现)需要进行<code>WAL</code>文件的重放, 举个例子:</p>
+<p>这个函数是一个静态函数，第二个参数 <code>checkpoint_tranc_id</code> 是已经安全持久化到 SST 的最大事务 id（即 <code>TranManager</code> 从磁盘读取的 <code>checkpoint_tranc_id_</code>）。WAL 文件中 <code>tranc_id &lt;= checkpoint_tranc_id</code> 的记录<strong>已经刷盘</strong>，无需重放；只有 <code>tranc_id &gt; checkpoint_tranc_id</code> 的记录才需要考虑重放。举个例子:</p>
 <pre><code class="language-text">T1 ctx1 running, ctx2 running
 T2 ctx1 commit, ctx2 running
 T3 crash, both data from in ctx1 and ctx2 are not flushed to sst (in `MemTable`)
@@ -338,25 +341,39 @@ private:
   // TODO: Lab 5.5 控制WAL重放与组件的初始化
 }
 </code></pre>
-<h1 id="3-事务id信息的维护"><a class="header" href="#3-事务id信息的维护">3 事务id信息的维护</a></h1>
-<p>这里补充说明一个非常重要的细节。我们之前介绍的崩溃恢复重放流程是：</p>
-<pre><code class="language-text">1. 检查WAL日志
-2. 整合事务id每条记录, 忽略以Rollback结尾的事务
-3. 若事务以Commit结尾, 则将事务id与已经刷盘的SST中的最大事务id进行比对
-   1. 若事务id大于SST的最大事务id, 执行重放操作
-   2. 若事务id小于SST的最大事务id, 则忽略该事务, 因为其已经被持久化到SST了
+<p><strong>重放时的关键细节：跳过已刷盘的事务</strong></p>
+<p><code>check_recover()</code> 返回的 map 中可能包含已经刷盘到 SST 的事务（例如 WAL 文件中记录了 TX100，但 TX100 在崩溃前恰好完成了 flush）。在重放时，你需要跳过这些已经持久化的事务：</p>
+<pre><code class="language-cpp">auto check_recover_res = tran_manager_-&gt;check_recover();
+for (auto &amp;[tranc_id, records] : check_recover_res) {
+    // 如果该事务 id 已经在 flushed_tranc_ids 集合中，说明已刷盘，跳过
+    if (tran_manager_-&gt;get_flushed_tranc_ids().count(tranc_id)) {
+        continue;
+    }
+    // 重放该事务的所有操作
+    for (auto &amp;record : records) {
+        if (record.getOperationType() == OperationType::OP_PUT) {
+            engine-&gt;put(record.getKey(), record.getValue(), tranc_id);
+        } else if (record.getOperationType() == OperationType::OP_DELETE) {
+            engine-&gt;remove(record.getKey(), tranc_id);
+        }
+    }
+}
+tran_manager_-&gt;init_new_wal();
 </code></pre>
-<p>这里的问题包括:</p>
+<p><code>TranManager::get_flushed_tranc_ids()</code> 返回的是一个 <code>std::set&lt;uint64_t&gt;</code>，记录了所有已经安全刷盘到 SST 的事务 id 集合，这比仅用单个 <code>max_flushed_tranc_id</code> 更精确，避免了“部分刷盘“导致的数据缺失问题。</p>
+<h1 id="3-事务id信息的维护"><a class="header" href="#3-事务id信息的维护">3 事务id信息的维护</a></h1>
+<p>这里补充说明一个非常重要的细节。当前实现中使用 <code>flushed_tranc_ids_</code>（一个 <code>std::set&lt;uint64_t&gt;</code>）替代了单一的 <code>max_flushed_tranc_id_</code>，来跟踪哪些事务已经安全持久化到 SST。</p>
+<p><strong>为什么用集合而不是单个最大值？</strong></p>
+<p>考虑如下场景：</p>
 <ol>
-<li>什么时候更新这个<code>已经刷盘的SST中的最大事务id</code>? (这个变量就是<code>max_flushed_tranc_id_</code>)</li>
-<li><code>max_flushed_tranc_id_</code>意味着整个事务已经刷盘到<code>SST</code>, 这是如何保证的? 有没有坑出现下述情况
-<ol>
-<li>一部分属于该事务的键值对在刷盘时检查到其<code>tranc_id</code>比<code>max_flushed_tranc_id_</code>大, 因此更新了<code>max_flushed_tranc_id_</code></li>
-<li>此时数据库崩溃, 改事务的剩余键值对因为在内存<code>MemTable</code>中而被丢弃, 但<code>WAL</code>中有对应的日志</li>
-<li>崩溃恢复时, 由于<code>WAL</code>中属于该事务的事务的<code>tranc_id</code>等于<code>max_flushed_tranc_id_</code>而被忽略, 改事务尽管<code>commit</code>了, 但其数据还是发生了缺失</li>
+<li>事务 TX100 写入 key1、key2，事务 TX101 写入 key3</li>
+<li>flush 发生时，只有 key1 进入了最终的 SST（例如 TX100 的部分 key 在旧 MemTable 中被 flush 了）</li>
+<li>若用单一最大值，flush 后 <code>max_flushed_tranc_id = 100</code>，下次恢复时 TX100 被跳过</li>
+<li>但 key2 可能还在 MemTable 中未刷盘，崩溃后 key2 丢失</li>
 </ol>
-</li>
-</ol>
+<p><code>flushed_tranc_ids_</code> 集合的语义是：<strong>只有当某个事务的所有操作都已随同一次 flush 完整写入 SST 时，该事务 id 才会被加入集合</strong>。具体来说，<code>MemTable::flush_last</code> 在刷盘时会收集 “begin 标记记录”（<code>key="" value=""</code> 的特殊记录）对应的 <code>tranc_id</code>，并通过 <code>LSMEngine::flush</code> 传递给 <code>TranManager::add_flushed_tranc_id</code>。</p>
+<p><strong><code>checkpoint_tranc_id_</code> 的作用</strong></p>
+<p><code>checkpoint_tranc_id_</code> 是 WAL 清理的依据，其含义是“已知安全持久化的最大事务 id 的保守估计“，用于 WAL 的 <code>cleanWALFile</code> 函数判断某个历史 WAL 文件是否可以删除。<code>TranManager</code> 在恢复完成后会将其从磁盘读取并传给 WAL 构造函数。</p>
 <p>实验不限制你对上述问题的解决方案, 你能通过后续测试即可</p>
 <h1 id="4-测试"><a class="header" href="#4-测试">4 测试</a></h1>
 <p>现在你应该可以通过之前所有的测试了:</p>

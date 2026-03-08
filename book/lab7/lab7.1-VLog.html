@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Lab 1.1 跳表的 CRUD - Tiny-LSM-Lab</title>
+        <title>Lab 7.1 VLog 实现 - Tiny-LSM-Lab</title>
 
 
         <!-- Custom HTML head -->
@@ -148,7 +148,7 @@
                         <a href="https://github.com/Vanilla-Beauty/tiny-lsm" title="Git repository" aria-label="Git repository">
                             <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/Vanilla-Beauty/tiny-lsm/edit/lab-doc/src/lab1/lab1.1-SkipList-crud.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/Vanilla-Beauty/tiny-lsm/edit/lab-doc/src/lab7/lab7.1-VLog.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
@@ -182,148 +182,130 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lab-11-跳表的-crud"><a class="header" href="#lab-11-跳表的-crud">Lab 1.1 跳表的 CRUD</a></h1>
-<h1 id="1-准备工作"><a class="header" href="#1-准备工作">1 准备工作</a></h1>
-<p>本<code>Lab</code>中, 你需要修改的代码文件为</p>
-<ul>
-<li><code>src/skiplist/skipList.cpp</code></li>
-<li><code>include/skiplist/skiplist.h</code> (optional)</li>
-</ul>
-<p>这里首先简单介绍本<code>Lab</code>已有的<code>SkipList</code>头文件定义:</p>
-<pre><code class="language-cpp">// include/skiplist/skiplist.h
-struct SkipListNode {
-  std::string key_;   // 节点存储的键
-  std::string value_; // 节点存储的值
-  uint64_t tranc_id_; // 事务 id, 目前可以忽略
-  std::vector&lt;std::shared_ptr&lt;SkipListNode&gt;&gt;
-      forward_; // 指向不同层级的下一个节点的指针数组
-  std::vector&lt;std::weak_ptr&lt;SkipListNode&gt;&gt;
-      backward_; // 指向不同层级的下一个节点的指针数组
-  // ...
-};
-</code></pre>
-<p>这里定义了跳表节点的基础数据, 包括<code>key</code>, <code>value</code>和目前可以忽略的事务<code>tranc_id_</code></p>
-<p>这里定义的跳表节点使用的是双向链表, <code>forward_</code>和<code>backward_</code>分别存储了各层链表节点的前向指针和后向指针, 其中为了避免循环引用, 这里结合使用了<code>weak_ptr</code>和<code>shared_ptr</code>, 详细熟悉现代<code>C++</code>的同学对此非常熟悉。</p>
-<blockquote>
-<p>这里补充说明一下<code>weak_ptr</code>, 它的作用是避免<code>shared_ptr</code>循环引用, 即一个节点的<code>shared_ptr</code>指针指向另一个节点, 另一个节点的<code>shared_ptr</code>指针指向前者, 这样就会造成两个节点的析构都无法进行, 因为在析构时互相持有对方的引用计数, 类似死锁。但<code>weak_ptr</code>不参与类似<code>shared_ptr</code>的引用计数, 保证了析构的正确进行。但也正因为如此，<code>weak_ptr</code>不保证指针的有效性, 需要想使用<code>.lock()</code>判断该指针是否有效。</p>
-</blockquote>
-<p>然后我们看<code>SkipList</code>的头文件定义：</p>
-<pre><code class="language-cpp">
-class SkipList {
-private:
-  std::shared_ptr&lt;SkipListNode&gt;
-      head;              // 跳表的头节点，不存储实际数据，用于遍历跳表
-  int max_level;         // 跳表的最大层级数，限制跳表的高度
-  int current_level;     // 跳表当前的实际层级数，动态变化
-  size_t size_bytes = 0; // 跳表当前占用的内存大小（字节数），用于跟踪内存使用
-  // std::shared_mutex rw_mutex; // ! 目前看起来这个锁是冗余的, 在上层控制即可,
-  // 后续考虑是否需要细粒度的锁
-
-  std::uniform_int_distribution&lt;&gt; dis_01;  // 随机层数的辅助生成器
-  std::uniform_int_distribution&lt;&gt; dis_level;
-  std::mt19937 gen;
-};
-</code></pre>
-<p>这里我们定义了最大的链表层数<code>max_level</code>, 你的实现不能有超过<code>max_level</code>的链表数量, <code>current_level</code>定义当前链表的层数(注意是层数, 不是索引), 最后介绍最重要的<code>head</code>, 其只是个哨兵节点, 并不实际存储键值对。</p>
-<p>后面三行的<code>gen</code>和<code>dis_01</code>和<code>dis_level</code>是随机数生成器，你可以使用它们来生成随机数。回想我们之前提到的问题, 你应该如何确定每一此插入节点时起最高的连接链表的<code>Level</code>呢? 这里你可以利用这些随机生成器来确定这些层数, 当然你也可以选择自己的方式来实现。</p>
-<h1 id="2-put-的实现"><a class="header" href="#2-put-的实现">2 put 的实现</a></h1>
-<p>你需要实现下面的<code>put</code>函数:</p>
-<pre><code class="language-cpp">// 插入或更新键值对
-void SkipList::put(const std::string &amp;key, const std::string &amp;value,
-                   uint64_t tranc_id) {
-  spdlog::trace("SkipList--put({}, {}, {})", key, value, tranc_id);
-
-  // TODO: Lab1.1  任务：实现插入或更新键值对
-  // ? Hint: 你需要保证不同`Level`的步长从底层到高层逐渐增加
-  // ? 你可能需要使用到`random_level`函数以确定层数, 其注释中为你通公路一种思路
-}
-</code></pre>
-<p>目前, 你可以先忽略<code>tranc_id</code>这个参数。</p>
-<p>此外，之前提到过，跳表的层数是动态增加的， 因此你实现下面的函数可能对你有帮助：</p>
-<pre><code class="language-cpp">int SkipList::random_level() {
-  // TODO: 实现随机生成level函数
-  // 通过"抛硬币"的方式随机生成层数：
-  // - 每次有50%的概率增加一层
-  // - 确保层数分布为：第1层100%，第2层50%，第3层25%，以此类推
-  // - 层数范围限制在[1, max_level]之间，避免浪费内存
-  return -1;
-}
-</code></pre>
-<p>这里给出一个提示, 生成的整型值的每一个二级制位只包含0或1, 可以表示为<code>bool</code>类型, 因此你可以利用它来判断这个节点的最高层数:</p>
+                        <h1 id="lab-71-vlog-实现"><a class="header" href="#lab-71-vlog-实现">Lab 7.1 VLog 实现</a></h1>
+<h2 id="1-vlog-的设计目标"><a class="header" href="#1-vlog-的设计目标">1 VLog 的设计目标</a></h2>
+<p>在开始写代码之前，先思考 VLog 需要满足哪些约束：</p>
 <ol>
-<li><code>Level 0</code>底层链表: 一定连接新节点</li>
-<li><code>Level 1</code>链表: 判断<code>random_level()</code>生成整型数的第1位是否为1, 有<code>50%</code>的概率连接新节点, 为0则跳出该判断链</li>
-<li><code>Level 2</code>链表: 判断<code>random_level()</code>生成整型数的第2位是否为1, 有<code>50% * 50% =25%</code>的概率连接新节点, 为0则跳出该判断链</li>
-<li>…</li>
+<li>
+<p><strong>只追加</strong>：写入操作只在文件末尾追加，不修改已有记录。这使得 VLog 天然适合顺序写，也简化了并发控制——多个写入者只需保证追加的原子性，不需要锁整个文件。</p>
+</li>
+<li>
+<p><strong>重启恢复</strong>：系统重启后，VLog 文件中已有的记录必须保留（<code>open</code> 时不截断），否则 SST 中指向旧记录的引用将失效。</p>
+</li>
+<li>
+<p><strong>随机读</strong>：<code>get</code> 操作需要根据 SST 中存储的偏移量直接跳到 VLog 文件的任意位置读取 value，不需要顺序扫描。</p>
+</li>
+<li>
+<p><strong>数据校验</strong>：每条记录附带 CRC32 校验，以检测磁盘静默错误或写入中断导致的数据损坏。</p>
+</li>
 </ol>
-<blockquote>
-<p>当然, 上述只是一个建议的方案, 你可以选择别的实现方案, 并删除<code>random_level</code>函数
-另外, 别忘记了更新<code>size_bytes</code>这个统计信息, 如果你不知道这个统计信息的运作规则, 你可以查看单元测试<code>SkipListTest.MemorySizeTracking</code></p>
-</blockquote>
-<h1 id="3-remove-的实现"><a class="header" href="#3-remove-的实现">3 remove 的实现</a></h1>
-<p>虽然我们的<code>LSM Tree</code>是以仅追加写入的方式使用我们的<code>SkipList</code>, 但为了这个数据结构的完整性, 也是一次手搓底层跳表的体验, 你需要实现正儿八经的<code>remove</code>函数:</p>
-<pre><code class="language-cpp">// 删除键值对
-// ! 这里的 remove 是跳表本身真实的 remove,  lsm 应该使用 put 空值表示删除,
-// ! 这里只是为了实现完整的 SkipList 不会真正被上层调用
-void SkipList::remove(const std::string &amp;key) {
-  // TODO: Lab1.1 任务：实现删除键值对
-}
-</code></pre>
-<p><code>remove</code>函数的实现的第一步是查询到指定的节点位置, 因此你可以尝试先实现<code>get</code>函数。</p>
-<h1 id="4-get-实现"><a class="header" href="#4-get-实现">4 get 实现</a></h1>
-<p>接下来实现<code>get</code>函数:</p>
-<pre><code class="language-cpp">// 查找键值对
-SkipListIterator SkipList::get(const std::string &amp;key, uint64_t tranc_id) {
-  // spdlog::trace("SkipList--get({}) called", key);
-  // ? 你可以参照上面的注释完成日志输出以便于调试
-  // ? 日志为输出到你执行二进制所在目录下的log文件夹
+<p>这些约束共同决定了 VLog 的接口和文件格式设计。</p>
+<p>先看头文件定义：</p>
+<pre><code class="language-cpp">// include/vlog/vlog.h
+class VLog {
+public:
+    // 打开或创建 VLog 文件（不截断已有内容）
+    static std::shared_ptr&lt;VLog&gt; open(const std::string &amp;path);
 
-  // TODO: Lab1.1 任务：实现查找键值对,
-  // TODO: 并且你后续需要额外实现SkipListIterator中的TODO部分(Lab1.2)
-  return SkipListIterator{};
+    // 追加一条 KV 记录，返回该记录在文件中的起始偏移量
+    uint64_t append(const std::string &amp;key, const std::string &amp;value);
+
+    // 从指定偏移量读取 value（需要提供 value 的长度）
+    std::string read_value(uint64_t offset, uint32_t value_size);
+
+    // 返回当前文件的末尾偏移（== 文件大小）
+    uint64_t tail_offset() const;
+
+    void sync();
+    void del_vlog();
+
+private:
+    FileObj file_;
+    std::string path_;
+    mutable std::mutex append_mtx_;  // 保护并发 append
+};
+</code></pre>
+<p>接口设计上有一个值得注意的细节：<code>read_value</code> 接受 <code>value_size</code> 参数，而不是自己从 VLog 记录中解析出 value 长度。这是因为调用方（<code>SST::resolve_value</code>）已经从 vlog 引用中拿到了 value 大小，避免一次多余的读取；同时也使 <code>read_value</code> 的职责更单一——它只负责“在给定位置读取给定长度的数据“。</p>
+<hr>
+<h2 id="2-代码实现"><a class="header" href="#2-代码实现">2 代码实现</a></h2>
+<p>需要修改 <code>src/vlog/vlog.cpp</code>。</p>
+<h3 id="21-vlogopen"><a class="header" href="#21-vlogopen">2.1 VLog::open</a></h3>
+<p><code>open</code> 是 VLog 的工厂函数，负责打开或创建 VLog 文件：</p>
+<pre><code class="language-cpp">std::shared_ptr&lt;VLog&gt; VLog::open(const std::string &amp;path) {
+    // TODO: Lab 7.1 打开或创建 VLog 文件
+    // ? 1. 若文件不存在则创建空文件
+    // ? 2. 用 FileObj::open(path, false) 打开（不截断，保留已有记录）
+    // ? 3. 记录 path_ 和 file_
+    return nullptr;
 }
 </code></pre>
-<p>可以看到, 我们的<code>get</code>返回的是一个<code>SkipListIterator</code>, 它是一个迭代器, 可以用来遍历<code>SkipList</code>中的元素。这一部分涉及<code>SkipList Iterator</code>的实现不会在文档中进行展开, 你需要阅读源码, 这也是一项基本能力(这部分代码很简单, 别怕:smile:)</p>
-<blockquote>
-<p>这里的迭代器调用构造函数就可以了, 目前的<code>SkipListIterator</code>实现了一部分, 关于自增等运算符重载, 你将在后续的任务中实现。</p>
-</blockquote>
-<h1 id="4-测试"><a class="header" href="#4-测试">4 测试</a></h1>
-<p>当你完成上述操作后, <code>test/test_skiplist.cpp</code>中的部分单元测试你应该能够通过:</p>
-<pre><code class="language-bash">✗ cd tiny-lsm
-✗ xmake
-✗ xmake run test_skiplist
-[==========] Running 12 tests from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 12 tests from SkipListTest
-[ RUN      ] SkipListTest.BasicOperations
-[       OK ] SkipListTest.BasicOperations (0 ms)
-[ RUN      ] SkipListTest.LargeScaleInsertAndGet
-[       OK ] SkipListTest.LargeScaleInsertAndGet (6 ms)
-[ RUN      ] SkipListTest.LargeScaleRemove
-[       OK ] SkipListTest.LargeScaleRemove (6 ms)
-[ RUN      ] SkipListTest.DuplicateInsert
-[       OK ] SkipListTest.DuplicateInsert (0 ms)
-[ RUN      ] SkipListTest.EmptySkipList
-[       OK ] SkipListTest.EmptySkipList (0 ms)
-[ RUN      ] SkipListTest.RandomInsertAndRemove
-[       OK ] SkipListTest.RandomInsertAndRemove (5 ms)
-[ RUN      ] SkipListTest.MemorySizeTracking
-[       OK ] SkipListTest.MemorySizeTracking (0 ms)
-[ RUN      ] SkipListTest.Iterator
-^C
+<p>这里使用 <code>FileObj::open(path, false)</code> 而非截断模式，目的是<strong>重启后不丢失</strong>已有的 vlog 记录。如果在 open 时截断，所有 SST 中指向旧 VLog 偏移的引用就会失效，导致数据损坏。</p>
+<h3 id="22-vlogappend"><a class="header" href="#22-vlogappend">2.2 VLog::append</a></h3>
+<p><code>append</code> 是 VLog 的核心写入接口，将一条 KV 记录顺序追加到文件末尾：</p>
+<pre><code class="language-cpp">uint64_t VLog::append(const std::string &amp;key, const std::string &amp;value) {
+    // TODO: Lab 7.1 追加一条 KV 记录到 VLog，返回记录起始偏移量
+    // ? 加 append_mtx_ 互斥锁（支持并发写）
+    // ? offset = file_.size()（追加前的文件大小即为本次记录的起始偏移）
+    // ? 记录格式: [key_len:uint16][key][val_len:uint32][value][crc32:uint32]
+    // ? CRC32 覆盖除自身之外的所有字段
+    // ? 使用 file_.append(buf) 写入
+    return 0;
+}
 </code></pre>
-<p>到<code>SkipListTest.Iterator</code>前的单元测试你应该都能够通过, 卡在<code>SkipListTest.Iterator</code>是因为我们很没有实现迭代器相关功能。</p>
-<p>恭喜你, 你已经完成了<code>SkipList</code>的基础<code>CRUD</code>实现。接下来你可以进行<a href="./lab1.2-Iterator-query.html">Lab1.2</a>了。</p>
+<p>记录格式的字节布局，结合 Lab 7 概述中的格式描述：</p>
+<pre><code>offset + 0                    : key_len (uint16_t, 2 bytes)
+offset + 2                    : key (key_len bytes)
+offset + 2 + key_len          : val_len (uint32_t, 4 bytes)
+offset + 2 + key_len + 4      : value (val_len bytes)
+offset + 2 + key_len + 4 + val_len : crc32 (uint32_t, 4 bytes)
+</code></pre>
+<p>CRC32 的计算需要覆盖从 <code>key_len</code> 字段到 <code>value</code> 末尾的所有字节——也就是除 crc32 本身之外的所有内容。这样一旦任何字段发生损坏，校验就会失败。</p>
+<p><strong>注意</strong>：<code>append</code> 返回的是写入<strong>前</strong>的 <code>file_.size()</code>，也就是本次记录的起始偏移量。这个值将被 <code>SSTBuilder</code> 编码进 SST Block 的 vlog 引用中（8 字节的 <code>vlog_offset</code> 字段）。</p>
+<h3 id="23-vlogread_value"><a class="header" href="#23-vlogread_value">2.3 VLog::read_value</a></h3>
+<p><code>read_value</code> 根据偏移量随机读取 VLog 中的 value：</p>
+<pre><code class="language-cpp">std::string VLog::read_value(uint64_t offset, uint32_t value_size) {
+    // TODO: Lab 7.1 从指定 offset 读取 value
+    // ? 先读 key_len (uint16_t, 2 bytes) 以跳过 key
+    // ? value 起始位置 = offset + 2 + key_len + 4
+    // ? 读取 value_size 个字节返回
+    return "";
+}
+</code></pre>
+<p>读取流程：</p>
+<ol>
+<li>从 <code>offset</code> 处读 2 字节，得到 <code>key_len</code></li>
+<li>跳过 <code>key_len</code> 字节的 key 内容</li>
+<li>再跳过 4 字节的 <code>val_len</code> 字段（我们不需要用它，因为调用方已经传入了 <code>value_size</code>）</li>
+<li>从当前位置读取 <code>value_size</code> 字节，返回 value</li>
+</ol>
+<p>这里故意<strong>不校验 CRC</strong>，理由是：</p>
+<ul>
+<li>写入路径已经通过 CRC 保证了数据完整性</li>
+<li>若 VLog 末尾有不完整的写入（如崩溃时），对应的 SST 引用在 WAL 恢复阶段已被处理，<code>read_value</code> 不会被调用到那些损坏的偏移</li>
+<li>CRC 校验主要用于 GC 扫描时检测死记录，本 Lab 不涉及</li>
+</ul>
+<hr>
+<h2 id="3-测试"><a class="header" href="#3-测试">3 测试</a></h2>
+<p>完成 VLog 实现后，可以单独验证 <code>append</code> 和 <code>read_value</code> 的正确性：</p>
+<pre><code class="language-cpp">// 验证思路
+auto vlog = VLog::open("/tmp/test.data");
+uint64_t off = vlog-&gt;append("key1", "hello_world");
+assert(vlog-&gt;read_value(off, 11) == "hello_world");
+</code></pre>
+<p>需要同时完成 Lab 7.2 和 Lab 7.3 后，才能运行完整的端到端测试：</p>
+<pre><code class="language-bash">xmake run test_wisckey
+</code></pre>
+<p>完成 VLog 实现后，继续阅读 <a href="./lab7.2-SSTBuilder-WiscKey.html">Lab 7.2</a>，了解如何在 SST 层接入 VLog，以及 WiscKey footer 的格式设计。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../lab1/lab1-skiplist.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../lab7/lab7-WiscKey.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../lab1/lab1.2-Iterator-query.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../lab7/lab7.2-SSTBuilder-WiscKey.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -333,11 +315,11 @@ SkipListIterator SkipList::get(const std::string &amp;key, uint64_t tranc_id) {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../lab1/lab1-skiplist.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../lab7/lab7-WiscKey.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../lab1/lab1.2-Iterator-query.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../lab7/lab7.2-SSTBuilder-WiscKey.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

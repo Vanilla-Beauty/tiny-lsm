@@ -29,16 +29,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "../searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ee995ad7.js"></script>
+        <script src="../toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -223,7 +225,7 @@ private:
 <p>你需要修改的函数都在<code>src/block/block.cpp</code>中。</p>
 <h2 id="21-block-编码和解码"><a class="header" href="#21-block-编码和解码">2.1 Block 编码和解码</a></h2>
 <p>这里你先不要管这个<code>Block</code>是哪里来的, 就当它已经存在, 实现编码和解码的功能:</p>
-<pre><code class="language-cpp">std::vector&lt;uint8_t&gt; Block::encode() {
+<pre><code class="language-cpp">std::vector&lt;uint8_t&gt; Block::encode(bool with_hash) {
   // TODO Lab 3.1 编码单个类实例形成一段字节数组
   return {};
 }
@@ -234,9 +236,13 @@ std::shared_ptr&lt;Block&gt; Block::decode(const std::vector&lt;uint8_t&gt; &amp
   return nullptr;
 }
 </code></pre>
-<p>这里特别说明, <code>encode</code>时的数据是不包括校验的哈希值的 因为哈希值是在<code>SST</code>控制<code>Block</code>构建过程中计算的, 但在<code>decode</code>时可以通过<code>with_hash</code>参数来指示传入的<code>encoded</code>是否包含哈希值, 如果包含哈希值, 则需要先校验哈希值是否正确, 校验失败则抛出异常。</p>
+<p>两个函数都接受 <code>with_hash</code> 参数：</p>
+<ul>
+<li><code>encode(with_hash)</code>: 若为 <code>true</code>，在编码末尾额外追加 CRC32 校验值（4字节）</li>
+<li><code>decode(encoded, with_hash)</code>: 若为 <code>true</code>，先校验 CRC32，校验失败则抛出异常</li>
+</ul>
 <blockquote>
-<p>之所以<code>encode</code>不计算哈希值, <code>decode</code>按需计算哈希值, 其实是作者初版代码设计不佳, 这里先不纠结了, 后续可能会进行优化, 如果你有优化方案, 可对代码进行修改后提PR</p>
+<p>这样统一设计，使得 <code>SSTBuilder</code> 在构建时可以选择是否写入校验码，<code>read_block</code> 在读取时按同样的标志进行校验，编解码行为完全对称。</p>
 </blockquote>
 <blockquote>
 <p>编解码时你需要注意数据的格式, 如果校验格式错误, 你需要抛出异常, 否则错误将非常难以<code>Debug</code></p>
@@ -255,7 +261,7 @@ std::string Block::get_value_at(size_t offset) const {
   return "";
 }
 
-uint16_t Block::get_tranc_id_at(size_t offset) const {
+uint64_t Block::get_tranc_id_at(size_t offset) const {
   // TODO Lab 3.1 从指定偏移量获取entry的tranc_id
   // ? 你不需要理解tranc_id的具体含义, 直接返回即可
   return 0;

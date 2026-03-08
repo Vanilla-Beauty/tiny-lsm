@@ -29,16 +29,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "../searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ee995ad7.js"></script>
+        <script src="../toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -199,6 +201,10 @@ private:
   std::shared_ptr&lt;BlockCache&gt; block_cache; // 暂时忽略
   uint64_t min_tranc_id_ = UINT64_MAX; // 暂时忽略
   uint64_t max_tranc_id_ = 0; // 暂时忽略
+
+  // WiscKey 键值分离字段（后续Lab内容，暂时忽略）
+  uint8_t storage_mode_ = 0; // 0=inline, 1=WiscKey
+  std::shared_ptr&lt;VLog&gt; vlog_;
   // ...
 };
 </code></pre>
@@ -245,8 +251,10 @@ private:
 <h2 id="21-打开-sst-文件"><a class="header" href="#21-打开-sst-文件">2.1 打开 SST 文件</a></h2>
 <p>你需要实现<code>SST：：open</code>函数:</p>
 <pre><code class="language-cpp">// 头文件中将其定义为静态函数
+// vlog 参数默认为 nullptr，普通模式下忽略即可；WiscKey 模式下由上层传入（后续Lab内容）
 std::shared_ptr&lt;SST&gt; SST::open(size_t sst_id, FileObj file,
-                               std::shared_ptr&lt;BlockCache&gt; block_cache) {
+                               std::shared_ptr&lt;BlockCache&gt; block_cache,
+                               std::shared_ptr&lt;VLog&gt; vlog = nullptr) {
   // TODO Lab 3.6 打开一个SST文件, 返回一个描述类
 
   return nullptr;
@@ -261,11 +269,12 @@ std::shared_ptr&lt;SST&gt; SST::open(size_t sst_id, FileObj file,
 </blockquote>
 <h2 id="22-加载-block"><a class="header" href="#22-加载-block">2.2 加载 Block</a></h2>
 <p>在接受其他组件的查询请求后, <code>SST</code>会根据元信息定位请求的<code>key</code>可能位于哪一个<code>Block</code>(因为<code>BlockMeta</code>中存储了首尾的<code>key</code>), 接下来就是读取这个<code>Blcok</code>, 这就是你需要实现的<code>read_block</code>函数:</p>
-<pre><code class="language-cpp">std::shared_ptr&lt;Block&gt; SST::read_block(size_t block_idx) {
+<pre><code class="language-cpp">std::shared_ptr&lt;Block&gt; SST::read_block(int64_t block_idx) {
   // TODO: Lab 3.6 根据 block 的 id 读取一个 `Block`
   return nullptr;
 }
 </code></pre>
+<p>注意参数类型为 <code>int64_t</code>（有符号），这是为了与 <code>find_block_idx</code> 的返回值（返回 -1 表示未找到）保持一致。</p>
 <blockquote>
 <p>实现缓存池后, 你的代码逻辑应该是</p>
 <ol>
@@ -331,7 +340,9 @@ SstIterator::value_type SstIterator::operator*() const {
   throw std::runtime_error("Not implemented");
 }
 
-SstIterator SST::begin(uint64_t tranc_id) {
+// keep_all_versions=false 时只保留每个 key 的最新版本（事务可见版本）
+// keep_all_versions=true 时用于 compact，保留全部历史版本
+SstIterator SST::begin(uint64_t tranc_id, bool keep_all_versions = false) {
   // TODO: Lab 3.6 返回起始位置迭代器
   throw std::runtime_error("Not implemented");
 }

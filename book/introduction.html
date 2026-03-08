@@ -29,16 +29,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-ee995ad7.js"></script>
+        <script src="toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -226,7 +228,7 @@
 <p>本实验的组织类似<a href="https://github.com/cmu-db/bustub"><code>CMU15445 bustub</code></a>, <code>Lab</code>提供了整体的代码框架, 并将其中某些组件的关键函数挖空并标记为<code>TODO</code>, 参与<code>Lab</code>的同学需要按照每一个<code>Lab</code>的指南补全缺失的函数, 并通过对应的单元测试。</p>
 <p>同样类似<code>CMU 15445</code>, 后面的<code>Lab</code>依赖于前一个<code>Lab</code>的正确性, 而实验提供的单元测试知识尽量考虑到了各种边界情况, 但不能完全确保你的代码正确, 因此必要时, 你需要自行进行单元测试补充以及<code>debug</code>。</p>
 <blockquote>
-<p>在目前的<code>Lab</code>中, 你确实可以从原仓库<a href="https://github.com/Vanilla-Beauty/tiny-lsm">Tiny-LSM</a>的<code>complete</code>分支直接查看<code>Lab</code>实验的答案, 但作者不希望你如此做, 这样你将无法深刻理解实验设计的思路和相关知识。并且, 作者自己实现的代码中的崩溃恢复部分存在<code>bug</code>, 且其余部分并非最佳方案。（猜猜作者是不是故意的😏）</p>
+<p>本实验代码位于仓库 <a href="https://github.com/Vanilla-Beauty/tiny-lsm">Tiny-LSM</a> 的 <strong><code>lab2</code> 分支</strong>（<code>lab</code> 分支为旧版本），对应的文档位于 <strong><code>lab-doc-2</code> 分支</strong>（<code>lab-doc</code> 分支为旧版本）。你确实可以从原仓库的 <code>complete</code> 分支直接查看<code>Lab</code>实验的答案, 但作者不希望你如此做, 这样你将无法深刻理解实验设计的思路和相关知识。并且, 作者自己实现的代码中的崩溃恢复部分存在<code>bug</code>, 且其余部分并非最佳方案。（猜猜作者是不是故意的😏）</p>
 </blockquote>
 <p>在了解完这些以后, 你可以开启下一章<a href="./lab0-env.html">Lab 0 环境准备</a>的学习。</p>
 <h1 id="5-项目交流与讨论"><a class="header" href="#5-项目交流与讨论">5 项目交流与讨论</a></h1>

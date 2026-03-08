@@ -29,16 +29,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-ee995ad7.js"></script>
+        <script src="toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -180,17 +182,37 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <p>本实验的<code>1.0</code>版本已经完成，但目前该实验存在以下优化方向:</p>
+                        <p>本实验目前处于持续迭代中，已完成的更新和后续计划如下：</p>
+<h2 id="已更新相较于-10-版本"><a class="header" href="#已更新相较于-10-版本">已更新（相较于 1.0 版本）</a></h2>
+<ol>
+<li><strong>接口同步</strong>：将所有实验文档中的函数签名与 <code>master</code> 分支最新代码对齐，包括：
+<ul>
+<li><code>MemTable::flush_last</code> 新增 <code>flushed_tranc_ids</code> 输出参数</li>
+<li><code>Block::encode</code> / <code>Block::decode</code> 统一 <code>with_hash</code> 参数</li>
+<li><code>Block::get_tranc_id_at</code> 返回类型由 <code>uint16_t</code> 修正为 <code>uint64_t</code></li>
+<li><code>SST::open</code> 新增 <code>vlog</code> 参数（默认 <code>nullptr</code>，向后兼容）</li>
+<li><code>SST::read_block</code> 参数类型改为 <code>int64_t</code>（支持返回 -1）</li>
+<li><code>SST::begin</code> 新增 <code>keep_all_versions</code> 参数</li>
+<li><code>WAL</code> 构造函数参数 <code>max_finished_tranc_id</code> 重命名为 <code>checkpoint_tranc_id</code></li>
+</ul>
+</li>
+<li><strong>WAL 崩溃恢复机制更新</strong>：用 <code>flushed_tranc_ids</code>（<code>std::set&lt;uint64_t&gt;</code>）替代单一最大值，更精确地追踪哪些事务已完全持久化，避免“部分刷盘“导致的数据缺失。详见 <a href="./lab5/lab5.5-Recover.html">Lab 5.5</a>。</li>
+<li><strong>新增 Lab 7 WiscKey 键值分离</strong>：讲解 WiscKey 论文的核心思路、VLog 文件格式、SSTBuilder 和 SST 的 WiscKey 支持、Engine 集成方式。</li>
+</ol>
+<h2 id="后续更新计划"><a class="header" href="#后续更新计划">后续更新计划</a></h2>
 <ol>
 <li>自由度提升: <code>1.0</code>版本的<code>Lab</code>, 基本上就是在既有的项目代码下进行关键函数的挖空, 在组件设计层面没有给实验参与者太多的发挥空间, 后续应该添加更多的自由度, 允许实验者自由设计组件, 并且在组件设计中添加更多的测试用例。</li>
 <li>测试用例覆盖率不足: <code>1.0</code>版本的<code>Lab</code>中, 测试用例的覆盖率比较低, 比如对崩溃恢复的各种边界条件的考虑不足, 当然这确实也比较难控制就是了。</li>
 <li>各个<code>Lab</code>工作量不尽相同, 现在的<code>Lab</code>设计是按照功能模块进行划分的, 但这导致<a href="./lab5/lab5-Tranc-MVCC.html">Lab 5</a>和<a href="./lab6/lab6-Redis.html">Lab 6</a>的测代码量和难度远大于之前的<code>Lab</code>, 难度曲线可能不太合理, 后续应考虑对各个<code>Lab</code>进行更加均衡的划分。</li>
 <li>进一步补充一些背景理论知识, 尤其是实际场景中的各种性能优化方案。</li>
+<li>Lab 7 VLog GC（垃圾回收）章节待补充。</li>
 </ol>
 <p>如果你有兴趣参与本实验的建设，欢迎在下面的分支上提交PR:</p>
 <ul>
-<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab">Lab代码分支</a></li>
-<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab-doc">Lab文档分支</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab2">Lab代码分支（lab2，当前版本）</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab-doc-2">Lab文档分支（lab-doc-2，当前版本）</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab">Lab代码分支（lab，旧版本）</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab-doc">Lab文档分支（lab-doc，旧版本）</a></li>
 <li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/master">代码开发分支</a></li>
 </ul>
 <p>如果你有什么问题，可以通过 <a href="https://qm.qq.com/q/wDZQfaNNw6">QQ讨论群</a> 或者 <a href="mailto:807077266@qq.com">📧邮件</a> 联系到作者。</p>

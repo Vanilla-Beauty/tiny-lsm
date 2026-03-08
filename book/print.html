@@ -30,16 +30,18 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-98cfd9c4.js";
+            window.path_to_searchindex_js = "searchindex-8f36f4e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-ee995ad7.js"></script>
+        <script src="toc-173f524c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -224,7 +226,7 @@
 <p>本实验的组织类似<a href="https://github.com/cmu-db/bustub"><code>CMU15445 bustub</code></a>, <code>Lab</code>提供了整体的代码框架, 并将其中某些组件的关键函数挖空并标记为<code>TODO</code>, 参与<code>Lab</code>的同学需要按照每一个<code>Lab</code>的指南补全缺失的函数, 并通过对应的单元测试。</p>
 <p>同样类似<code>CMU 15445</code>, 后面的<code>Lab</code>依赖于前一个<code>Lab</code>的正确性, 而实验提供的单元测试知识尽量考虑到了各种边界情况, 但不能完全确保你的代码正确, 因此必要时, 你需要自行进行单元测试补充以及<code>debug</code>。</p>
 <blockquote>
-<p>在目前的<code>Lab</code>中, 你确实可以从原仓库<a href="https://github.com/Vanilla-Beauty/tiny-lsm">Tiny-LSM</a>的<code>complete</code>分支直接查看<code>Lab</code>实验的答案, 但作者不希望你如此做, 这样你将无法深刻理解实验设计的思路和相关知识。并且, 作者自己实现的代码中的崩溃恢复部分存在<code>bug</code>, 且其余部分并非最佳方案。（猜猜作者是不是故意的😏）</p>
+<p>本实验代码位于仓库 <a href="https://github.com/Vanilla-Beauty/tiny-lsm">Tiny-LSM</a> 的 <strong><code>lab2</code> 分支</strong>（<code>lab</code> 分支为旧版本），对应的文档位于 <strong><code>lab-doc-2</code> 分支</strong>（<code>lab-doc</code> 分支为旧版本）。你确实可以从原仓库的 <code>complete</code> 分支直接查看<code>Lab</code>实验的答案, 但作者不希望你如此做, 这样你将无法深刻理解实验设计的思路和相关知识。并且, 作者自己实现的代码中的崩溃恢复部分存在<code>bug</code>, 且其余部分并非最佳方案。（猜猜作者是不是故意的😏）</p>
 </blockquote>
 <p>在了解完这些以后, 你可以开启下一章<a href="#lab-0-环境准备">Lab 0 环境准备</a>的学习。</p>
 <h1 id="5-项目交流与讨论"><a class="header" href="#5-项目交流与讨论">5 项目交流与讨论</a></h1>
@@ -563,7 +565,7 @@ target("example")
 <img src="images/lab0/Cline.png" width="400">
 <h1 id="4-lab代码仓库说明"><a class="header" href="#4-lab代码仓库说明">4 Lab代码仓库说明</a></h1>
 <p>按照下面的命令拉取实验代码仓库:</p>
-<pre><code class="language-bash">git clone https://github.com/Vanilla-Beauty/tiny-lsm.git --depth 1 -b lab
+<pre><code class="language-bash">git clone https://github.com/Vanilla-Beauty/tiny-lsm.git --depth 1 -b lab2
 </code></pre>
 <p>如果你之前的环境配置没有问题的话, 编译项目能够正常进行:</p>
 <pre><code class="language-bash">cd tiny-lsm
@@ -601,9 +603,9 @@ xmake
 <h1 id="lab-1-跳表实现"><a class="header" href="#lab-1-跳表实现">Lab 1 跳表实现</a></h1>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -944,9 +946,9 @@ SkipList::iters_monotony_predicate(
 <p>本<code>Lab</code>中, 你将基于之前实现的<code>Skiplist</code>, 将其组织成内存中负责存储键值对的组件<code>MemTable</code>。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -1003,9 +1005,11 @@ private:
 <p>此外, 你在头文件中除了基础的<code>CRUD</code>函数外, 还会看到这个函数:</p>
 <pre><code class="language-cpp">  std::shared_ptr&lt;SST&gt; flush_last(SSTBuilder &amp;builder, std::string &amp;sst_path,
                                   size_t sst_id,
+                                  std::vector&lt;uint64_t&gt; &amp;flushed_tranc_ids,
                                   std::shared_ptr&lt;BlockCache&gt; block_cache);
 </code></pre>
 <p>这个函数不是本<code>Lab</code>要求实现的函数, 但可以先进行简单的介绍便于认知整体架构。当<code>MemTable</code>中的数据量达到阈值时, 会调用这个函数将最古老的一个<code>SST</code>进行持久化, 形成一个<code>Level 0</code>的<code>SST</code>, 因此你可以理解为, <code>Skiplist</code>是和<code>Level 0 SST</code>的数据来源。</p>
+<p>其中新增的<code>flushed_tranc_ids</code>是一个输出参数, 刷盘过程中会将已经完成的事务<code>id</code>收集到这个数组中, 供上层组件通知事务管理器哪些事务已经安全持久化。</p>
 <h1 id="2-put-的实现-1"><a class="header" href="#2-put-的实现-1">2 put 的实现</a></h1>
 <p>你首先要实现的是<code>put</code>系列的函数:</p>
 <pre><code class="language-cpp">void MemTable::put_(const std::string &amp;key, const std::string &amp;value,
@@ -1457,9 +1461,9 @@ MemTable::iters_monotony_predicate(
 <p>本阶段主要实现<code>Block</code>类, 包括<code>Block</code>的编码格式, 编解码方法、以及<code>Block</code>的迭代器和相关的查询功能。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -1507,7 +1511,7 @@ private:
 <p>你需要修改的函数都在<code>src/block/block.cpp</code>中。</p>
 <h2 id="21-block-编码和解码"><a class="header" href="#21-block-编码和解码">2.1 Block 编码和解码</a></h2>
 <p>这里你先不要管这个<code>Block</code>是哪里来的, 就当它已经存在, 实现编码和解码的功能:</p>
-<pre><code class="language-cpp">std::vector&lt;uint8_t&gt; Block::encode() {
+<pre><code class="language-cpp">std::vector&lt;uint8_t&gt; Block::encode(bool with_hash) {
   // TODO Lab 3.1 编码单个类实例形成一段字节数组
   return {};
 }
@@ -1518,9 +1522,13 @@ std::shared_ptr&lt;Block&gt; Block::decode(const std::vector&lt;uint8_t&gt; &amp
   return nullptr;
 }
 </code></pre>
-<p>这里特别说明, <code>encode</code>时的数据是不包括校验的哈希值的 因为哈希值是在<code>SST</code>控制<code>Block</code>构建过程中计算的, 但在<code>decode</code>时可以通过<code>with_hash</code>参数来指示传入的<code>encoded</code>是否包含哈希值, 如果包含哈希值, 则需要先校验哈希值是否正确, 校验失败则抛出异常。</p>
+<p>两个函数都接受 <code>with_hash</code> 参数：</p>
+<ul>
+<li><code>encode(with_hash)</code>: 若为 <code>true</code>，在编码末尾额外追加 CRC32 校验值（4字节）</li>
+<li><code>decode(encoded, with_hash)</code>: 若为 <code>true</code>，先校验 CRC32，校验失败则抛出异常</li>
+</ul>
 <blockquote>
-<p>之所以<code>encode</code>不计算哈希值, <code>decode</code>按需计算哈希值, 其实是作者初版代码设计不佳, 这里先不纠结了, 后续可能会进行优化, 如果你有优化方案, 可对代码进行修改后提PR</p>
+<p>这样统一设计，使得 <code>SSTBuilder</code> 在构建时可以选择是否写入校验码，<code>read_block</code> 在读取时按同样的标志进行校验，编解码行为完全对称。</p>
 </blockquote>
 <blockquote>
 <p>编解码时你需要注意数据的格式, 如果校验格式错误, 你需要抛出异常, 否则错误将非常难以<code>Debug</code></p>
@@ -1539,7 +1547,7 @@ std::string Block::get_value_at(size_t offset) const {
   return "";
 }
 
-uint16_t Block::get_tranc_id_at(size_t offset) const {
+uint64_t Block::get_tranc_id_at(size_t offset) const {
   // TODO Lab 3.1 从指定偏移量获取entry的tranc_id
   // ? 你不需要理解tranc_id的具体含义, 直接返回即可
   return 0;
@@ -1830,9 +1838,9 @@ Block::get_monotony_predicate_iters(
 <p><code>SST</code>组件的核心工作就是管理器内部的多个<code>Block</code>组件, 利用<code>Block</code>组件和<code>BlockIterator</code>的各种<code>CRUD</code>和初始化、构建等基本接口，来对外提供各类功能。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -1954,9 +1962,17 @@ private:
   uint64_t min_tranc_id_ = UINT64_MAX; // 后续Lab内容
   uint64_t max_tranc_id_ = 0; // 后续Lab内容
 
+  // WiscKey 键值分离字段（后续Lab内容）
+  uint8_t storage_mode_ = 0;          // 0=inline, 1=WiscKey
+  std::shared_ptr&lt;VLog&gt; vlog_;
+  size_t wisckey_threshold_ = 0;
+
 public:
-  // 创建一个sst构建器, 指定目标block的大小
-  SSTBuilder(size_t block_size, bool has_bloom); 
+  // 创建一个sst构建器, 指定目标block的大小（普通模式）
+  SSTBuilder(size_t block_size, bool has_bloom);
+  // WiscKey 模式：value 超过阈值时写入 vlog，SST 中只存引用（后续Lab内容）
+  SSTBuilder(size_t block_size, bool has_bloom,
+             std::shared_ptr&lt;VLog&gt; vlog, size_t wisckey_threshold);
   // 添加一个key-value对
   void add(const std::string &amp;key, const std::string &amp;value, uint64_t tranc_id);
   // 完成当前block的构建, 即将block写入data, 并创建新的block
@@ -2042,6 +2058,10 @@ private:
   std::shared_ptr&lt;BlockCache&gt; block_cache; // 暂时忽略
   uint64_t min_tranc_id_ = UINT64_MAX; // 暂时忽略
   uint64_t max_tranc_id_ = 0; // 暂时忽略
+
+  // WiscKey 键值分离字段（后续Lab内容，暂时忽略）
+  uint8_t storage_mode_ = 0; // 0=inline, 1=WiscKey
+  std::shared_ptr&lt;VLog&gt; vlog_;
   // ...
 };
 </code></pre>
@@ -2088,8 +2108,10 @@ private:
 <h2 id="21-打开-sst-文件"><a class="header" href="#21-打开-sst-文件">2.1 打开 SST 文件</a></h2>
 <p>你需要实现<code>SST：：open</code>函数:</p>
 <pre><code class="language-cpp">// 头文件中将其定义为静态函数
+// vlog 参数默认为 nullptr，普通模式下忽略即可；WiscKey 模式下由上层传入（后续Lab内容）
 std::shared_ptr&lt;SST&gt; SST::open(size_t sst_id, FileObj file,
-                               std::shared_ptr&lt;BlockCache&gt; block_cache) {
+                               std::shared_ptr&lt;BlockCache&gt; block_cache,
+                               std::shared_ptr&lt;VLog&gt; vlog = nullptr) {
   // TODO Lab 3.6 打开一个SST文件, 返回一个描述类
 
   return nullptr;
@@ -2104,11 +2126,12 @@ std::shared_ptr&lt;SST&gt; SST::open(size_t sst_id, FileObj file,
 </blockquote>
 <h2 id="22-加载-block"><a class="header" href="#22-加载-block">2.2 加载 Block</a></h2>
 <p>在接受其他组件的查询请求后, <code>SST</code>会根据元信息定位请求的<code>key</code>可能位于哪一个<code>Block</code>(因为<code>BlockMeta</code>中存储了首尾的<code>key</code>), 接下来就是读取这个<code>Blcok</code>, 这就是你需要实现的<code>read_block</code>函数:</p>
-<pre><code class="language-cpp">std::shared_ptr&lt;Block&gt; SST::read_block(size_t block_idx) {
+<pre><code class="language-cpp">std::shared_ptr&lt;Block&gt; SST::read_block(int64_t block_idx) {
   // TODO: Lab 3.6 根据 block 的 id 读取一个 `Block`
   return nullptr;
 }
 </code></pre>
+<p>注意参数类型为 <code>int64_t</code>（有符号），这是为了与 <code>find_block_idx</code> 的返回值（返回 -1 表示未找到）保持一致。</p>
 <blockquote>
 <p>实现缓存池后, 你的代码逻辑应该是</p>
 <ol>
@@ -2174,7 +2197,9 @@ SstIterator::value_type SstIterator::operator*() const {
   throw std::runtime_error("Not implemented");
 }
 
-SstIterator SST::begin(uint64_t tranc_id) {
+// keep_all_versions=false 时只保留每个 key 的最新版本（事务可见版本）
+// keep_all_versions=true 时用于 compact，保留全部历史版本
+SstIterator SST::begin(uint64_t tranc_id, bool keep_all_versions = false) {
   // TODO: Lab 3.6 返回起始位置迭代器
   throw std::runtime_error("Not implemented");
 }
@@ -2301,9 +2326,9 @@ std::optional&lt;std::pair&lt;SstIterator, SstIterator&gt;&gt; sst_iters_monoton
 <p>本章<code>Lab</code>将串联之前实现的<code>MemTable</code>, <code>SST</code>, <code>Block</code>, 各类<code>Iterator</code>, 实现一个初版的完整的单机<code>KV</code>存储引擎。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -2346,9 +2371,9 @@ git merge lab
 </ul>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -2367,6 +2392,7 @@ public:
   std::unordered_map&lt;size_t, std::shared_ptr&lt;SST&gt;&gt; ssts;
   std::shared_mutex ssts_mtx;
   std::shared_ptr&lt;BlockCache&gt; block_cache;
+  std::shared_ptr&lt;VLog&gt; vlog_;  // WiscKey 键值分离（后续Lab内容）
   size_t next_sst_id = 0; // 下一个要分配的 sst id
   size_t cur_max_level = 0; // 当前最大的 level
 };
@@ -2482,7 +2508,12 @@ uint64_t LSMEngine::remove_batch(const std::vector&lt;std::string&gt; &amp;keys,
   return 0;
 }
 </code></pre>
-<p><code>flush</code>函数应该是这一小节的关键函数了, 这里的逻辑就是从<code>memtable</code>的接口将最旧的跳表刷盘城<code>SST</code>文件, 这里涉及到文件<code>IO</code>的操作时, 推荐使用作者定义好的辅助类<code>FileObj</code>, 其定义在<code>include/utils/files.h</code>中, 如果你有兴趣, 也可以看看``include/utils`中定义的其他工具类及其实现。</p>
+<p><code>flush</code>函数应该是这一小节的关键函数了, 这里的逻辑就是从<code>memtable</code>的接口将最旧的跳表刷盘成<code>SST</code>文件, 这里涉及到文件<code>IO</code>的操作时, 推荐使用作者定义好的辅助类<code>FileObj</code>, 其定义在<code>include/utils/files.h</code>中。</p>
+<p><strong>构造 SSTBuilder 时的注意事项</strong></p>
+<p>现阶段你只需要使用普通模式的构造函数：</p>
+<pre><code class="language-cpp">SSTBuilder builder(TomlConfig::getInstance().getLsmBlockSize(), true);
+</code></pre>
+<p><code>vlog_</code> 和 WiscKey 相关逻辑是后续 Lab（键值分离）的内容，现阶段无需关注。</p>
 <p>最后，<code>SST文件</code>的命名格式已经在<code>get_sst_path</code>中进行了详细的说明:</p>
 <pre><code class="language-cpp">std::string LSMEngine::get_sst_path(size_t sst_id, size_t target_level) {
   // sst的文件路径格式为: data_dir/sst_&lt;sst_id&gt;.&lt;level&gt;，sst_id格式化为32位数字
@@ -2555,6 +2586,14 @@ Level 2: sst_08(key100-key120), sst_09(key121-key140)
 <li>后续实现缓存池后, 构造函数中需要对缓存池进行初始化, 现阶段你的构造函数, 只需要将<code>block_cache</code>初始化为<code>nullptr</code>即可</li>
 <li>第一次启动引擎时, 需要创建数据目录</li>
 <li><code>init_spdlog_file</code>函数用于初始化日志, 其内部是对<code>std::call_once</code>的封装, 因此其只有第一次调用时会执行</li>
+<li>引擎初始化时需要初始化 <code>vlog_</code>：
+<pre><code class="language-cpp">vlog_ = VLog::open(data_dir + "/vlog.data");
+</code></pre>
+<code>VLog</code> 是 WiscKey 键值分离的核心组件（后续Lab内容），这里<strong>必须</strong>在引擎初始化时打开，即使 WiscKey 阈值为 0，也能保证文件存在、正常重启读取。</li>
+<li>加载 SST 文件时，需将 <code>vlog_</code> 传入 <code>SST::open</code>：
+<pre><code class="language-cpp">auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache, vlog_);
+</code></pre>
+对于普通模式（非 WiscKey）的 SST，<code>vlog_</code> 不会被使用，传入后忽略即可。</li>
 </ol>
 <blockquote>
 <p><strong>Hint</strong></p>
@@ -2644,9 +2683,9 @@ C++ exception with description "Not implemented" thrown in the test body.
 </ul>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -3303,9 +3342,9 @@ LSMEngine::lsm_iters_monotony_predicate(
 <p>上一阶段我们完成了基础的<code>LSM Engine</code>的实现, 但其缺乏性能优化。这一阶段， 你将实现以<code>Blcok</code>为单位的缓存池，以及布隆过滤器的优化。实现这两个优化方案后, 你可以对比前后的单元测试的整体运行时间, 尤其是<code>Persistence</code>这个测例(其数据规模量最大), 你可以直观地感受到这里的优化方案的必要性。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -3813,9 +3852,9 @@ False positive rate: 0.08
 <p>其次，你需要实现<code>事务上下文</code>的<code>CRUD</code>接口, <code>事务上下文</code>可以看做一个句柄, 其就是<code>CLient</code>直接操作的对象, 提供包括<code>get</code>、<code>put</code>、<code>remove</code>、<code>commit</code>、<code>abort</code>等接口。</p>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -4262,9 +4301,9 @@ C++ exception with description "bad optional access" thrown in the test body.
 </blockquote>
 <blockquote>
 <p>提示: 强烈建议你自己创建一个分组实现<code>Lab</code>的内容, 并在每次新的<code>Lab</code>开始时进行如下同步操作:</p>
-<pre><code class="language-bash">git pull origin lab
+<pre><code class="language-bash">git pull origin lab2
 git checkout your_branch
-git merge lab
+git merge lab2
 </code></pre>
 <p>如果你发现项目仓库的代码没有指导书中的 TODO 标记的话, 证明你需要运行上述命令更新代码了</p>
 </blockquote>
@@ -4413,12 +4452,12 @@ std::vector&lt;Record&gt; Record::decode(const std::vector&lt;uint8_t&gt; &amp;d
 <pre><code class="language-cpp">class WAL {
 public:
   WAL(const std::string &amp;log_dir, size_t buffer_size,
-      uint64_t max_finished_tranc_id, uint64_t clean_interval,
+      uint64_t checkpoint_tranc_id, uint64_t clean_interval,
       uint64_t file_size_limit);
   ~WAL();
 
   static std::map&lt;uint64_t, std::vector&lt;Record&gt;&gt;
-  recover(const std::string &amp;log_dir, uint64_t max_finished_tranc_id);
+  recover(const std::string &amp;log_dir, uint64_t checkpoint_tranc_id);
 
   // 将记录添加到缓冲区
   void log(const std::vector&lt;Record&gt; &amp;records, bool force_flush = false);
@@ -4426,8 +4465,12 @@ public:
   // 写入 WAL 文件
   void flush();
 
+  void set_checkpoint_tranc_id(uint64_t checkpoint_tranc_id);
+
 private:
   void cleaner();
+  void cleanWALFile();
+  void reset_file();
 
 protected:
   std::string active_log_path_;
@@ -4437,10 +4480,13 @@ protected:
   std::vector&lt;Record&gt; log_buffer_;
   size_t buffer_size_;
   std::thread cleaner_thread_;
-  uint64_t max_finished_tranc_id_;
+  uint64_t checkpoint_tranc_id_;  // 已安全刷盘的最大事务id（原 max_finished_tranc_id_）
   uint64_t clean_interval_;
 };
 </code></pre>
+<blockquote>
+<p><strong>注意</strong>: 原<code>lab</code>版本中该字段名为 <code>max_finished_tranc_id_</code>，当前版本已重命名为 <code>checkpoint_tranc_id_</code>，语义相同——记录已经安全持久化到 SST 的最大事务 id，低于此 id 的 WAL 记录可以被清理。</p>
+</blockquote>
 <p>这里我们定义了<code>WAL</code>组件的几个关键成员变量和接口, 其设计思路为:</p>
 <ol>
 <li><code>active_log_path_</code>: 当前写入的<code>WAL</code>文件路径</li>
@@ -4467,7 +4513,7 @@ protected:
 <h2 id="31-wal-组件的接口实现"><a class="header" href="#31-wal-组件的接口实现">3.1 WAL 组件的接口实现</a></h2>
 <p>你只需要实现下面几个必须实现的函数, 你可以选择性地添加其他功能函数:</p>
 <pre><code class="language-cpp">WAL::WAL(const std::string &amp;log_dir, size_t buffer_size,
-         uint64_t max_finished_tranc_id, uint64_t clean_interval,
+         uint64_t checkpoint_tranc_id, uint64_t clean_interval,
          uint64_t file_size_limit) {
   // TODO Lab 5.4 : 实现WAL的初始化流程
 }
@@ -4609,6 +4655,7 @@ COMMIT TX100
    -&gt; 调用 LSMEngine 的构造函数
    -&gt; 调用 TranManager 的构造函数
       -&gt; TranManager 初始化除了 WAL 之外的组件
+      -&gt; TranManager 从磁盘读取已持久化的事务 id 信息（checkpoint_tranc_id）
    -&gt; 调用 TranManager::check_recover 检查是否需要重放WAL日志
    -&gt; 将重放的 WAL 日志应用到 LSMEngine
    -&gt; 调用 TranManager::init_new_wal 初始化 WAL 组件
@@ -4616,12 +4663,12 @@ COMMIT TX100
 -&gt; LSM::LSM 构造函数结束
 </code></pre>
 <pre><code class="language-cpp">std::map&lt;uint64_t, std::vector&lt;Record&gt;&gt;
-WAL::recover(const std::string &amp;log_dir, uint64_t max_flushed_tranc_id) {
+WAL::recover(const std::string &amp;log_dir, uint64_t checkpoint_tranc_id) {
   // TODO: Lab 5.5 检查需要重放的WAL日志
   return {};
 }
 </code></pre>
-<p>这个函数是一个静态函数, 在你的引擎正式初始化前(或者初始化的过程中, 取决于你的实现)需要进行<code>WAL</code>文件的重放, 举个例子:</p>
+<p>这个函数是一个静态函数，第二个参数 <code>checkpoint_tranc_id</code> 是已经安全持久化到 SST 的最大事务 id（即 <code>TranManager</code> 从磁盘读取的 <code>checkpoint_tranc_id_</code>）。WAL 文件中 <code>tranc_id &lt;= checkpoint_tranc_id</code> 的记录<strong>已经刷盘</strong>，无需重放；只有 <code>tranc_id &gt; checkpoint_tranc_id</code> 的记录才需要考虑重放。举个例子:</p>
 <pre><code class="language-text">T1 ctx1 running, ctx2 running
 T2 ctx1 commit, ctx2 running
 T3 crash, both data from in ctx1 and ctx2 are not flushed to sst (in `MemTable`)
@@ -4665,25 +4712,39 @@ private:
   // TODO: Lab 5.5 控制WAL重放与组件的初始化
 }
 </code></pre>
-<h1 id="3-事务id信息的维护"><a class="header" href="#3-事务id信息的维护">3 事务id信息的维护</a></h1>
-<p>这里补充说明一个非常重要的细节。我们之前介绍的崩溃恢复重放流程是：</p>
-<pre><code class="language-text">1. 检查WAL日志
-2. 整合事务id每条记录, 忽略以Rollback结尾的事务
-3. 若事务以Commit结尾, 则将事务id与已经刷盘的SST中的最大事务id进行比对
-   1. 若事务id大于SST的最大事务id, 执行重放操作
-   2. 若事务id小于SST的最大事务id, 则忽略该事务, 因为其已经被持久化到SST了
+<p><strong>重放时的关键细节：跳过已刷盘的事务</strong></p>
+<p><code>check_recover()</code> 返回的 map 中可能包含已经刷盘到 SST 的事务（例如 WAL 文件中记录了 TX100，但 TX100 在崩溃前恰好完成了 flush）。在重放时，你需要跳过这些已经持久化的事务：</p>
+<pre><code class="language-cpp">auto check_recover_res = tran_manager_-&gt;check_recover();
+for (auto &amp;[tranc_id, records] : check_recover_res) {
+    // 如果该事务 id 已经在 flushed_tranc_ids 集合中，说明已刷盘，跳过
+    if (tran_manager_-&gt;get_flushed_tranc_ids().count(tranc_id)) {
+        continue;
+    }
+    // 重放该事务的所有操作
+    for (auto &amp;record : records) {
+        if (record.getOperationType() == OperationType::OP_PUT) {
+            engine-&gt;put(record.getKey(), record.getValue(), tranc_id);
+        } else if (record.getOperationType() == OperationType::OP_DELETE) {
+            engine-&gt;remove(record.getKey(), tranc_id);
+        }
+    }
+}
+tran_manager_-&gt;init_new_wal();
 </code></pre>
-<p>这里的问题包括:</p>
+<p><code>TranManager::get_flushed_tranc_ids()</code> 返回的是一个 <code>std::set&lt;uint64_t&gt;</code>，记录了所有已经安全刷盘到 SST 的事务 id 集合，这比仅用单个 <code>max_flushed_tranc_id</code> 更精确，避免了“部分刷盘“导致的数据缺失问题。</p>
+<h1 id="3-事务id信息的维护"><a class="header" href="#3-事务id信息的维护">3 事务id信息的维护</a></h1>
+<p>这里补充说明一个非常重要的细节。当前实现中使用 <code>flushed_tranc_ids_</code>（一个 <code>std::set&lt;uint64_t&gt;</code>）替代了单一的 <code>max_flushed_tranc_id_</code>，来跟踪哪些事务已经安全持久化到 SST。</p>
+<p><strong>为什么用集合而不是单个最大值？</strong></p>
+<p>考虑如下场景：</p>
 <ol>
-<li>什么时候更新这个<code>已经刷盘的SST中的最大事务id</code>? (这个变量就是<code>max_flushed_tranc_id_</code>)</li>
-<li><code>max_flushed_tranc_id_</code>意味着整个事务已经刷盘到<code>SST</code>, 这是如何保证的? 有没有坑出现下述情况
-<ol>
-<li>一部分属于该事务的键值对在刷盘时检查到其<code>tranc_id</code>比<code>max_flushed_tranc_id_</code>大, 因此更新了<code>max_flushed_tranc_id_</code></li>
-<li>此时数据库崩溃, 改事务的剩余键值对因为在内存<code>MemTable</code>中而被丢弃, 但<code>WAL</code>中有对应的日志</li>
-<li>崩溃恢复时, 由于<code>WAL</code>中属于该事务的事务的<code>tranc_id</code>等于<code>max_flushed_tranc_id_</code>而被忽略, 改事务尽管<code>commit</code>了, 但其数据还是发生了缺失</li>
+<li>事务 TX100 写入 key1、key2，事务 TX101 写入 key3</li>
+<li>flush 发生时，只有 key1 进入了最终的 SST（例如 TX100 的部分 key 在旧 MemTable 中被 flush 了）</li>
+<li>若用单一最大值，flush 后 <code>max_flushed_tranc_id = 100</code>，下次恢复时 TX100 被跳过</li>
+<li>但 key2 可能还在 MemTable 中未刷盘，崩溃后 key2 丢失</li>
 </ol>
-</li>
-</ol>
+<p><code>flushed_tranc_ids_</code> 集合的语义是：<strong>只有当某个事务的所有操作都已随同一次 flush 完整写入 SST 时，该事务 id 才会被加入集合</strong>。具体来说，<code>MemTable::flush_last</code> 在刷盘时会收集 “begin 标记记录”（<code>key="" value=""</code> 的特殊记录）对应的 <code>tranc_id</code>，并通过 <code>LSMEngine::flush</code> 传递给 <code>TranManager::add_flushed_tranc_id</code>。</p>
+<p><strong><code>checkpoint_tranc_id_</code> 的作用</strong></p>
+<p><code>checkpoint_tranc_id_</code> 是 WAL 清理的依据，其含义是“已知安全持久化的最大事务 id 的保守估计“，用于 WAL 的 <code>cleanWALFile</code> 函数判断某个历史 WAL 文件是否可以删除。<code>TranManager</code> 在恢复完成后会将其从磁盘读取并传给 WAL 构造函数。</p>
 <p>实验不限制你对上述问题的解决方案, 你能通过后续测试即可</p>
 <h1 id="4-测试-7"><a class="header" href="#4-测试-7">4 测试</a></h1>
 <p>现在你应该可以通过之前所有的测试了:</p>
@@ -5625,6 +5686,697 @@ ZADD: 137362.64 requests per second, p50=0.535 msec
 <p><strong>压测之后呢?</strong>
 这里的压测本身不是我们的目的, 你需要关注的是压测反映出的性能不足问题, 并修改相应代码的实现。</p>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-7-wisckey-键值分离"><a class="header" href="#lab-7-wisckey-键值分离">Lab 7 WiscKey 键值分离</a></h1>
+<h2 id="1-背景lsm-tree-的写放大问题"><a class="header" href="#1-背景lsm-tree-的写放大问题">1 背景：LSM Tree 的写放大问题</a></h2>
+<h3 id="11-写放大的根源"><a class="header" href="#11-写放大的根源">1.1 写放大的根源</a></h3>
+<p>在前几个 Lab 中，我们已经完整地实现了 LSM Tree 的核心流程：</p>
+<pre><code>put(k, v) → MemTable → flush → L0 SST → Compact → L1/L2/... SST
+</code></pre>
+<p>每次 Compact，系统需要把多个 SST 文件读入内存，归并排序后再写回磁盘。这个“读 + 重写“的过程对 key 来说是必要的（因为要合并多个版本、消除重复），但对 value 来说却是纯粹的冗余开销——<strong>value 本身并没有发生任何变化，但它随着 key 被反复读写</strong>。</p>
+<p>以一个具体例子量化这个问题。假设：</p>
+<ul>
+<li>LSM Tree 共 3 层（L0、L1、L2），层间放大系数为 10</li>
+<li>平均 value 大小为 1 KB，key 大小为 16 B</li>
+<li>一条数据从 L0 最终沉降到 L2，需要参与约 <strong>30 次 Compact</strong></li>
+</ul>
+<p>那么每写入 1 KB 的有效数据，实际产生的磁盘写入约为 <strong>30 KB</strong>，<strong>写放大系数达 30 倍</strong>。当 value 更大（如视频、图片的元数据、JSON blob），写放大会随之线性增长，成为系统吞吐量的主要瓶颈。</p>
+<h3 id="12-问题的本质"><a class="header" href="#12-问题的本质">1.2 问题的本质</a></h3>
+<p>观察 Compact 做的两件事：</p>
+<ol>
+<li><strong>key 的合并</strong>：消除旧版本，对多个 SST 的 key 排序归并 → 这是 LSM Tree 的核心语义，<strong>不可省略</strong></li>
+<li><strong>value 的重写</strong>：将 value 随 key 一起拷贝到新 SST → 这是附带代价，<strong>可以避免</strong></li>
+</ol>
+<p>写放大的本质是：Compact 的逻辑复杂度由 key 决定，但 I/O 开销由 key + value 共同决定。当 value 占主导时，大量 I/O 用于搬运与合并逻辑无关的数据。</p>
+<h3 id="13-wisckey-的解法"><a class="header" href="#13-wisckey-的解法">1.3 WiscKey 的解法</a></h3>
+<p><strong>WiscKey</strong>（来自论文 <em>WiscKey: Separating Keys from Values in SSD-Conscious Storage</em>，FAST 2016）提出了一个直接的解法：</p>
+<blockquote>
+<p><strong>将 key 和 value 分开存储。SST 中只存 key 和一个 12 字节的位置引用；value 本体追加写入一个独立的顺序日志文件（Value Log，简称 VLog）。</strong></p>
+</blockquote>
+<p>这样 Compact 时只需重写体量很小的 key 部分。value 始终待在 VLog 中原地不动，写放大因此大幅降低。</p>
+<p>这个思路简单，但实现涉及多个组件的协调，以及一些微妙的边界情况。本 Lab 将带你一步步实现它。</p>
+<hr>
+<h2 id="2-整体架构"><a class="header" href="#2-整体架构">2 整体架构</a></h2>
+<h3 id="21-组件拓扑对比"><a class="header" href="#21-组件拓扑对比">2.1 组件拓扑对比</a></h3>
+<p>引入 WiscKey 前后，系统多了一个顺序追加的 VLog 文件。其余组件（MemTable、SST 层级、Compact 流程）的结构完全不变，变化仅在于 <strong>SST 文件中存什么</strong>：</p>
+<pre><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                         原有架构（内联模式）                                  │
+│                                                                             │
+│  put(k, v) ──► MemTable ──► flush ──► SST  ◄── get(k)                      │
+│                                        │                                    │
+│                              Block: [ key | value(完整) | tranc_id ]         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       WiscKey 架构（大 value 分离）                           │
+│                                                                             │
+│  put(k, v) ──► MemTable ──► flush ──► SST  ◄── get(k)                      │
+│                               │        │          │                         │
+│                          (大value时)  Block:    resolve_value()              │
+│                               │     [ key | vlog_ref(12B) | tranc_id ]      │
+│                               │          │              │                   │
+│                               ▼          └──────────────┘                   │
+│                            VLog                  │                          │
+│                      ┌─────────────┐             │ read_value(offset, size) │
+│                      │ append-only │ ◄───────────┘                          │
+│                      │  .data file │                                        │
+│                      └─────────────┘                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>关键区别</strong>：</p>
+<ul>
+<li>小 value（<code>&lt;= wisckey_threshold</code>）继续内联存入 SST Block，行为与原来完全一致</li>
+<li>大 value（<code>&gt; wisckey_threshold</code>）在 flush 时被分流写入 VLog，SST Block 中只存 12 字节的位置引用</li>
+<li>Compact 时 SST 中的 key 部分照常重写，但 VLog 中的 value <strong>原地不动</strong>，写放大因此降低</li>
+</ul>
+<h3 id="22-为什么设置阈值"><a class="header" href="#22-为什么设置阈值">2.2 为什么设置阈值？</a></h3>
+<p>你可能会问：既然分离 value 能降低写放大，为什么不把所有 value 都分离？</p>
+<p>原因在于读放大的代价。对于内联存储，<code>get</code> 操作在找到 SST 条目后立刻得到 value；对于 WiscKey 模式，<code>get</code> 需要额外一次随机磁盘读（读 VLog）。对于小 value，这次额外的随机读代价远超写放大收益。</p>
+<p>因此 WiscKey 采用<strong>阈值策略</strong>：</p>
+<ul>
+<li>小 value（如短字符串、数字）：内联存储，读性能不变</li>
+<li>大 value（如 JSON、二进制 blob）：分离到 VLog，显著降低 Compact I/O</li>
+</ul>
+<p>在我们的实现中，阈值由 <code>config.toml</code> 的 <code>wisckey_value_threshold</code> 配置，默认为 0（禁用，完全内联）。</p>
+<h3 id="23-写入与读取路径概览"><a class="header" href="#23-写入与读取路径概览">2.3 写入与读取路径概览</a></h3>
+<pre><code>写入路径（大 value）：
+  put("k", "large_value")
+       │
+       ▼
+  MemTable.put("k", "large_value")         ← 内存中仍存完整 value
+       │
+       │  (触发 flush)
+       ▼
+  SSTBuilder.add("k", "large_value")
+       │
+       ├──► VLog.append("k", "large_value") ──► 返回 offset=X, size=N
+       │
+       └──► Block.add_entry("k", [X:8B][N:4B], tranc_id)
+                                  └─ 12字节 vlog 引用写入 SST
+
+读取路径：
+  get("k")
+       │
+       ▼
+  MemTable.get("k")  ── 未命中 ──►  SST.get("k")
+                                        │
+                                        ▼
+                                 SstIterator 定位到 entry
+                                        │
+                                        ▼
+                                 (*iter).second
+                                   = resolve_value([X:8B][N:4B])
+                                        │
+                                        ▼
+                                 VLog.read_value(offset=X, size=N)
+                                        │
+                                        ▼
+                                  返回 "large_value"
+</code></pre>
+<p>注意 MemTable 中始终存储完整 value——分离只发生在 <strong>flush 到磁盘</strong>时，而不是写入时。这样可以保证内存中的读取路径不受影响。</p>
+<hr>
+<h2 id="3-vlog-文件格式"><a class="header" href="#3-vlog-文件格式">3 VLog 文件格式</a></h2>
+<p>VLog 是一个<strong>只追加</strong>的二进制文件，所有记录顺序写入，偏移量单调递增。</p>
+<h3 id="31-为什么存-key"><a class="header" href="#31-为什么存-key">3.1 为什么存 key？</a></h3>
+<p>你可能注意到 VLog 的记录格式中包含 key，而 key 已经在 SST 中存储了。重复存储 key 的原因是：</p>
+<ol>
+<li><strong>数据校验</strong>：CRC32 覆盖 key + value，可以检测 VLog 文件的物理损坏</li>
+<li><strong>垃圾回收（GC）</strong>：VLog GC 时需要顺序扫描 VLog，判断某条记录是否仍被 SST 引用。有了 key，GC 才能在不读 SST 的情况下定位当前最新的 vlog 引用（本 Lab 不要求实现 GC，但格式设计需要支持它）</li>
+</ol>
+<h3 id="32-单条记录的字节布局"><a class="header" href="#32-单条记录的字节布局">3.2 单条记录的字节布局</a></h3>
+<p>每次调用 <code>VLog::append(key, value)</code> 追加一条记录，格式如下：</p>
+<pre><code>VLog 文件内部结构（每条记录）：
+
+ ┌──────────┬─────────────┬──────────┬──────────────┬──────────┐
+ │ key_len  │     key     │ val_len  │    value     │  crc32   │
+ │ uint16   │ key_len 字节 │ uint32   │ val_len 字节  │ uint32   │
+ │  (2B)    │             │  (4B)    │              │  (4B)    │
+ └──────────┴─────────────┴──────────┴──────────────┴──────────┘
+  ↑ offset                            ↑ value 起始位置            ↑ 校验覆盖范围结束
+                                      = offset + 2 + key_len + 4
+
+  CRC32 校验覆盖：从 key_len 到 value 末尾的所有字节（不含 crc32 本身）
+</code></pre>
+<p><code>VLog::append</code> 返回该条记录的<strong>起始偏移量</strong>（即写入前 <code>file_.size()</code> 的值），这个值会被存入 SST Block 的 vlog 引用中。</p>
+<h3 id="33-vlog-文件全局视图"><a class="header" href="#33-vlog-文件全局视图">3.3 VLog 文件全局视图</a></h3>
+<pre><code>VLog 文件（vlog.data）：
+
+ offset=0           offset=A           offset=B           offset=C
+     ↓                   ↓                   ↓                   ↓
+ ┌───────────────┬───────────────────┬───────────────────┬────────── ...
+ │  record for   │   record for      │   record for      │
+ │  key1/value1  │   key2/value2     │   key3/value3     │   ...
+ └───────────────┴───────────────────┴───────────────────┴────────── ...
+  └─ SST中存 A=0  └─ SST中存 B=...    └─ SST中存 C=...
+</code></pre>
+<p>SST Block 中对应的 vlog 引用（12 字节）：</p>
+<pre><code> ┌─────────────────────┬────────────────┐
+ │    vlog_offset      │   value_size   │
+ │     uint64 (8B)     │   uint32 (4B)  │
+ └─────────────────────┴────────────────┘
+  记录在 VLog 中的起始偏移   value 的原始字节长度
+  （即 VLog::append 的返回值）（用于定位 value 结束位置）
+</code></pre>
+<p>读取时，<code>resolve_value</code> 持有这 12 字节，调用 <code>VLog::read_value(offset, size)</code> 即可取回原始 value，整个过程对上层迭代器完全透明。</p>
+<hr>
+<h2 id="4-sst-文件格式扩展wisckey-footer"><a class="header" href="#4-sst-文件格式扩展wisckey-footer">4 SST 文件格式扩展（WiscKey Footer）</a></h2>
+<h3 id="41-为什么需要扩展-footer"><a class="header" href="#41-为什么需要扩展-footer">4.1 为什么需要扩展 footer？</a></h3>
+<p>系统重启时，<code>SST::open</code> 需要从磁盘加载所有 SST 文件。此时有一个关键问题：</p>
+<blockquote>
+<p>这个 SST 文件里存的是完整 value，还是 12 字节的 vlog 引用？</p>
+</blockquote>
+<p>如果判断错误——把 vlog 引用当作真实 value 返回，或者把真实 value 当作 vlog 引用去读——数据将发生损坏。</p>
+<p>一个简单的解法是：把存储模式写入 SST footer。这样只要看 footer 就能知道该如何解析 Block 中的 value 字段。</p>
+<h3 id="42-两种-footer-格式对比"><a class="header" href="#42-两种-footer-格式对比">4.2 两种 footer 格式对比</a></h3>
+<pre><code>老格式 footer（24 字节）：
+  [meta_offset : uint32]  @ size-24
+  [bloom_offset: uint32]  @ size-20
+  [min_tranc_id: uint64]  @ size-16
+  [max_tranc_id: uint64]  @ size-8
+
+WiscKey footer（26 字节）：
+  [meta_offset : uint32]  @ size-26
+  [bloom_offset: uint32]  @ size-22
+  [min_tranc_id: uint64]  @ size-18
+  [max_tranc_id: uint64]  @ size-10
+  [storage_mode: uint8 ]  @ size-2   (1 = WiscKey)
+  [magic       : uint8 ]  @ size-1   (0x4B，作为格式标识)
+</code></pre>
+<p>最后 1 字节的 magic 值 <code>0x4B</code>（即字符 <code>'K'</code>，取自 WiscKey 首字母）是格式探测的锚点——<code>SST::open</code> 通过检查这一字节来决定使用哪种 footer 解析方式，从而实现与旧格式的<strong>向后兼容</strong>。</p>
+<p><code>SST::open</code> 在读取时，会检查文件末尾字节是否等于 <code>0x4B</code>（<code>WISCKEY_MAGIC</code>）来决定使用哪种 footer 解析方式。</p>
+<hr>
+<h2 id="5-代价与权衡"><a class="header" href="#5-代价与权衡">5 代价与权衡</a></h2>
+<p>WiscKey 不是免费的午餐，引入它会带来新的代价：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>指标</th><th>内联模式</th><th>WiscKey 模式</th></tr>
+</thead>
+<tbody>
+<tr><td>写放大</td><td>高（value 随 key 多次重写）</td><td>低（value 只写一次）</td></tr>
+<tr><td>读放大</td><td>低（单次 SST 读取）</td><td>略高（SST + VLog 随机读）</td></tr>
+<tr><td>空间放大</td><td>低（Compact 清理旧版本）</td><td>高（VLog 死记录不自动清理）</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>空间放大</strong>是 WiscKey 的主要代价：Compact 后，新 SST 可能不再引用 VLog 中的某些旧记录，但那些记录仍然占据磁盘空间。解决方案是 <strong>VLog GC（垃圾回收）</strong>，它通过扫描 VLog 并与当前 SST 中的引用对比，回收无效记录。本 Lab 不要求实现 GC，但了解这个代价有助于理解 WiscKey 的整体设计逻辑。</p>
+<hr>
+<h2 id="6-涉及的组件和文件"><a class="header" href="#6-涉及的组件和文件">6 涉及的组件和文件</a></h2>
+<p>本 Lab 你需要修改或实现的文件：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>文件</th><th>主要内容</th></tr>
+</thead>
+<tbody>
+<tr><td><code>src/vlog/vlog.cpp</code></td><td>VLog 的打开、追加、读取</td></tr>
+<tr><td><code>src/sst/sst.cpp</code></td><td><code>SSTBuilder</code> WiscKey 构造函数、<code>SST::open</code> footer 检测、<code>resolve_value</code></td></tr>
+<tr><td><code>src/lsm/engine.cpp</code></td><td><code>LSMEngine</code> 构造函数初始化 VLog，<code>flush</code> 和 <code>gen_sst_from_iter</code> 按配置选择 WiscKey 模式</td></tr>
+<tr><td><code>include/vlog/vlog.h</code></td><td>VLog 类定义（已提供，只需实现 cpp）</td></tr>
+<tr><td><code>config.toml</code></td><td><code>wisckey_value_threshold</code> 配置项</td></tr>
+</tbody>
+</table>
+</div>
+<p>建议按顺序完成：</p>
+<ol>
+<li><strong>Lab 7.1</strong>：实现 VLog 的三个核心接口（open / append / read_value）</li>
+<li><strong>Lab 7.2</strong>：在 SSTBuilder 和 SST 中接入 VLog，处理 WiscKey footer</li>
+<li><strong>Lab 7.3</strong>：在 LSMEngine 中初始化 VLog，在 flush 和 compact 路径中选择正确的 SSTBuilder</li>
+</ol>
+<p>每个 Lab 完成后可以运行 <code>xmake run test_wisckey</code> 验证进度。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-71-vlog-实现"><a class="header" href="#lab-71-vlog-实现">Lab 7.1 VLog 实现</a></h1>
+<h2 id="1-vlog-的设计目标"><a class="header" href="#1-vlog-的设计目标">1 VLog 的设计目标</a></h2>
+<p>在开始写代码之前，先思考 VLog 需要满足哪些约束：</p>
+<ol>
+<li>
+<p><strong>只追加</strong>：写入操作只在文件末尾追加，不修改已有记录。这使得 VLog 天然适合顺序写，也简化了并发控制——多个写入者只需保证追加的原子性，不需要锁整个文件。</p>
+</li>
+<li>
+<p><strong>重启恢复</strong>：系统重启后，VLog 文件中已有的记录必须保留（<code>open</code> 时不截断），否则 SST 中指向旧记录的引用将失效。</p>
+</li>
+<li>
+<p><strong>随机读</strong>：<code>get</code> 操作需要根据 SST 中存储的偏移量直接跳到 VLog 文件的任意位置读取 value，不需要顺序扫描。</p>
+</li>
+<li>
+<p><strong>数据校验</strong>：每条记录附带 CRC32 校验，以检测磁盘静默错误或写入中断导致的数据损坏。</p>
+</li>
+</ol>
+<p>这些约束共同决定了 VLog 的接口和文件格式设计。</p>
+<p>先看头文件定义：</p>
+<pre><code class="language-cpp">// include/vlog/vlog.h
+class VLog {
+public:
+    // 打开或创建 VLog 文件（不截断已有内容）
+    static std::shared_ptr&lt;VLog&gt; open(const std::string &amp;path);
+
+    // 追加一条 KV 记录，返回该记录在文件中的起始偏移量
+    uint64_t append(const std::string &amp;key, const std::string &amp;value);
+
+    // 从指定偏移量读取 value（需要提供 value 的长度）
+    std::string read_value(uint64_t offset, uint32_t value_size);
+
+    // 返回当前文件的末尾偏移（== 文件大小）
+    uint64_t tail_offset() const;
+
+    void sync();
+    void del_vlog();
+
+private:
+    FileObj file_;
+    std::string path_;
+    mutable std::mutex append_mtx_;  // 保护并发 append
+};
+</code></pre>
+<p>接口设计上有一个值得注意的细节：<code>read_value</code> 接受 <code>value_size</code> 参数，而不是自己从 VLog 记录中解析出 value 长度。这是因为调用方（<code>SST::resolve_value</code>）已经从 vlog 引用中拿到了 value 大小，避免一次多余的读取；同时也使 <code>read_value</code> 的职责更单一——它只负责“在给定位置读取给定长度的数据“。</p>
+<hr>
+<h2 id="2-代码实现-12"><a class="header" href="#2-代码实现-12">2 代码实现</a></h2>
+<p>需要修改 <code>src/vlog/vlog.cpp</code>。</p>
+<h3 id="21-vlogopen"><a class="header" href="#21-vlogopen">2.1 VLog::open</a></h3>
+<p><code>open</code> 是 VLog 的工厂函数，负责打开或创建 VLog 文件：</p>
+<pre><code class="language-cpp">std::shared_ptr&lt;VLog&gt; VLog::open(const std::string &amp;path) {
+    // TODO: Lab 7.1 打开或创建 VLog 文件
+    // ? 1. 若文件不存在则创建空文件
+    // ? 2. 用 FileObj::open(path, false) 打开（不截断，保留已有记录）
+    // ? 3. 记录 path_ 和 file_
+    return nullptr;
+}
+</code></pre>
+<p>这里使用 <code>FileObj::open(path, false)</code> 而非截断模式，目的是<strong>重启后不丢失</strong>已有的 vlog 记录。如果在 open 时截断，所有 SST 中指向旧 VLog 偏移的引用就会失效，导致数据损坏。</p>
+<h3 id="22-vlogappend"><a class="header" href="#22-vlogappend">2.2 VLog::append</a></h3>
+<p><code>append</code> 是 VLog 的核心写入接口，将一条 KV 记录顺序追加到文件末尾：</p>
+<pre><code class="language-cpp">uint64_t VLog::append(const std::string &amp;key, const std::string &amp;value) {
+    // TODO: Lab 7.1 追加一条 KV 记录到 VLog，返回记录起始偏移量
+    // ? 加 append_mtx_ 互斥锁（支持并发写）
+    // ? offset = file_.size()（追加前的文件大小即为本次记录的起始偏移）
+    // ? 记录格式: [key_len:uint16][key][val_len:uint32][value][crc32:uint32]
+    // ? CRC32 覆盖除自身之外的所有字段
+    // ? 使用 file_.append(buf) 写入
+    return 0;
+}
+</code></pre>
+<p>记录格式的字节布局，结合 Lab 7 概述中的格式描述：</p>
+<pre><code>offset + 0                    : key_len (uint16_t, 2 bytes)
+offset + 2                    : key (key_len bytes)
+offset + 2 + key_len          : val_len (uint32_t, 4 bytes)
+offset + 2 + key_len + 4      : value (val_len bytes)
+offset + 2 + key_len + 4 + val_len : crc32 (uint32_t, 4 bytes)
+</code></pre>
+<p>CRC32 的计算需要覆盖从 <code>key_len</code> 字段到 <code>value</code> 末尾的所有字节——也就是除 crc32 本身之外的所有内容。这样一旦任何字段发生损坏，校验就会失败。</p>
+<p><strong>注意</strong>：<code>append</code> 返回的是写入<strong>前</strong>的 <code>file_.size()</code>，也就是本次记录的起始偏移量。这个值将被 <code>SSTBuilder</code> 编码进 SST Block 的 vlog 引用中（8 字节的 <code>vlog_offset</code> 字段）。</p>
+<h3 id="23-vlogread_value"><a class="header" href="#23-vlogread_value">2.3 VLog::read_value</a></h3>
+<p><code>read_value</code> 根据偏移量随机读取 VLog 中的 value：</p>
+<pre><code class="language-cpp">std::string VLog::read_value(uint64_t offset, uint32_t value_size) {
+    // TODO: Lab 7.1 从指定 offset 读取 value
+    // ? 先读 key_len (uint16_t, 2 bytes) 以跳过 key
+    // ? value 起始位置 = offset + 2 + key_len + 4
+    // ? 读取 value_size 个字节返回
+    return "";
+}
+</code></pre>
+<p>读取流程：</p>
+<ol>
+<li>从 <code>offset</code> 处读 2 字节，得到 <code>key_len</code></li>
+<li>跳过 <code>key_len</code> 字节的 key 内容</li>
+<li>再跳过 4 字节的 <code>val_len</code> 字段（我们不需要用它，因为调用方已经传入了 <code>value_size</code>）</li>
+<li>从当前位置读取 <code>value_size</code> 字节，返回 value</li>
+</ol>
+<p>这里故意<strong>不校验 CRC</strong>，理由是：</p>
+<ul>
+<li>写入路径已经通过 CRC 保证了数据完整性</li>
+<li>若 VLog 末尾有不完整的写入（如崩溃时），对应的 SST 引用在 WAL 恢复阶段已被处理，<code>read_value</code> 不会被调用到那些损坏的偏移</li>
+<li>CRC 校验主要用于 GC 扫描时检测死记录，本 Lab 不涉及</li>
+</ul>
+<hr>
+<h2 id="3-测试-13"><a class="header" href="#3-测试-13">3 测试</a></h2>
+<p>完成 VLog 实现后，可以单独验证 <code>append</code> 和 <code>read_value</code> 的正确性：</p>
+<pre><code class="language-cpp">// 验证思路
+auto vlog = VLog::open("/tmp/test.data");
+uint64_t off = vlog-&gt;append("key1", "hello_world");
+assert(vlog-&gt;read_value(off, 11) == "hello_world");
+</code></pre>
+<p>需要同时完成 Lab 7.2 和 Lab 7.3 后，才能运行完整的端到端测试：</p>
+<pre><code class="language-bash">xmake run test_wisckey
+</code></pre>
+<p>完成 VLog 实现后，继续阅读 <a href="#lab-72-sstbuilder-和-sst-的-wisckey-支持">Lab 7.2</a>，了解如何在 SST 层接入 VLog，以及 WiscKey footer 的格式设计。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-72-sstbuilder-和-sst-的-wisckey-支持"><a class="header" href="#lab-72-sstbuilder-和-sst-的-wisckey-支持">Lab 7.2 SSTBuilder 和 SST 的 WiscKey 支持</a></h1>
+<p>在 Lab 7.1 中，我们实现了 VLog 的底层存储接口。现在需要让 SST 层“感知“VLog 的存在，在写入时将大 value 分流到 VLog，在读取时透明地完成解引用。</p>
+<p>这一层的核心挑战是<strong>透明性</strong>：上层调用方（MemTable、Compact 迭代器）不应感知到 value 被分离了——<code>get</code> 返回的 value 必须和内联模式下完全一致。</p>
+<hr>
+<h2 id="1-sstbuilder-wisckey-构造函数"><a class="header" href="#1-sstbuilder-wisckey-构造函数">1 SSTBuilder WiscKey 构造函数</a></h2>
+<p><code>SSTBuilder</code> 已有一个普通构造函数（Lab 3.5 中实现）。WiscKey 模式通过新增一个重载构造函数来引入：</p>
+<pre><code class="language-cpp">// 普通模式（已有）
+SSTBuilder::SSTBuilder(size_t block_size, bool has_bloom);
+
+// WiscKey 模式：value 超过阈值时写入 vlog，SST 中只存 12 字节引用
+SSTBuilder::SSTBuilder(size_t block_size, bool has_bloom,
+                       std::shared_ptr&lt;VLog&gt; vlog,
+                       size_t wisckey_threshold)
+    : block(block_size), vlog_(std::move(vlog)),
+      wisckey_threshold_(wisckey_threshold), storage_mode_(1) {
+    // ...
+}
+</code></pre>
+<p>注意 <code>storage_mode_</code> 被初始化为 <code>1</code>，这个值在 <code>build</code> 时会写入 SST footer，以便重启后的 <code>SST::open</code> 能正确识别文件格式（详见第 4 节）。</p>
+<h3 id="add-方法的-wisckey-分支"><a class="header" href="#add-方法的-wisckey-分支"><code>add</code> 方法的 WiscKey 分支</a></h3>
+<p>WiscKey <code>SSTBuilder</code> 的 <code>add</code> 方法在满足以下全部条件时触发 value 分离：</p>
+<ul>
+<li><code>storage_mode_ == 1</code>（WiscKey 模式）</li>
+<li><code>vlog_</code> 非空</li>
+<li><code>value</code> 非空（删除标记不分离）</li>
+<li><code>value.size() &gt; wisckey_threshold_</code></li>
+</ul>
+<p>此时核心逻辑变为：</p>
+<pre><code class="language-cpp">// WiscKey: 将大 value 写入 vlog，SST 中存储 12 字节引用
+uint64_t offset = vlog_-&gt;append(key, value);
+// 构造 12 字节的 vlog 引用
+vlog_ref.resize(sizeof(uint64_t) + sizeof(uint32_t));
+uint32_t val_size = static_cast&lt;uint32_t&gt;(value.size());
+memcpy(vlog_ref.data(), &amp;offset, sizeof(uint64_t));
+memcpy(vlog_ref.data() + sizeof(uint64_t), &amp;val_size, sizeof(uint32_t));
+actual_value = &amp;vlog_ref;  // 用引用代替原始 value 写入 block
+</code></pre>
+<p>12 字节的构成：</p>
+<ul>
+<li>前 8 字节：<code>vlog_offset</code>（<code>uint64_t</code>），即 <code>VLog::append</code> 返回的起始偏移量</li>
+<li>后 4 字节：<code>value_size</code>（<code>uint32_t</code>），原始 value 的字节数（用于告知 <code>read_value</code> 读多少字节）</li>
+</ul>
+<hr>
+<h2 id="2-sstopen-的-wisckey-检测"><a class="header" href="#2-sstopen-的-wisckey-检测">2 SST::open 的 WiscKey 检测</a></h2>
+<p><code>SST::open</code> 在读取 footer 时需要先探测文件格式：</p>
+<pre><code class="language-cpp">std::shared_ptr&lt;SST&gt; SST::open(size_t sst_id, FileObj file,
+                               std::shared_ptr&lt;BlockCache&gt; block_cache,
+                               std::shared_ptr&lt;VLog&gt; vlog) {
+    // ...（原有 Lab 3.6 逻辑）...
+
+    // 新增：检测 WiscKey footer
+    // 1. 若 file_size &gt;= 26 且 file[-1] == WISCKEY_MAGIC (0x4B)
+    //    则使用 26 字节 footer，读取 storage_mode_ = file[-2]
+    // 2. 否则使用 24 字节老 footer
+
+    // 新增：将 vlog 赋值给 sst-&gt;vlog_
+}
+</code></pre>
+<p>对于普通模式的 SST，<code>vlog</code> 参数为 <code>nullptr</code>，<code>storage_mode_</code> 保持 0，<code>resolve_value</code> 直接返回原始值，完全向后兼容。</p>
+<hr>
+<h2 id="3-sstresolve_value"><a class="header" href="#3-sstresolve_value">3 SST::resolve_value</a></h2>
+<p><code>resolve_value</code> 是 WiscKey 的“解引用“接口，在读取 SST 时被迭代器调用，对上层完全透明：</p>
+<pre><code class="language-cpp">std::string SST::resolve_value(const std::string &amp;raw_value) const {
+    if (storage_mode_ == 0 || raw_value.empty()) {
+        return raw_value;  // 普通模式，直接返回
+    }
+    // WiscKey 模式：raw_value 是 12 字节引用
+    // 解析 [offset:8][size:4] 并调用 vlog_-&gt;read_value
+    uint64_t off = 0;
+    uint32_t sz = 0;
+    memcpy(&amp;off, raw_value.data(), sizeof(uint64_t));
+    memcpy(&amp;sz, raw_value.data() + sizeof(uint64_t), sizeof(uint32_t));
+    return vlog_-&gt;read_value(off, sz);
+}
+</code></pre>
+<p>这个函数由 <code>SstIterator</code> 在对外返回 value 时调用。调用方得到的 value 与内联模式下完全相同，不需要感知 WiscKey 的存在。</p>
+<hr>
+<h2 id="4-build-中的-wisckey-footer"><a class="header" href="#4-build-中的-wisckey-footer">4 build 中的 WiscKey footer</a></h2>
+<h3 id="41-为什么要扩展-footer"><a class="header" href="#41-为什么要扩展-footer">4.1 为什么要扩展 footer？</a></h3>
+<p>回顾你在 Lab 3.5 中实现的<strong>普通 SST footer（24 字节）</strong>：</p>
+<pre><code>SST 文件末尾（普通模式，24 字节 footer）：
+┌─────────────────────────────────────────────────────────────────┐
+│  ...Block Section...  │  Meta Section  │  Bloom Section  │ Footer│
+└─────────────────────────────────────────────────────────────────┘
+
+Footer 内部布局（共 24 字节，从 size-24 开始读）：
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┐
+│ meta_offset      │ bloom_offset     │ min_tranc_id     │ max_tranc_id     │
+│   uint32 (4B)    │   uint32 (4B)    │   uint64 (8B)    │   uint64 (8B)    │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┘
+ ↑ file[size-24]    ↑ file[size-20]    ↑ file[size-16]    ↑ file[size-8]
+</code></pre>
+<p>这个 footer 记录了各 Section 的位置和事务 id 范围，使得 <code>SST::open</code> 能从文件末尾反向定位所有内容。</p>
+<hr>
+<p><strong>WiscKey 模式的问题</strong>：重启后 <code>SST::open</code> 如何知道这个 SST 文件存的是内联 value 还是 vlog 引用？如果判断错了，会把 12 字节的 vlog 引用当成真实 value 返回，或者反过来把真实 value 当成 vlog 引用去读，数据就会损坏。</p>
+<h3 id="42-解决方案追加-2-个标志字节"><a class="header" href="#42-解决方案追加-2-个标志字节">4.2 解决方案：追加 2 个标志字节</a></h3>
+<p>在原有 24 字节 footer 末尾追加 2 个字节，形成 <strong>26 字节的 WiscKey footer</strong>：</p>
+<pre><code>SST 文件末尾（WiscKey 模式，26 字节 footer）：
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────┬───────┐
+│ meta_offset      │ bloom_offset     │ min_tranc_id     │ max_tranc_id     │ mode │ magic │
+│   uint32 (4B)    │   uint32 (4B)    │   uint64 (8B)    │   uint64 (8B)    │  1B  │  1B   │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────┴───────┘
+ ↑ file[size-26]    ↑ file[size-22]    ↑ file[size-18]    ↑ file[size-10]   ↑ -2   ↑ -1
+                                                                          = 0x01  = 0x4B
+</code></pre>
+<ul>
+<li><code>mode</code>：存储模式，<code>0x01</code> 表示 WiscKey，<code>0x00</code> 表示内联（普通模式不写这两字节）</li>
+<li><code>magic</code>：固定值 <code>0x4B</code>（即字符 <code>'K'</code>，取自 WiscKey 首字母），作为格式标识符</li>
+</ul>
+<h3 id="43-sstopen-的格式探测"><a class="header" href="#43-sstopen-的格式探测">4.3 SST::open 的格式探测</a></h3>
+<p><code>SST::open</code> 的检测逻辑基于最后 1 字节：</p>
+<pre><code>SST::open 的 footer 检测流程：
+
+file[-1] == 0x4B ?
+    ├── Yes → WiscKey footer（从 size-26 开始读）
+    │         → storage_mode_ = file[-2]（= 1）
+    │         → sst-&gt;vlog_ = vlog 参数
+    └── No  → 普通 footer（从 size-24 开始读）
+              → storage_mode_ = 0
+              → sst-&gt;vlog_ = nullptr
+</code></pre>
+<p>这个检测对旧格式完全向后兼容：旧 SST 文件的最后 1 字节是 <code>max_tranc_id</code> 的低字节，通常不等于 <code>0x4B</code>，因此不会被误判为 WiscKey 格式。</p>
+<h3 id="44-build-时写入-wisckey-footer"><a class="header" href="#44-build-时写入-wisckey-footer">4.4 build 时写入 WiscKey footer</a></h3>
+<p><code>SSTBuilder::build</code> 在 WiscKey 模式下写 footer 时，在原有 24 字节后追加这 2 个字节：</p>
+<pre><code class="language-cpp">// WiscKey 额外的 2 字节（追加在普通 24 字节 footer 之后）
+if (storage_mode_ == 1) {
+    file_content.push_back(storage_mode_);  // 0x01
+    file_content.push_back(WISCKEY_MAGIC);  // 0x4B
+}
+</code></pre>
+<p>注意字段顺序：<code>mode</code> 在前，<code>magic</code> 在后。读取时从文件末尾往前读，先遇到 <code>magic</code>（<code>file[-1]</code>），再读 <code>mode</code>（<code>file[-2]</code>）。</p>
+<hr>
+<h2 id="5-测试-4"><a class="header" href="#5-测试-4">5 测试</a></h2>
+<p>完成本节实现后，可以运行：</p>
+<pre><code class="language-bash">xmake run test_wisckey
+[==========] Running N tests from 1 test suite.
+[ RUN      ] WiscKeyTest.BasicPutGet
+[       OK ] WiscKeyTest.BasicPutGet (X ms)
+[ RUN      ] WiscKeyTest.LargeValue
+[       OK ] WiscKeyTest.LargeValue (X ms)
+[ RUN      ] WiscKeyTest.Persistence
+[       OK ] WiscKeyTest.Persistence (X ms)
+[ RUN      ] WiscKeyTest.MixedInlineAndVLog
+[       OK ] WiscKeyTest.MixedInlineAndVLog (X ms)
+</code></pre>
+<p>完成 SST 层的 WiscKey 支持后，继续阅读 <a href="#lab-73-engine-集成-wisckey">Lab 7.3</a>，了解如何在 LSMEngine 中将 VLog 初始化并接入到 flush 和 compact 路径中。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lab-73-engine-集成-wisckey"><a class="header" href="#lab-73-engine-集成-wisckey">Lab 7.3 Engine 集成 WiscKey</a></h1>
+<p>在 Lab 7.1 和 Lab 7.2 中，我们分别实现了 VLog 的存储接口和 SST 层的 WiscKey 支持。现在需要在 LSMEngine 层把这两者连接起来——初始化 VLog，并在 flush 和 compact 时将它传入 SSTBuilder。</p>
+<p>这一层的工作相对简单，但有几个细节值得注意。</p>
+<hr>
+<h2 id="1-配置项"><a class="header" href="#1-配置项">1 配置项</a></h2>
+<p>WiscKey 的行为由 <code>config.toml</code> 中的配置项控制：</p>
+<pre><code class="language-toml">[lsm.wisckey]
+# value 超过此阈值（字节）才会被分离到 VLog
+# 设置为 0 表示禁用 WiscKey，完全使用内联模式
+wisckey_value_threshold = 1024
+</code></pre>
+<p>在代码中通过 <code>TomlConfig::getInstance().getWisckeyValueThreshold()</code> 获取此值。</p>
+<p>当阈值为 0 时，所有 value 都走内联路径，行为与引入 WiscKey 之前完全一致。这是默认的非破坏性配置，确保现有测试（<code>test_lsm</code>、<code>test_sst</code> 等）不受影响。</p>
+<hr>
+<h2 id="2-lsmengine-构造函数"><a class="header" href="#2-lsmengine-构造函数">2 LSMEngine 构造函数</a></h2>
+<h3 id="21-为什么无论如何都要初始化-vlog"><a class="header" href="#21-为什么无论如何都要初始化-vlog">2.1 为什么无论如何都要初始化 VLog？</a></h3>
+<p><code>LSMEngine</code> 在初始化时<strong>必须</strong>打开 VLog，即使 WiscKey 阈值为 0：</p>
+<pre><code class="language-cpp">// 无论是否启用 WiscKey，都初始化 vlog_
+vlog_ = VLog::open(data_dir + "/vlog.data");
+</code></pre>
+<p>原因如下：</p>
+<ol>
+<li>
+<p><strong>重启恢复的正确性</strong>：即使当前配置禁用了 WiscKey，磁盘上可能已经存在之前以 WiscKey 模式写入的 SST 文件。如果 <code>vlog_</code> 为空，这些 SST 在 <code>resolve_value</code> 时会因为 <code>vlog_</code> 为空而崩溃。</p>
+</li>
+<li>
+<p><strong>开销可忽略</strong>：<code>VLog::open</code> 只是打开（或创建）一个文件，不加载任何数据。对非 WiscKey 场景几乎没有影响。</p>
+</li>
+</ol>
+<h3 id="22-加载-sst-时传入-vlog"><a class="header" href="#22-加载-sst-时传入-vlog">2.2 加载 SST 时传入 VLog</a></h3>
+<p>加载 SST 文件时，将 <code>vlog_</code> 传入 <code>SST::open</code>：</p>
+<pre><code class="language-cpp">auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache, vlog_);
+</code></pre>
+<p><code>SST::open</code> 内部会通过 footer magic 判断该文件是否为 WiscKey 格式，再决定是否使用传入的 <code>vlog_</code>。对于普通格式的 SST，<code>vlog_</code> 参数被忽略（<code>sst-&gt;vlog_</code> 设为 nullptr）。</p>
+<hr>
+<h2 id="3-flush-中的-sstbuilder-选择"><a class="header" href="#3-flush-中的-sstbuilder-选择">3 flush 中的 SSTBuilder 选择</a></h2>
+<p><code>LSMEngine::flush</code> 在构造 <code>SSTBuilder</code> 时，根据 WiscKey 配置选择不同的构造函数：</p>
+<pre><code class="language-cpp">size_t wk = TomlConfig::getInstance().getWisckeyValueThreshold();
+SSTBuilder builder = (wk &gt; 0 &amp;&amp; vlog_)
+    ? SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true, vlog_, wk)
+    : SSTBuilder(TomlConfig::getInstance().getLsmBlockSize(), true);
+</code></pre>
+<p>两个条件缺一不可：</p>
+<ul>
+<li><code>wk &gt; 0</code>：配置层面启用了 WiscKey</li>
+<li><code>vlog_</code> 非空：VLog 已成功初始化</li>
+</ul>
+<p>两者都满足时，使用 WiscKey 构造函数，<code>add</code> 会对超过阈值的 value 自动调用 <code>vlog_-&gt;append</code> 分流。</p>
+<hr>
+<h2 id="4-gen_sst_from_iter-中的-sstbuilder-选择"><a class="header" href="#4-gen_sst_from_iter-中的-sstbuilder-选择">4 gen_sst_from_iter 中的 SSTBuilder 选择</a></h2>
+<p>Compact 时同样需要根据配置选择 WiscKey 或普通模式：</p>
+<pre><code class="language-cpp">std::vector&lt;std::shared_ptr&lt;SST&gt;&gt;
+LSMEngine::gen_sst_from_iter(BaseIterator &amp;iter, size_t target_sst_size,
+                             size_t target_level) {
+    size_t wk = TomlConfig::getInstance().getWisckeyValueThreshold();
+    auto new_sst_builder = (wk &gt; 0 &amp;&amp; vlog_)
+        ? SSTBuilder(block_size, true, vlog_, wk)
+        : SSTBuilder(block_size, true);
+    // ...
+}
+</code></pre>
+<h3 id="41-compact-路径的特殊情况"><a class="header" href="#41-compact-路径的特殊情况">4.1 Compact 路径的特殊情况</a></h3>
+<p>Compact 时，迭代器遍历的 entry 其 value 可能已经是 12 字节的 vlog 引用（来自之前 flush 的 WiscKey 格式 SST）。此时 <code>SSTBuilder::add</code> 收到的 value 大小为 12 字节：</p>
+<pre><code>full_compact(level=0)
+     │
+     ▼
+  gen_sst_from_iter(iter, ...)
+     │
+     │  iter 遍历 L0 + L1 的所有 entry
+     │  entry.value = [X:8B][N:4B]  ← 仍是 vlog 引用（12字节）
+     │
+     ▼
+  SSTBuilder(WiscKey 模式).add("key", [X:8B][N:4B], tranc_id)
+     │
+     │  value.size() == 12  ≤ threshold（vlog 引用本身很小）?
+     │
+     ├── 若 threshold &gt; 12：引用被当作"小 value"直接内联 ← 此处有潜在问题
+     │                                                     实现时需特别注意
+     └── 若 threshold ≤ 12：引用再次被 append 到 VLog
+                              ← 产生 VLog 空间放大（旧记录变垃圾）
+                              ← GC 是进阶内容，本 Lab 不要求
+</code></pre>
+<p>这里有一个微妙的情况：当阈值大于 12 时，12 字节的 vlog 引用被视为“小 value“内联写入了新 SST，而不是再次追加到 VLog——这实际上是正确的行为，Compact 后新 SST 中仍然存储的是 vlog 引用，读取时 <code>resolve_value</code> 依然能正确解析。</p>
+<blockquote>
+<p><strong>注意</strong>：Compact 过程中，若 threshold ≤ 12，已经存入 VLog 的 value 会被<strong>再次</strong>调用 <code>vlog_-&gt;append</code> 写入，这会产生 VLog 的空间放大。VLog 的垃圾回收（GC）是 WiscKey 的进阶内容，本 Lab 不要求实现，仅需保证功能正确性。</p>
+</blockquote>
+<hr>
+<h2 id="5-整体数据流"><a class="header" href="#5-整体数据流">5 整体数据流</a></h2>
+<h3 id="51-写路径flush-时的分流"><a class="header" href="#51-写路径flush-时的分流">5.1 写路径：flush 时的分流</a></h3>
+<pre><code>put("key", "large_value")    [large_value.size() &gt; threshold]
+         │
+         ▼
+  ┌─────────────┐
+  │  MemTable   │  put("key", "large_value")    ← 内存中仍存完整 value
+  └─────────────┘
+         │  触发 flush（内存超限）
+         ▼
+  ┌───────────────────────────────────────────────────────┐
+  │  SSTBuilder（WiscKey 模式）                            │
+  │                                                       │
+  │  add("key", "large_value", tranc_id)                  │
+  │           │                                           │
+  │           ├─ value.size() &gt; threshold ?               │
+  │           │         │ Yes                             │
+  │           │         ▼                                 │
+  │           │   VLog::append("key", "large_value")      │
+  │           │         │                                 │
+  │           │         └──► 写入 vlog.data               │
+  │           │               返回 offset=X, size=N       │
+  │           │                                           │
+  │           └─► Block::add_entry(                       │
+  │                 key   = "key",                        │
+  │                 value = [X:8B][N:4B],  ← 12字节引用   │
+  │                 tranc_id)                             │
+  └───────────────────────────────────────────────────────┘
+         │  build()
+         ▼
+  ┌──────────────────────────────────────────────────────────────┐
+  │  sst_00000...001.0  （磁盘文件）                              │
+  │                                                              │
+  │  Block_0: [ "key" | offset=X,size=N | tranc_id ] ...        │
+  │  ...                                                         │
+  │  Meta Section | Bloom Section | Footer(26B, magic=0x4B)      │
+  └──────────────────────────────────────────────────────────────┘
+
+  ┌──────────────────────────────────────────────────────────────┐
+  │  vlog.data （磁盘文件）                                       │
+  │                                                              │
+  │  offset=0         offset=X                                   │
+  │      ↓                ↓                                      │
+  │  [rec0: k0/v0] ... [rec: "key"/"large_value" | crc32] ...    │
+  └──────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="52-读路径resolve_value-透明解引用"><a class="header" href="#52-读路径resolve_value-透明解引用">5.2 读路径：resolve_value 透明解引用</a></h3>
+<pre><code>get("key")
+     │
+     ▼
+ MemTable::get("key")  ── 未命中 ──►  SST::get("key")
+                                           │
+                                           │  find_block_idx → read_block
+                                           ▼
+                                    BlockIterator 定位到 entry
+                                           │
+                                           │ entry.value = [X:8B][N:4B]
+                                           ▼
+                                    SstIterator::operator*()
+                                           │
+                                           ▼
+                                    sst_-&gt;resolve_value([X:8B][N:4B])
+                                           │
+                                    storage_mode_ == 1 ?
+                                           │ Yes
+                                           ▼
+                                    解析 offset=X, size=N
+                                           │
+                                           ▼
+                                    vlog_-&gt;read_value(X, N)
+                                           │
+                                           │  定位到 vlog.data[X]
+                                           │  跳过 key_len + key + val_len
+                                           │  读取 N 字节
+                                           ▼
+                                    返回 "large_value"
+                                           │
+                                    ◄──────┘  对调用方透明，
+                                              与内联模式返回值格式完全相同
+</code></pre>
+<h3 id="53-compact-路径key-重写value-不动"><a class="header" href="#53-compact-路径key-重写value-不动">5.3 Compact 路径：key 重写，value 不动</a></h3>
+<pre><code>full_compact(level=0)
+     │
+     ▼
+  gen_sst_from_iter(iter, ...)
+     │
+     │  iter 遍历 L0 + L1 的所有 entry
+     │  entry.value = [X:8B][N:4B]  ← 仍是 vlog 引用
+     │
+     ▼
+  SSTBuilder(WiscKey 模式).add("key", [X:8B][N:4B], tranc_id)
+     │
+     │  value.size() == 12  ≤ threshold（vlog 引用本身很小）
+     │  → 直接内联写入新 SST（不再次写 VLog）
+     │
+     ▼
+  compact 结果：新 SST 中 key 重新排布，vlog.data 内容原地不变
+</code></pre>
+<p>Compact 后 VLog 中可能积累大量已无 SST 引用的“死记录“，这是 WiscKey 的<strong>空间放大</strong>代价。论文中通过在线 GC 线程解决，本 Lab 仅需实现写入和读取的正确性，GC 留作后续拓展。</p>
+<hr>
+<h2 id="6-代价与收益的再审视"><a class="header" href="#6-代价与收益的再审视">6 代价与收益的再审视</a></h2>
+<p>完成所有实现后，可以从数据流的视角再次对比两种模式的代价：</p>
+<p><strong>写放大的变化</strong>：</p>
+<ul>
+<li>内联模式：value 随 key 参与每次 Compact，每层一次重写</li>
+<li>WiscKey 模式：value 只在 flush 时写入 VLog 一次，此后 Compact 不再触碰 value 内容</li>
+</ul>
+<p><strong>读放大的变化</strong>：</p>
+<ul>
+<li>内联模式：<code>get</code> → SST 随机读 1 次</li>
+<li>WiscKey 模式：<code>get</code> → SST 随机读 1 次 + VLog 随机读 1 次</li>
+</ul>
+<p><strong>空间放大的变化</strong>：</p>
+<ul>
+<li>内联模式：Compact 会清除旧版本，空间放大受控</li>
+<li>WiscKey 模式：VLog 只追加不删除，旧版本数据在 GC 之前一直占用磁盘空间</li>
+</ul>
+<p>WiscKey 最适合 value 远大于 key、且以写密集型负载为主的场景（如对象存储、时序数据库的大值存储）。对于 key/value 大小相近或读密集型场景，内联模式的综合性能可能更优。</p>
+<hr>
+<h2 id="7-测试"><a class="header" href="#7-测试">7 测试</a></h2>
+<pre><code class="language-bash">xmake run test_wisckey
+</code></pre>
+<p>你应该能通过所有 WiscKey 相关测试，同时原有的 <code>test_lsm</code>、<code>test_sst</code> 等测试不应受到影响（因为 WiscKey 阈值默认配置为 0 时完全退化为原有行为）。</p>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="结语"><a class="header" href="#结语">结语</a></h1>
 <p>本项目的初衷是作为<code>LSM Tree</code>的入门课程, 使参与者入门数据存储领域。这个<code>Lab</code>从代码实现, 到最后<code>Lab</code>文档的设计, 耗时半年, 花费了作者非常多的心血。因此, 如果您觉得这个<code>Lab</code>对您有帮助, 请在<code>GitHub</code>上给这个<code>Lab</code>一个<code>Star</code>。</p>
 <h1 id="致谢"><a class="header" href="#致谢">致谢</a></h1>
@@ -5939,18 +6691,38 @@ redis-cli -p 6379 LRANGE mylist 0 2
 </code></pre>
 <p>通过这些测试命令，你可以验证你的服务器是否正确实现了这些 Redis 命令。如果有任何问题，请检查日志输出并进行相应的调试。</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="后续更新计划"><a href="#后续更新计划" class="header">后续更新计划</a></h1>
-<p>本实验的<code>1.0</code>版本已经完成，但目前该实验存在以下优化方向:</p>
+<h1 id="后续更新计划-1"><a href="#后续更新计划-1" class="header">后续更新计划</a></h1>
+<p>本实验目前处于持续迭代中，已完成的更新和后续计划如下：</p>
+<h2 id="已更新相较于-10-版本"><a class="header" href="#已更新相较于-10-版本">已更新（相较于 1.0 版本）</a></h2>
+<ol>
+<li><strong>接口同步</strong>：将所有实验文档中的函数签名与 <code>master</code> 分支最新代码对齐，包括：
+<ul>
+<li><code>MemTable::flush_last</code> 新增 <code>flushed_tranc_ids</code> 输出参数</li>
+<li><code>Block::encode</code> / <code>Block::decode</code> 统一 <code>with_hash</code> 参数</li>
+<li><code>Block::get_tranc_id_at</code> 返回类型由 <code>uint16_t</code> 修正为 <code>uint64_t</code></li>
+<li><code>SST::open</code> 新增 <code>vlog</code> 参数（默认 <code>nullptr</code>，向后兼容）</li>
+<li><code>SST::read_block</code> 参数类型改为 <code>int64_t</code>（支持返回 -1）</li>
+<li><code>SST::begin</code> 新增 <code>keep_all_versions</code> 参数</li>
+<li><code>WAL</code> 构造函数参数 <code>max_finished_tranc_id</code> 重命名为 <code>checkpoint_tranc_id</code></li>
+</ul>
+</li>
+<li><strong>WAL 崩溃恢复机制更新</strong>：用 <code>flushed_tranc_ids</code>（<code>std::set&lt;uint64_t&gt;</code>）替代单一最大值，更精确地追踪哪些事务已完全持久化，避免“部分刷盘“导致的数据缺失。详见 <a href="#lab-55-崩溃恢复">Lab 5.5</a>。</li>
+<li><strong>新增 Lab 7 WiscKey 键值分离</strong>：讲解 WiscKey 论文的核心思路、VLog 文件格式、SSTBuilder 和 SST 的 WiscKey 支持、Engine 集成方式。</li>
+</ol>
+<h2 id="后续更新计划"><a class="header" href="#后续更新计划">后续更新计划</a></h2>
 <ol>
 <li>自由度提升: <code>1.0</code>版本的<code>Lab</code>, 基本上就是在既有的项目代码下进行关键函数的挖空, 在组件设计层面没有给实验参与者太多的发挥空间, 后续应该添加更多的自由度, 允许实验者自由设计组件, 并且在组件设计中添加更多的测试用例。</li>
 <li>测试用例覆盖率不足: <code>1.0</code>版本的<code>Lab</code>中, 测试用例的覆盖率比较低, 比如对崩溃恢复的各种边界条件的考虑不足, 当然这确实也比较难控制就是了。</li>
 <li>各个<code>Lab</code>工作量不尽相同, 现在的<code>Lab</code>设计是按照功能模块进行划分的, 但这导致<a href="#lab-5-事务--mvcc--wal">Lab 5</a>和<a href="#lab-6-redis-兼容">Lab 6</a>的测代码量和难度远大于之前的<code>Lab</code>, 难度曲线可能不太合理, 后续应考虑对各个<code>Lab</code>进行更加均衡的划分。</li>
 <li>进一步补充一些背景理论知识, 尤其是实际场景中的各种性能优化方案。</li>
+<li>Lab 7 VLog GC（垃圾回收）章节待补充。</li>
 </ol>
 <p>如果你有兴趣参与本实验的建设，欢迎在下面的分支上提交PR:</p>
 <ul>
-<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab">Lab代码分支</a></li>
-<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab-doc">Lab文档分支</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab2">Lab代码分支（lab2，当前版本）</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab-doc-2">Lab文档分支（lab-doc-2，当前版本）</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab">Lab代码分支（lab，旧版本）</a></li>
+<li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/lab-doc">Lab文档分支（lab-doc，旧版本）</a></li>
 <li><a href="https://github.com/Vanilla-Beauty/tiny-lsm/tree/master">代码开发分支</a></li>
 </ul>
 <p>如果你有什么问题，可以通过 <a href="https://qm.qq.com/q/wDZQfaNNw6">QQ讨论群</a> 或者 <a href="mailto:807077266@qq.com">📧邮件</a> 联系到作者。</p>
@@ -5998,7 +6770,9 @@ redis-cli -p 6379 LRANGE mylist 0 2
 
         <script>
         window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
         });
         </script>
 
