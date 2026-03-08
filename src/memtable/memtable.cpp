@@ -27,105 +27,49 @@ MemTable::~MemTable() = default;
 
 void MemTable::put_(const std::string &key, const std::string &value,
                     uint64_t tranc_id) {
-  current_table->put(key, value, tranc_id);
+  // TODO: Lab2.1 无锁版本的 put
+  // ? 直接调用 current_table 的 put 方法
 }
 
 void MemTable::put(const std::string &key, const std::string &value,
                    uint64_t tranc_id) {
-  spdlog::trace("MemTable--put({}, {}, {}) called", key, value, tranc_id);
-
-  std::unique_lock<std::shared_mutex> lock1(cur_mtx);
-  put_(key, value, tranc_id);
-  if (current_table->get_size() >
-      TomlConfig::getInstance().getLsmPerMemSizeLimit()) {
-    // 冻结当前表还需要获取frozen_mtx的写锁
-    std::unique_lock<std::shared_mutex> lock2(frozen_mtx);
-    frozen_cur_table_();
-    spdlog::debug("MemTable--Current table size exceeded limit. Frozen and "
-                  "created new table.");
-  }
+  // TODO: Lab2.1 有锁版本的 put
+  // ? 加 cur_mtx 写锁后调用 put_()
+  // ? 若 current_table 超过 LsmPerMemSizeLimit, 还需加 frozen_mtx 写锁并调用 frozen_cur_table_()
 }
 
 void MemTable::put_batch(
     const std::vector<std::pair<std::string, std::string>> &kvs,
     uint64_t tranc_id) {
-  spdlog::trace("MemTable--put_batch with {} keys", kvs.size());
-
-  std::unique_lock<std::shared_mutex> lock1(cur_mtx);
-  for (auto &[k, v] : kvs) {
-    put_(k, v, tranc_id);
-  }
-  if (current_table->get_size() >
-      TomlConfig::getInstance().getLsmPerMemSizeLimit()) {
-    // 冻结当前表还需要获取frozen_mtx的写锁
-    std::unique_lock<std::shared_mutex> lock2(frozen_mtx);
-    frozen_cur_table_();
-
-    spdlog::debug("MemTable--Current table size exceeded limit after batch "
-                  "put. Frozen and created new table.");
-  }
+  // TODO: Lab2.1 有锁版本的 put_batch
+  // ? 加 cur_mtx 写锁后遍历 kvs 依次调用 put_()
+  // ? 结束后若超限则冻结当前表
 }
 
 SkipListIterator MemTable::cur_get_(const std::string &key, uint64_t tranc_id) {
   // 检查当前活跃的memtable
-  auto result = current_table->get(key, tranc_id);
-  if (result.is_valid()) {
-    // 只要找到了 key, 不管 value 是否为空都返回
-    return result;
-  }
-
-  // 没有找到，返回空
+  // TODO: Lab2.1 从活跃跳表中查询
+  // ? 调用 current_table->get(), 找到则返回; 未找到则返回空迭代器
   return SkipListIterator{};
 }
 
 SkipListIterator MemTable::frozen_get_(const std::string &key,
                                        uint64_t tranc_id) {
-  // 检查frozen memtable
-  for (auto &tabe : frozen_tables) {
-    auto result = tabe->get(key, tranc_id);
-    if (result.is_valid()) {
-      return result;
-    }
-  }
-
-  // 都没有找到，返回空
+  // TODO: Lab2.1 从冻结跳表中查询
+  // ? 遍历 frozen_tables (注意顺序：越靠前越新), 找到即返回
+  // ? tranc_id 直接传递到 get() 即可
   return SkipListIterator{};
 }
 
 SkipListIterator MemTable::get(const std::string &key, uint64_t tranc_id) {
-  spdlog::trace("MemTable--get({}) called", key);
-
-  // 先获取当前活跃表的锁
-  std::shared_lock<std::shared_mutex> slock1(cur_mtx);
-  auto cur_res = cur_get_(key, tranc_id);
-  if (cur_res.is_valid()) {
-    return cur_res;
-  }
-  // 活跃表没有找到，再获取冻结表的锁
-  slock1.unlock();
-  std::shared_lock<std::shared_mutex> slock2(frozen_mtx);
-  auto frozen_result = frozen_get_(key, tranc_id);
-  if (frozen_result.is_valid()) {
-    return frozen_result;
-  }
-
-  spdlog::trace("MemTable--get({}): key not found", key);
-
+  // TODO: Lab2.1 查询, 建议复用 cur_get_ 和 frozen_get_
+  // ? 先加 cur_mtx 读锁查活跃表, 未命中则释放锁后加 frozen_mtx 读锁查冻结表
   return SkipListIterator{};
 }
 
 SkipListIterator MemTable::get_(const std::string &key, uint64_t tranc_id) {
-  spdlog::trace("MemTable--get_({}) called", key);
-
-  auto cur_res = cur_get_(key, tranc_id);
-  if (cur_res.is_valid()) {
-    return cur_res;
-  }
-
-  auto frozen_result = frozen_get_(key, tranc_id);
-  if (frozen_result.is_valid()) {
-    return frozen_result;
-  }
+  // TODO: Lab2.1 查询, 无锁版本
+  // ? 直接调用 cur_get_ 和 frozen_get_
   return SkipListIterator{};
 }
 
@@ -158,7 +102,6 @@ MemTable::get_batch(const std::vector<std::string> &keys, uint64_t tranc_id) {
   if (!std::any_of(results.begin(), results.end(), [](const auto &result) {
         return !result.second.has_value();
       })) {
-    // ! 最后, 需要把 value 为空的键值对标记为 nullopt
     return results;
   }
 
@@ -184,40 +127,21 @@ MemTable::get_batch(const std::vector<std::string> &keys, uint64_t tranc_id) {
 }
 
 void MemTable::remove_(const std::string &key, uint64_t tranc_id) {
-  spdlog::trace("MemTable--remove_({}) called", key);
-
-  // 删除的方式是写入空值
-  current_table->put(key, "", tranc_id);
+  // TODO: Lab2.1 无锁版本的remove
+  // ? 在 LSM 中, 删除操作是写入空值, 调用 current_table->put(key, "", tranc_id)
 }
 
 void MemTable::remove(const std::string &key, uint64_t tranc_id) {
-  spdlog::trace("MemTable--remove({}) called", key);
-
-  std::unique_lock<std::shared_mutex> lock(cur_mtx);
-  remove_(key, tranc_id);
-  if (current_table->get_size() >
-      TomlConfig::getInstance().getLsmPerMemSizeLimit()) {
-    // 冻结当前表还需要获取frozen_mtx的写锁
-    std::unique_lock<std::shared_mutex> lock2(frozen_mtx);
-    frozen_cur_table_();
-    spdlog::debug("MemTable--Current table size exceeded limit after remove. "
-                  "Frozen and created new table.");
-  }
+  // TODO: Lab2.1 有锁版本的remove
+  // ? 加 cur_mtx 写锁后调用 remove_()
+  // ? 若超限则冻结当前表
 }
 
 void MemTable::remove_batch(const std::vector<std::string> &keys,
                             uint64_t tranc_id) {
-  std::unique_lock<std::shared_mutex> lock(cur_mtx);
-  // 删除的方式是写入空值
-  for (auto &key : keys) {
-    remove_(key, tranc_id);
-  }
-  if (current_table->get_size() >
-      TomlConfig::getInstance().getLsmPerMemSizeLimit()) {
-    // 冻结当前表还需要获取frozen_mtx的写锁
-    std::unique_lock<std::shared_mutex> lock2(frozen_mtx);
-    frozen_cur_table_();
-  }
+  // TODO: Lab2.1 有锁版本的remove_batch
+  // ? 加 cur_mtx 写锁后遍历 keys 依次调用 remove_()
+  // ? 结束后若超限则冻结当前表
 }
 
 void MemTable::clear() {
@@ -282,20 +206,14 @@ MemTable::flush_last(SSTBuilder &builder, std::string &sst_path, size_t sst_id,
 }
 
 void MemTable::frozen_cur_table_() {
-  spdlog::trace("MemTable--frozen_cur_table_(): Freezing current table");
-
-  frozen_bytes += current_table->get_size();
-  frozen_tables.push_front(std::move(current_table));
-  current_table = std::make_shared<SkipList>();
+  // TODO: Lab2.1 冻结活跃表（无锁版本）
+  // ? 将 current_table 移入 frozen_tables 头部, 并更新 frozen_bytes
+  // ? 创建新的空 SkipList 作为 current_table
 }
 
 void MemTable::frozen_cur_table() {
-  spdlog::trace("MemTable--frozen_cur_table(): Acquiring locks and freezing "
-                "current table");
-
-  std::unique_lock<std::shared_mutex> lock1(cur_mtx);
-  std::unique_lock<std::shared_mutex> lock2(frozen_mtx);
-  frozen_cur_table_();
+  // TODO: Lab2.1 冻结活跃表（有锁版本）
+  // ? 加 cur_mtx 和 frozen_mtx 写锁后调用 frozen_cur_table_()
 }
 
 size_t MemTable::get_cur_size() {
@@ -316,158 +234,35 @@ size_t MemTable::get_total_size() {
 
 // TODO: 需要进一步判断这里的 HeapIterator 能否跳过删除元素
 HeapIterator MemTable::begin(uint64_t tranc_id) {
-  std::shared_lock<std::shared_mutex> slock1(cur_mtx);
-  std::shared_lock<std::shared_mutex> slock2(frozen_mtx);
-  std::vector<SearchItem> item_vec;
-
-  for (auto iter = current_table->begin(); iter != current_table->end();
-       ++iter) {
-    if (tranc_id != 0 && iter.get_tranc_id() > tranc_id) {
-      continue;
-    }
-    item_vec.emplace_back(iter.get_key(), iter.get_value(), 0, 0,
-                          iter.get_tranc_id());
-  }
-
-  int table_idx = 1;
-  for (auto ft = frozen_tables.begin(); ft != frozen_tables.end(); ft++) {
-    auto table = *ft;
-    for (auto iter = table->begin(); iter != table->end(); ++iter) {
-      if (tranc_id != 0 && iter.get_tranc_id() > tranc_id) {
-        continue;
-      }
-      item_vec.emplace_back(iter.get_key(), iter.get_value(), table_idx, 0,
-                            iter.get_tranc_id());
-    }
-    table_idx++;
-  }
-
-  return HeapIterator(item_vec, tranc_id);
+  // TODO: Lab2.2 MemTable 的迭代器
+  // ? 加 cur_mtx 和 frozen_mtx 读锁, 遍历所有表收集 SearchItem
+  // ? 每个 item 包含 key, value, table_idx, 0, tranc_id
+  // ? 过滤 tranc_id 不可见的记录 (tranc_id != 0 && iter.get_tranc_id() > tranc_id)
+  // ? 返回 HeapIterator(item_vec, tranc_id)
+  return {};
 }
 
 HeapIterator MemTable::end() {
-  std::shared_lock<std::shared_mutex> slock1(cur_mtx);
-  std::shared_lock<std::shared_mutex> slock2(frozen_mtx);
+  // TODO: Lab2.2 MemTable 的迭代器
+  // ? 加读锁后返回空 HeapIterator
   return HeapIterator{};
 }
 
 HeapIterator MemTable::iters_preffix(const std::string &preffix,
                                      uint64_t tranc_id) {
-  spdlog::trace("MemTable--iters_preffix('{}', tranc_id={})", preffix,
-                tranc_id);
-
-  std::shared_lock<std::shared_mutex> slock1(cur_mtx);
-  std::shared_lock<std::shared_mutex> slock2(frozen_mtx);
-  std::vector<SearchItem> item_vec;
-
-  for (auto iter = current_table->begin_preffix(preffix);
-       iter != current_table->end_preffix(preffix); ++iter) {
-    if (tranc_id != 0 && iter.get_tranc_id() > tranc_id) {
-      // 如果开启了事务, 比当前事务 id 更大的记录是不可见的
-      continue;
-    }
-    if (!item_vec.empty() && item_vec.back().key_ == iter.get_key()) {
-      // 如果key相同，则只保留最新的事务修改的记录即可
-      // 且这个记录既然已经存在于item_vec中，则其肯定满足了事务的可见性判断
-      continue;
-    }
-    item_vec.emplace_back(iter.get_key(), iter.get_value(), 0, 0,
-                          iter.get_tranc_id());
-
-    spdlog::trace("MemTable--iters_preffix(): get range from curent table");
-  }
-
-  int table_idx = 1;
-  for (auto ft = frozen_tables.begin(); ft != frozen_tables.end(); ft++) {
-    auto table = *ft;
-    for (auto iter = table->begin_preffix(preffix);
-         iter != table->end_preffix(preffix); ++iter) {
-      if (tranc_id != 0 && iter.get_tranc_id() > tranc_id) {
-        // 如果开启了事务, 比当前事务 id 更大的记录是不可见的
-        continue;
-      }
-      if (!item_vec.empty() && item_vec.back().key_ == iter.get_key()) {
-        // 如果key相同，则只保留最新的事务修改的记录即可
-        // 且这个记录既然已经存在于item_vec中，则其肯定满足了事务的可见性判断
-        continue;
-      }
-      item_vec.emplace_back(iter.get_key(), iter.get_value(), table_idx, 0,
-                            iter.get_tranc_id());
-
-      spdlog::trace("MemTable--iters_preffix(): get range from table{}",
-                    table_idx);
-    }
-    table_idx++;
-  }
-
-  return HeapIterator(item_vec, tranc_id);
+  // TODO: Lab2.3 MemTable 的前缀迭代器
+  // ? 加读锁, 对所有表调用 begin_preffix/end_preffix 遍历前缀范围
+  // ? 过滤事务可见性, 同 key 只保留最新版本
+  return {};
 }
 
 std::optional<std::pair<HeapIterator, HeapIterator>>
 MemTable::iters_monotony_predicate(
     uint64_t tranc_id, std::function<int(const std::string &)> predicate) {
-  spdlog::trace("MemTable--iters_monotony_predicate(tranc_id={}) called",
-                tranc_id);
-
-  std::shared_lock<std::shared_mutex> slock1(cur_mtx);
-  std::shared_lock<std::shared_mutex> slock2(frozen_mtx);
-
-  std::vector<SearchItem> item_vec;
-
-  auto cur_result = current_table->iters_monotony_predicate(predicate);
-  if (cur_result.has_value()) {
-    auto [begin, end] = cur_result.value();
-    for (auto iter = begin; iter != end; ++iter) {
-      if (tranc_id != 0 && iter.get_tranc_id() > tranc_id) {
-        // 如果开启了事务, 比当前事务 id 更大的记录是不可见的
-        continue;
-      }
-      if (!item_vec.empty() && item_vec.back().key_ == iter.get_key()) {
-        // 如果key相同，则只保留最新的事务修改的记录即可
-        // 且这个记录既然已经存在于item_vec中，则其肯定满足了事务的可见性判断
-        continue;
-      }
-      item_vec.emplace_back(iter.get_key(), iter.get_value(), 0, 0,
-                            iter.get_tranc_id());
-
-      spdlog::trace(
-          "MemTable--iters_monotony_predicate(): get range from curent table");
-    }
-  }
-
-  int table_idx = 1;
-  for (auto ft = frozen_tables.begin(); ft != frozen_tables.end(); ft++) {
-    auto table = *ft;
-    auto result = table->iters_monotony_predicate(predicate);
-    if (result.has_value()) {
-      auto [begin, end] = result.value();
-      for (auto iter = begin; iter != end; ++iter) {
-        if (tranc_id != 0 && iter.get_tranc_id() > tranc_id) {
-          // 如果开启了事务, 比当前事务 id 更大的记录是不可见的
-          continue;
-        }
-        if (!item_vec.empty() && item_vec.back().key_ == iter.get_key()) {
-          // 如果key相同，则只保留最新的事务修改的记录即可
-          // 且这个记录既然已经存在于item_vec中，则其肯定满足了事务的可见性判断
-          continue;
-        }
-        item_vec.emplace_back(iter.get_key(), iter.get_value(), table_idx, 0,
-                              iter.get_tranc_id());
-      }
-
-      spdlog::trace(
-          "MemTable--iters_monotony_predicate(): get range from table{}",
-          table_idx);
-    }
-    table_idx++;
-  }
-
-  if (item_vec.empty()) {
-    spdlog::trace(
-        "MemTable--iters_monotony_predicate(): No matching keys found");
-
-    return std::nullopt;
-  }
-  return std::make_pair(HeapIterator(item_vec, tranc_id, true), HeapIterator{});
+  // TODO: Lab2.3 MemTable 的谓词查询迭代器起始范围
+  // ? 加读锁, 对所有表调用 iters_monotony_predicate 获取结果
+  // ? 过滤事务可见性, 同 key 只保留最新版本
+  // ? 若结果为空返回 nullopt; 否则返回 make_pair(HeapIterator(item_vec, tranc_id, true), HeapIterator{})
+  return std::nullopt;
 }
 } // namespace tiny_lsm

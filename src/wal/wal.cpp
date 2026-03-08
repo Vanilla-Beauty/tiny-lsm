@@ -17,78 +17,39 @@ WAL::WAL(const std::string &log_dir, size_t buffer_size,
     : buffer_size_(buffer_size), checkpoint_tranc_id_(checkpoint_tranc_id),
       stop_cleaner_(false), clean_interval_(clean_interval),
       file_size_limit_(file_size_limit) {
-  active_log_path_ = log_dir + "/wal.0";
-  log_file_ = FileObj::open(active_log_path_, true);
-
-  cleaner_thread_ = std::thread(&WAL::cleaner, this);
+  // TODO: Lab 5.4 实现WAL的初始化流程
+  // ? 1. 设置 active_log_path_ = log_dir + "/wal.0"
+  // ? 2. 用 FileObj::open(active_log_path_, true) 打开或创建 WAL 文件
+  // ? 3. 启动清理线程: cleaner_thread_ = std::thread(&WAL::cleaner, this)
 }
 
 WAL::~WAL() {
-  // 先将缓冲区所有内容强制刷入
-  log({}, true);
-  {
-    std::lock_guard<std::mutex> lock(mutex_);
-    stop_cleaner_ = true;
-  }
-
-  // 确保线程被正确唤醒并退出
-  if (cleaner_thread_.joinable()) {
-    cleaner_thread_.join();
-  }
-
-  // 显式关闭文件
-  log_file_.close(); // 显式关闭文件
+  // TODO: Lab 5.4 实现WAL的清理流程
+  // ? 1. 强制将缓冲区所有内容刷盘: log({}, true)
+  // ? 2. 加锁设置 stop_cleaner_ = true
+  // ? 3. 等待清理线程结束: cleaner_thread_.join()
+  // ? 4. 显式关闭文件: log_file_.close()
 }
 
 std::map<uint64_t, std::vector<Record>>
 WAL::recover(const std::string &log_dir, uint64_t checkpoint_tranc_id) {
-  std::map<uint64_t, std::vector<Record>> tranc_records{};
-
-  // 引擎启动时判断
-  if (!std::filesystem::exists(log_dir)) {
-    return tranc_records;
-  }
-
-  // 遍历log_dir下的所有文件
-  std::vector<std::string> wal_paths;
-  for (const auto &entry : std::filesystem::directory_iterator(log_dir)) {
-    if (entry.is_regular_file()) {
-      // 获取/符号后的文件名
-      std::string filename = entry.path().filename().string();
-      if (filename.substr(0, 4) != "wal.") {
-        continue;
-      }
-
-      wal_paths.push_back(entry.path().string());
-    }
-  }
-
-  // 按照seq升序排序
-  std::sort(wal_paths.begin(), wal_paths.end(),
-            [](const std::string &a, const std::string &b) {
-              auto a_seq_str = a.substr(a.find_last_of(".") + 1);
-              auto b_seq_str = b.substr(b.find_last_of(".") + 1);
-              return std::stoi(a_seq_str) < std::stoi(b_seq_str);
-            });
-
-  // 读取所有的记录
-  for (const auto &wal_path : wal_paths) {
-    auto wal_file = FileObj::open(wal_path, false);
-    auto wal_records_slice = wal_file.read_to_slice(0, wal_file.size());
-    auto records = Record::decode(wal_records_slice);
-    for (const auto &record : records) {
-      if (record.getTrancId() > checkpoint_tranc_id) {
-        // 如果记录的 tranc_id 大于 checkpoint_tranc_id, 才需要尝试恢复
-        tranc_records[record.getTrancId()].push_back(record);
-      }
-    }
-  }
-
-  return tranc_records;
+  // TODO: Lab 5.5 检查需要重放的WAL日志
+  // ? 1. 若 log_dir 不存在则直接返回空 map
+  // ? 2. 遍历目录找到所有 "wal." 前缀的文件
+  // ? 3. 按 seq 升序排序
+  // ? 4. 逐文件读取所有 Record (Record::decode)
+  // ?    仅保留 tranc_id > checkpoint_tranc_id 的记录
+  // ? 5. 返回 map<tranc_id, records>
+  return {};
 }
 
-// commit 时 强制写入
-void WAL::flush() { std::lock_guard<std::mutex> lock(mutex_); }
+// commit 时强制写入
+void WAL::flush() {
+  // TODO: Lab 5.4 强制刷盘
+  // ? 当前实现仅需加锁保证当前写入完成即可
+  // ? 若 log() 中使用了缓冲区, 这里需要确保缓冲区内容全部落盘
+  std::lock_guard<std::mutex> lock(mutex_);
+}
 
 void WAL::set_checkpoint_tranc_id(uint64_t checkpoint_tranc_id) {
   std::lock_guard<std::mutex> lock(mutex_);
@@ -96,47 +57,21 @@ void WAL::set_checkpoint_tranc_id(uint64_t checkpoint_tranc_id) {
 }
 
 void WAL::log(const std::vector<Record> &records, bool force_flush) {
-  std::unique_lock<std::mutex> lock(mutex_);
-
-  // 将 records 的所有记录添加到 log_buffer_
-  for (const auto &record : records) {
-    log_buffer_.push_back(record);
-  }
-
-  if (log_buffer_.size() < buffer_size_ && !force_flush) {
-    // 如果 log_buffer_ 的大小小于 buffer_size_ 且 force_flush 为 false,
-    // 不进行写入
-    return;
-  }
-
-  // 否则写入 wal 文件
-  auto pre_buffer = std::move(log_buffer_);
-  for (const auto &record : pre_buffer) {
-    std::vector<uint8_t> encoded_record = record.encode();
-    log_file_.append(encoded_record);
-  }
-  if (!log_file_.sync()) {
-    // 确保日志立即写入磁盘
-    throw std::runtime_error("Failed to sync WAL file");
-  }
-
-  auto cur_file_size = log_file_.size();
-  if (cur_file_size > file_size_limit_) {
-    reset_file();
-  }
+  // TODO: Lab 5.4 实现WAL的写入流程
+  // ? 1. 加锁
+  // ? 2. 将 records 追加到 log_buffer_
+  // ? 3. 若 log_buffer_.size() < buffer_size_ 且 !force_flush 则直接返回
+  // ? 4. 否则将 log_buffer_ 中所有记录编码并写入 log_file_ (record.encode())
+  // ? 5. 调用 log_file_.sync() 确保落盘
+  // ? 6. 若文件大小超过 file_size_limit_ 则调用 reset_file() 滚动日志文件
 }
 
 void WAL::cleaner() {
-  while (true) {
-    {
-      // 睡眠 clean_interval_ s
-      std::this_thread::sleep_for(std::chrono::seconds(clean_interval_));
-      if (stop_cleaner_) {
-        break;
-      }
-      cleanWALFile();
-    }
-  }
+  // TODO: Lab 5.4 实现WAL的清理线程
+  // ? 循环:
+  // ?   1. sleep clean_interval_ 秒
+  // ?   2. 若 stop_cleaner_ 为 true 则退出
+  // ?   3. 调用 cleanWALFile() 清理已可以删除的旧 WAL 文件
 }
 
 void WAL::cleanWALFile() {
@@ -177,7 +112,7 @@ void WAL::cleanWALFile() {
 
   // 判断是否可以删除
   std::vector<FileObj> del_paths;
-  for (int idx = 0; idx < wal_paths.size() - 1; idx++) {
+  for (int idx = 0; idx < (int)wal_paths.size() - 1; idx++) {
     auto cur_path = wal_paths[idx].second;
     auto cur_file = FileObj::open(cur_path, false);
     // 遍历文件记录, 读取所有的tranc_id,
@@ -217,8 +152,6 @@ void WAL::reset_file() {
                      std::to_string(seq);
 
   // 创建新的文件
-  // ? 如果不注释下面这行, debug 模式下 test_wal 能通过但 release 模式下报错
-  // log_file_.~FileObj();
   log_file_ = FileObj::create_and_write(active_log_path_, {});
 }
 } // namespace tiny_lsm
