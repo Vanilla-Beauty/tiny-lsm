@@ -14,6 +14,7 @@ public:
   std::unordered_map<size_t, std::shared_ptr<SST>> ssts;
   std::shared_mutex ssts_mtx;
   std::shared_ptr<BlockCache> block_cache;
+  std::shared_ptr<VLog> vlog_;  // WiscKey 键值分离（后续Lab内容）
   size_t next_sst_id = 0; // 下一个要分配的 sst id
   size_t cur_max_level = 0; // 当前最大的 level
 };
@@ -129,7 +130,15 @@ uint64_t LSMEngine::flush() {
   return 0;
 }
 ```
-`flush`函数应该是这一小节的关键函数了, 这里的逻辑就是从`memtable`的接口将最旧的跳表刷盘城`SST`文件, 这里涉及到文件`IO`的操作时, 推荐使用作者定义好的辅助类`FileObj`, 其定义在`include/utils/files.h`中, 如果你有兴趣, 也可以看看``include/utils`中定义的其他工具类及其实现。
+`flush`函数应该是这一小节的关键函数了, 这里的逻辑就是从`memtable`的接口将最旧的跳表刷盘成`SST`文件, 这里涉及到文件`IO`的操作时, 推荐使用作者定义好的辅助类`FileObj`, 其定义在`include/utils/files.h`中。
+
+**构造 SSTBuilder 时的注意事项**
+
+现阶段你只需要使用普通模式的构造函数：
+```cpp
+SSTBuilder builder(TomlConfig::getInstance().getLsmBlockSize(), true);
+```
+`vlog_` 和 WiscKey 相关逻辑是后续 Lab（键值分离）的内容，现阶段无需关注。
 
 最后，`SST文件`的命名格式已经在`get_sst_path`中进行了详细的说明:
 ```cpp

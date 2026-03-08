@@ -20,6 +20,10 @@ private:
   std::shared_ptr<BlockCache> block_cache; // 暂时忽略
   uint64_t min_tranc_id_ = UINT64_MAX; // 暂时忽略
   uint64_t max_tranc_id_ = 0; // 暂时忽略
+
+  // WiscKey 键值分离字段（后续Lab内容，暂时忽略）
+  uint8_t storage_mode_ = 0; // 0=inline, 1=WiscKey
+  std::shared_ptr<VLog> vlog_;
   // ...
 };
 ```
@@ -61,8 +65,10 @@ private:
 你需要实现`SST：：open`函数:
 ```cpp
 // 头文件中将其定义为静态函数
+// vlog 参数默认为 nullptr，普通模式下忽略即可；WiscKey 模式下由上层传入（后续Lab内容）
 std::shared_ptr<SST> SST::open(size_t sst_id, FileObj file,
-                               std::shared_ptr<BlockCache> block_cache) {
+                               std::shared_ptr<BlockCache> block_cache,
+                               std::shared_ptr<VLog> vlog = nullptr) {
   // TODO Lab 3.6 打开一个SST文件, 返回一个描述类
 
   return nullptr;
@@ -77,11 +83,12 @@ std::shared_ptr<SST> SST::open(size_t sst_id, FileObj file,
 ## 2.2 加载 Block
 在接受其他组件的查询请求后, `SST`会根据元信息定位请求的`key`可能位于哪一个`Block`(因为`BlockMeta`中存储了首尾的`key`), 接下来就是读取这个`Blcok`, 这就是你需要实现的`read_block`函数:
 ```cpp
-std::shared_ptr<Block> SST::read_block(size_t block_idx) {
+std::shared_ptr<Block> SST::read_block(int64_t block_idx) {
   // TODO: Lab 3.6 根据 block 的 id 读取一个 `Block`
   return nullptr;
 }
 ```
+注意参数类型为 `int64_t`（有符号），这是为了与 `find_block_idx` 的返回值（返回 -1 表示未找到）保持一致。
 
 > 实现缓存池后, 你的代码逻辑应该是
 > 1. 从缓存池获取`Block`, 如果缓存命中, 直接返回。
@@ -153,7 +160,9 @@ SstIterator SST::get(const std::string &key, uint64_t tranc_id) {
   throw std::runtime_error("Not implemented");
 }
 
-SstIterator SST::begin(uint64_t tranc_id) {
+// keep_all_versions=false 时只保留每个 key 的最新版本（事务可见版本）
+// keep_all_versions=true 时用于 compact，保留全部历史版本
+SstIterator SST::begin(uint64_t tranc_id, bool keep_all_versions = false) {
   // TODO: Lab 3.6 返回起始位置迭代器
   throw std::runtime_error("Not implemented");
 }

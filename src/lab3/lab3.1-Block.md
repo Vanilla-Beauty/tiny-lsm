@@ -48,7 +48,7 @@ public std::enable_shared_from_this<Block>
 ## 2.1 Block 编码和解码
 这里你先不要管这个`Block`是哪里来的, 就当它已经存在, 实现编码和解码的功能:
 ```cpp
-std::vector<uint8_t> Block::encode() {
+std::vector<uint8_t> Block::encode(bool with_hash) {
   // TODO Lab 3.1 编码单个类实例形成一段字节数组
   return {};
 }
@@ -59,9 +59,11 @@ std::shared_ptr<Block> Block::decode(const std::vector<uint8_t> &encoded,
   return nullptr;
 }
 ```
-这里特别说明, `encode`时的数据是不包括校验的哈希值的 因为哈希值是在`SST`控制`Block`构建过程中计算的, 但在`decode`时可以通过`with_hash`参数来指示传入的`encoded`是否包含哈希值, 如果包含哈希值, 则需要先校验哈希值是否正确, 校验失败则抛出异常。
+两个函数都接受 `with_hash` 参数：
+- `encode(with_hash)`: 若为 `true`，在编码末尾额外追加 CRC32 校验值（4字节）
+- `decode(encoded, with_hash)`: 若为 `true`，先校验 CRC32，校验失败则抛出异常
 
-> 之所以`encode`不计算哈希值, `decode`按需计算哈希值, 其实是作者初版代码设计不佳, 这里先不纠结了, 后续可能会进行优化, 如果你有优化方案, 可对代码进行修改后提PR
+> 这样统一设计，使得 `SSTBuilder` 在构建时可以选择是否写入校验码，`read_block` 在读取时按同样的标志进行校验，编解码行为完全对称。
 
 > 编解码时你需要注意数据的格式, 如果校验格式错误, 你需要抛出异常, 否则错误将非常难以`Debug`
 
@@ -80,7 +82,7 @@ std::string Block::get_value_at(size_t offset) const {
   return "";
 }
 
-uint16_t Block::get_tranc_id_at(size_t offset) const {
+uint64_t Block::get_tranc_id_at(size_t offset) const {
   // TODO Lab 3.1 从指定偏移量获取entry的tranc_id
   // ? 你不需要理解tranc_id的具体含义, 直接返回即可
   return 0;

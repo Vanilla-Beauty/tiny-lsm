@@ -23,10 +23,13 @@ private:
 ```cpp
   std::shared_ptr<SST> flush_last(SSTBuilder &builder, std::string &sst_path,
                                   size_t sst_id,
+                                  std::vector<uint64_t> &flushed_tranc_ids,
                                   std::shared_ptr<BlockCache> block_cache);
 ```
 
 这个函数不是本`Lab`要求实现的函数, 但可以先进行简单的介绍便于认知整体架构。当`MemTable`中的数据量达到阈值时, 会调用这个函数将最古老的一个`SST`进行持久化, 形成一个`Level 0`的`SST`, 因此你可以理解为, `Skiplist`是和`Level 0 SST`的数据来源。
+
+其中新增的`flushed_tranc_ids`是一个输出参数, 刷盘过程中会将已经完成的事务`id`收集到这个数组中, 供上层组件通知事务管理器哪些事务已经安全持久化。
 
 # 2 put 的实现
 你首先要实现的是`put`系列的函数:

@@ -38,9 +38,17 @@ private:
   uint64_t min_tranc_id_ = UINT64_MAX; // 后续Lab内容
   uint64_t max_tranc_id_ = 0; // 后续Lab内容
 
+  // WiscKey 键值分离字段（后续Lab内容）
+  uint8_t storage_mode_ = 0;          // 0=inline, 1=WiscKey
+  std::shared_ptr<VLog> vlog_;
+  size_t wisckey_threshold_ = 0;
+
 public:
-  // 创建一个sst构建器, 指定目标block的大小
-  SSTBuilder(size_t block_size, bool has_bloom); 
+  // 创建一个sst构建器, 指定目标block的大小（普通模式）
+  SSTBuilder(size_t block_size, bool has_bloom);
+  // WiscKey 模式：value 超过阈值时写入 vlog，SST 中只存引用（后续Lab内容）
+  SSTBuilder(size_t block_size, bool has_bloom,
+             std::shared_ptr<VLog> vlog, size_t wisckey_threshold);
   // 添加一个key-value对
   void add(const std::string &key, const std::string &value, uint64_t tranc_id);
   // 完成当前block的构建, 即将block写入data, 并创建新的block

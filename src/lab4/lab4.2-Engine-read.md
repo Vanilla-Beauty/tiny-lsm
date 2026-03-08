@@ -49,6 +49,16 @@ LSMEngine::LSMEngine(std::string path) : data_dir(path) {
 1. 后续实现缓存池后, 构造函数中需要对缓存池进行初始化, 现阶段你的构造函数, 只需要将`block_cache`初始化为`nullptr`即可
 2. 第一次启动引擎时, 需要创建数据目录
 3. `init_spdlog_file`函数用于初始化日志, 其内部是对`std::call_once`的封装, 因此其只有第一次调用时会执行
+4. 引擎初始化时需要初始化 `vlog_`：
+   ```cpp
+   vlog_ = VLog::open(data_dir + "/vlog.data");
+   ```
+   `VLog` 是 WiscKey 键值分离的核心组件（后续Lab内容），这里**必须**在引擎初始化时打开，即使 WiscKey 阈值为 0，也能保证文件存在、正常重启读取。
+5. 加载 SST 文件时，需将 `vlog_` 传入 `SST::open`：
+   ```cpp
+   auto sst = SST::open(sst_id, FileObj::open(sst_path, false), block_cache, vlog_);
+   ```
+   对于普通模式（非 WiscKey）的 SST，`vlog_` 不会被使用，传入后忽略即可。
 
 > **Hint**
 > 1. 你需要从`SST文件`的命名格式中对`next_sst_id`和`cur_max_level`进行更新

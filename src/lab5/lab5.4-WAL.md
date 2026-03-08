@@ -15,12 +15,12 @@
 class WAL {
 public:
   WAL(const std::string &log_dir, size_t buffer_size,
-      uint64_t max_finished_tranc_id, uint64_t clean_interval,
+      uint64_t checkpoint_tranc_id, uint64_t clean_interval,
       uint64_t file_size_limit);
   ~WAL();
 
   static std::map<uint64_t, std::vector<Record>>
-  recover(const std::string &log_dir, uint64_t max_finished_tranc_id);
+  recover(const std::string &log_dir, uint64_t checkpoint_tranc_id);
 
   // 将记录添加到缓冲区
   void log(const std::vector<Record> &records, bool force_flush = false);
@@ -28,8 +28,12 @@ public:
   // 写入 WAL 文件
   void flush();
 
+  void set_checkpoint_tranc_id(uint64_t checkpoint_tranc_id);
+
 private:
   void cleaner();
+  void cleanWALFile();
+  void reset_file();
 
 protected:
   std::string active_log_path_;
@@ -39,10 +43,12 @@ protected:
   std::vector<Record> log_buffer_;
   size_t buffer_size_;
   std::thread cleaner_thread_;
-  uint64_t max_finished_tranc_id_;
+  uint64_t checkpoint_tranc_id_;  // 已安全刷盘的最大事务id（原 max_finished_tranc_id_）
   uint64_t clean_interval_;
 };
 ```
+
+> **注意**: 原`lab`版本中该字段名为 `max_finished_tranc_id_`，当前版本已重命名为 `checkpoint_tranc_id_`，语义相同——记录已经安全持久化到 SST 的最大事务 id，低于此 id 的 WAL 记录可以被清理。
 
 这里我们定义了`WAL`组件的几个关键成员变量和接口, 其设计思路为:
 1. `active_log_path_`: 当前写入的`WAL`文件路径
@@ -68,7 +74,7 @@ protected:
 你只需要实现下面几个必须实现的函数, 你可以选择性地添加其他功能函数:
 ```cpp
 WAL::WAL(const std::string &log_dir, size_t buffer_size,
-         uint64_t max_finished_tranc_id, uint64_t clean_interval,
+         uint64_t checkpoint_tranc_id, uint64_t clean_interval,
          uint64_t file_size_limit) {
   // TODO Lab 5.4 : 实现WAL的初始化流程
 }
