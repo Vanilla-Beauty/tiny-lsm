@@ -171,7 +171,7 @@ xmake project -k compile_commands
 # 4 Lab代码仓库说明
 按照下面的命令拉取实验代码仓库:
 ```bash
-git clone https://github.com/Vanilla-Beauty/tiny-lsm.git --depth 1 -b lab
+git clone https://github.com/Vanilla-Beauty/tiny-lsm.git --depth 1 -b lab2
 ```
 
 如果你之前的环境配置没有问题的话, 编译项目能够正常进行:
