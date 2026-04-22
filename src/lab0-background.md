@@ -1,7 +1,7 @@
 # 1. LSM Tree 简介
 在具体进入本实验之前，我们先来简单介绍`LSM Tree`。
 
-`LSM Tree`是一种`KV`存储架构。其核心思想是，将`KV`存储的数据以`SSTable`的形式进行持久化，并通过`MemTable`进行内存缓存，当`MemTable`的数据量达到一定阈值时，将其持久化到磁盘中，并重新创建一个`MemTable`。`LSM Tree`的核心思想是，将`KV`存储的数据以`SSTable`的形式进行持久化，并通过`MemTable`进行内存缓存。并且， 数据以追加写入的方式进行，删除数据也是通过更新的数据进行覆盖的方式实现。
+`LSM Tree`是一种`KV`存储架构。其核心思想是，将`KV`存储的数据以`SSTable`的形式进行持久化，并通过`MemTable`进行内存缓存，当`MemTable`的数据量达到一定阈值时，将其持久化到磁盘中，并重新创建一个`MemTable`。并且，数据以追加写入的方式进行，删除数据也是通过更新的数据进行覆盖的方式实现。
 
 ![Fig 1](images/intro/tiny-lsm-arch.drawio.png)
 
