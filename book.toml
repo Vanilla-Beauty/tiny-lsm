@@ -6,7 +6,7 @@ title = "Tiny-LSM-Lab"
 
 [output.html]
 git-repository-url = "https://github.com/Vanilla-Beauty/tiny-lsm"
-edit-url-template = "https://github.com/Vanilla-Beauty/tiny-lsm/edit/lab-doc/{path}"
+edit-url-template = "https://github.com/Vanilla-Beauty/tiny-lsm/edit/lab-doc-2/{path}"
 mathjax-support = true
 additional-js = ["./src/giscus.js"]
 default-theme = "navy"
