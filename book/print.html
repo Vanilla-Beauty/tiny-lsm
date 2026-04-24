@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-bba92821.js";
+            window.path_to_searchindex_js = "searchindex-ca7bf47a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-173f524c.js"></script>
@@ -249,7 +249,7 @@
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="1-lsm-tree-简介"><a class="header" href="#1-lsm-tree-简介">1. LSM Tree 简介</a></h1>
 <p>在具体进入本实验之前，我们先来简单介绍<code>LSM Tree</code>。</p>
-<p><code>LSM Tree</code>是一种<code>KV</code>存储架构。其核心思想是，将<code>KV</code>存储的数据以<code>SSTable</code>的形式进行持久化，并通过<code>MemTable</code>进行内存缓存，当<code>MemTable</code>的数据量达到一定阈值时，将其持久化到磁盘中，并重新创建一个<code>MemTable</code>。<code>LSM Tree</code>的核心思想是，将<code>KV</code>存储的数据以<code>SSTable</code>的形式进行持久化，并通过<code>MemTable</code>进行内存缓存。并且， 数据以追加写入的方式进行，删除数据也是通过更新的数据进行覆盖的方式实现。</p>
+<p><code>LSM Tree</code>是一种<code>KV</code>存储架构。其核心思想是，将<code>KV</code>存储的数据以<code>SSTable</code>的形式进行持久化，并通过<code>MemTable</code>进行内存缓存，当<code>MemTable</code>的数据量达到一定阈值时，将其持久化到磁盘中，并重新创建一个<code>MemTable</code>。并且，数据以追加写入的方式进行，删除数据也是通过更新的数据进行覆盖的方式实现。</p>
 <p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1"></p>
 <p>如图所示为<code>LSM Tree</code>的核心架构。我们通过<code>Put</code>, <code>Remove</code>和<code>Get</code>操作的流程对其进行介绍。</p>
 <h2 id="11-put-操作流程"><a class="header" href="#11-put-操作流程">1.1 Put 操作流程</a></h2>
@@ -615,7 +615,7 @@ git merge lab2
 <p><img src="images/intro/tiny-lsm-arch.drawio.png" alt="Fig 1"></p>
 <p>这里的<code>MemTable</code>用于存储内存中的键值对数据, 其存储的基础容器即为<code>Skiplist</code>。<code>SkipList</code>被划分为2组: <code>current_table</code>和<code>frozen_table</code>。<code>current_table</code>可读可写, 并是唯一写入的<code>SkipList</code>, <code>frozen_table</code>是只读状态, 用于存储已经写入的键值对数据。<code>current_table</code>容量超出阈值即转化为<code>frozen_table</code>中的一个。</p>
 <h2 id="2-跳表的原理"><a class="header" href="#2-跳表的原理">2 跳表的原理</a></h2>
-<p>这里简单介绍一下跳表是什么, 跳表就是过个链表, 每个链表的步长不同, 且链表节点是排序的, 查找或插入时, 先使用最大步长层级的链表, 然后定位大区间后, 转入下层低步长层级的链表继续查询, 是不是非常简单? :smile:</p>
+<p>这里简单介绍一下跳表是什么, 跳表就是个链表, 每个链表的步长不同, 且链表节点是排序的, 查找或插入时, 先使用最大步长层级的链表, 然后定位大区间后, 转入下层低步长层级的链表继续查询, 是不是非常简单? :smile:</p>
 <p><img src="images/lab1/skipList.png" alt="SkipList-Arc"></p>
 <p>上图所示为跳表的简单示意图, 可以看出跳表由多层链表组成，每一层都是一个有序链表。最底层的链表包含所有元素，而上层的链表只包含部分元素，这些元素作为“索引”加速查找过程。</p>
 <h3 id="21-查找过程"><a class="header" href="#21-查找过程">2.1 查找过程</a></h3>
@@ -656,7 +656,7 @@ git merge lab2
 </li>
 <li>上面演示的<code>SkipList</code>仅仅是单向链表, 如果是双向链表, 有什么区别呢?</li>
 </ol>
-<p>带着疑问, 你可以开启下一章<a href="lab1/lab2-skiplist-put.html">跳表 put/remove 的实现</a>的<code>Lab</code>实验了</p>
+<p>带着疑问, 你可以开启本章<a href="#lab-11-跳表的-crud">跳表 CRUD 的实现</a>的<code>Lab</code>实验了</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lab-11-跳表的-crud"><a class="header" href="#lab-11-跳表的-crud">Lab 1.1 跳表的 CRUD</a></h1>
 <h1 id="1-准备工作"><a class="header" href="#1-准备工作">1 准备工作</a></h1>
@@ -681,7 +681,7 @@ struct SkipListNode {
 <p>这里定义了跳表节点的基础数据, 包括<code>key</code>, <code>value</code>和目前可以忽略的事务<code>tranc_id_</code></p>
 <p>这里定义的跳表节点使用的是双向链表, <code>forward_</code>和<code>backward_</code>分别存储了各层链表节点的前向指针和后向指针, 其中为了避免循环引用, 这里结合使用了<code>weak_ptr</code>和<code>shared_ptr</code>, 详细熟悉现代<code>C++</code>的同学对此非常熟悉。</p>
 <blockquote>
-<p>这里补充说明一下<code>weak_ptr</code>, 它的作用是避免<code>shared_ptr</code>循环引用, 即一个节点的<code>shared_ptr</code>指针指向另一个节点, 另一个节点的<code>shared_ptr</code>指针指向前者, 这样就会造成两个节点的析构都无法进行, 因为在析构时互相持有对方的引用计数, 类似死锁。但<code>weak_ptr</code>不参与类似<code>shared_ptr</code>的引用计数, 保证了析构的正确进行。但也正因为如此，<code>weak_ptr</code>不保证指针的有效性, 需要想使用<code>.lock()</code>判断该指针是否有效。</p>
+<p>这里补充说明一下<code>weak_ptr</code>, 它的作用是避免<code>shared_ptr</code>循环引用, 即一个节点的<code>shared_ptr</code>指针指向另一个节点, 另一个节点的<code>shared_ptr</code>指针指向前者, 这样就会造成两个节点的析构都无法进行, 因为在析构时互相持有对方的引用计数, 类似死锁。但<code>weak_ptr</code>不参与类似<code>shared_ptr</code>的引用计数, 保证了析构的正确进行。但也正因为如此，<code>weak_ptr</code>不保证指针的有效性, 需要使用<code>.lock()</code>判断该指针是否有效。</p>
 </blockquote>
 <p>然后我们看<code>SkipList</code>的头文件定义：</p>
 <pre><code class="language-cpp">
@@ -701,7 +701,7 @@ private:
 };
 </code></pre>
 <p>这里我们定义了最大的链表层数<code>max_level</code>, 你的实现不能有超过<code>max_level</code>的链表数量, <code>current_level</code>定义当前链表的层数(注意是层数, 不是索引), 最后介绍最重要的<code>head</code>, 其只是个哨兵节点, 并不实际存储键值对。</p>
-<p>后面三行的<code>gen</code>和<code>dis_01</code>和<code>dis_level</code>是随机数生成器，你可以使用它们来生成随机数。回想我们之前提到的问题, 你应该如何确定每一此插入节点时起最高的连接链表的<code>Level</code>呢? 这里你可以利用这些随机生成器来确定这些层数, 当然你也可以选择自己的方式来实现。</p>
+<p>后面三行的<code>gen</code>和<code>dis_01</code>和<code>dis_level</code>是随机数生成器，你可以使用它们来生成随机数。回想我们之前提到的问题, 你应该如何确定每一次插入节点时最高的连接链表的<code>Level</code>呢? 这里你可以利用这些随机生成器来确定这些层数, 当然你也可以选择自己的方式来实现。</p>
 <h1 id="2-put-的实现"><a class="header" href="#2-put-的实现">2 put 的实现</a></h1>
 <p>你需要实现下面的<code>put</code>函数:</p>
 <pre><code class="language-cpp">// 插入或更新键值对
