@@ -34,126 +34,47 @@ HeapIterator::HeapIterator(std::vector<SearchItem> item_vec,
 }
 
 HeapIterator::pointer HeapIterator::operator->() const {
-  update_current();
-  return current.get();
+  // TODO: Lab2.2 实现 -> 重载
+  return nullptr;
 }
 
 HeapIterator::value_type HeapIterator::operator*() const {
-  return std::make_pair(items.top().key_, items.top().value_);
+  // TODO: Lab2.2 实现 * 重载
+  return {};
 }
 
 BaseIterator &HeapIterator::operator++() {
-  if (items.empty()) {
-    return *this; // 处理空队列情况
-  }
-
-  auto old_item = items.top();
-  items.pop();
-
-  // 删除与旧元素key相同的元素
-  if (!keep_all_versions_) {
-    while (!items.empty() && items.top().key_ == old_item.key_) {
-      items.pop();
-    }
-  }
-
-  // 与构造函数相同, 下一个key中事务不可见部分和删除的元素需要跳过
-  while (!top_value_legal()) {
-    // 1. 先跳过事务 id 不可见的部分
-    skip_by_tranc_id();
-
-    if (!skip_delete_) {
-      continue;
-    }
-    // 2. 跳过标记为删除的元素
-    while (!items.empty() && items.top().value_.empty()) {
-      // 如果当前元素的value为空，则说明该元素已经被删除，需要从优先队列中删除
-      auto del_key = items.top().key_;
-      if (!keep_all_versions_) {
-        while (!items.empty() && items.top().key_ == del_key) {
-          items.pop();
-        }
-      } else {
-        items.pop();
-      }
-    }
-  }
-
+  // TODO: Lab2.2 实现 ++ 重载
   return *this;
 }
 
 bool HeapIterator::operator==(const BaseIterator &other) const {
-  if (other.get_type() != IteratorType::HeapIterator) {
-    return false;
-  }
-  auto other2 = dynamic_cast<const HeapIterator &>(other);
-  if (items.empty() && other2.items.empty()) {
-    return true;
-  }
-  if (items.empty() || other2.items.empty()) {
-    return false;
-  }
-  return items.top().key_ == other2.items.top().key_ &&
-         items.top().value_ == other2.items.top().value_;
+  // TODO: Lab2.2 实现 == 重载
+  return true;
 }
 
 bool HeapIterator::operator!=(const BaseIterator &other) const {
-  return !(*this == other);
+  // TODO: Lab2.2 实现 != 重载
+  return true;
 }
 
 bool HeapIterator::top_value_legal() const {
-  if (items.empty()) {
-    return true;
-  }
-
-  if (max_tranc_id_ == 0) {
-    // 没有开启事务
-    // 不为空的 value 才合法
-
-    if (skip_delete_) {
-      //如果这个迭代器需要跳过删除记录
-      return items.top().value_.size() > 0;
-    }
-    //否则，就关于top_value是否合法，只需要在意事务id就好了，那么就会是true
-    return true;
-  }
-
-  if (items.top().tranc_id_ <= max_tranc_id_) {
-    // 事务id可见, 则判断其value是否为空
-
-    if (skip_delete_) {
-      //如果这个迭代器需要跳过删除记录
-      return items.top().value_.size() > 0;
-    }
-
-    //否则，就关于top_value是否合法，只需要在意事务id就好了，那么就会是true
-    return true;
-  } else {
-    // 事务id不可见, 即不合法
-    return false;
-  }
+  // TODO: Lab2.2 判断顶部元素是否合法
+  // ? 被删除的值是不合法
+  // ? 不允许访问的事务创建或更改的键值对不合法(暂时忽略)
+  return true;
 }
 
 void HeapIterator::skip_by_tranc_id() {
-  if (max_tranc_id_ == 0) {
-    // 没有开启事务
-    return;
-  }
-  while (!items.empty() && items.top().tranc_id_ > max_tranc_id_) {
-    items.pop();
-  }
+  // TODO: Lab2.2 后续的Lab实现, 只是作为标记提醒
 }
 
 bool HeapIterator::is_end() const { return items.empty(); }
 bool HeapIterator::is_valid() const { return !items.empty(); }
 
 void HeapIterator::update_current() const {
-  if (!items.empty()) {
-    current =
-        std::make_shared<value_type>(items.top().key_, items.top().value_);
-  } else {
-    current.reset();
-  }
+  // current 缓存了当前键值对的值, 你实现 -> 重载时可能需要
+  // TODO: Lab2.2 更新当前缓存值
 }
 
 IteratorType HeapIterator::get_type() const {
