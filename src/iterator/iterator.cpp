@@ -6,70 +6,31 @@ namespace tiny_lsm {
 
 // *************************** SearchItem ***************************
 bool operator<(const SearchItem &a, const SearchItem &b) {
-  if (a.key_ != b.key_) {
-    return a.key_ < b.key_;
-  }
-  if (a.tranc_id_ > b.tranc_id_) {
-    return true;
-  }
-  if (a.level_ < b.level_) {
-    return true;
-  }
-  return a.idx_ < b.idx_;
+  // TODO: Lab2.2 实现比较规则
+  return true;
 }
 
 bool operator>(const SearchItem &a, const SearchItem &b) {
-  if (a.key_ != b.key_) {
-    return a.key_ > b.key_;
-  }
-  if (a.tranc_id_ < b.tranc_id_) {
-    return true;
-  }
-  if (a.level_ < b.level_) {
-    return true;
-  }
-  return a.idx_ > b.idx_;
+  // TODO: Lab2.2 实现比较规则
+  return true;
 }
 
 bool operator==(const SearchItem &a, const SearchItem &b) {
-  return a.idx_ == b.idx_ && a.key_ == b.key_;
+  // TODO: Lab2.2 实现比较规则
+  return true;
 }
 
 // *************************** HeapIterator ***************************
-HeapIterator::HeapIterator(bool skip_delete, bool keep_all_versions)
-    : skip_delete_(skip_delete), keep_all_versions_(keep_all_versions) {
+HeapIterator::HeapIterator(bool skip_delete, bool keep_all_versions) {
   // 默认构造函数
+  // TODO: Lab2.2 实现 HeapIterator 构造函数
 }
 HeapIterator::HeapIterator(std::vector<SearchItem> item_vec,
                            uint64_t max_tranc_id, bool skip_delete,
                            bool keep_all_versions)
     : max_tranc_id_(max_tranc_id), skip_delete_(skip_delete),
       keep_all_versions_(keep_all_versions) {
-  for (auto &item : item_vec) {
-
-    items.push(item);
-  }
-
-  while (!top_value_legal()) {
-    // 1. 先跳过事务 id 不可见的部分
-    skip_by_tranc_id();
-
-    if (!skip_delete_) {
-      continue;
-    }
-    // 2. 跳过标记为删除的元素
-    while (!items.empty() && items.top().value_.empty()) {
-      // 如果当前元素的value为空，则说明该元素已经被删除，需要从优先队列中删除
-      auto del_key = items.top().key_;
-      if (!keep_all_versions_) {
-        while (!items.empty() && items.top().key_ == del_key) {
-          items.pop();
-        }
-      } else {
-        items.pop();
-      }
-    }
-  }
+  // TODO: Lab2.2 实现 HeapIterator 构造函数
 }
 
 HeapIterator::pointer HeapIterator::operator->() const {
